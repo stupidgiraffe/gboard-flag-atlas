@@ -31,7 +31,7 @@ Gboard's feature flags are a mixture of new UI, smart predictions, Emoji Kitchen
 
 ### [→ Explore the live catalog](https://gboard-flag-atlas.shipstatic.com)
 
-The current snapshot indexes **691 flag-like identifiers extracted from GboardWu 18.5.4.993608717**. Every entry has been rewritten for clarity; 92 remain explicitly marked as unknown where a responsible explanation cannot be established. Linked public-source references are attached to 53 entries. An identifier alone is never proof of a working toggle.
+The current snapshot indexes **691 flag-like identifiers extracted from GboardWu 18.5.4.993608717**. Every entry has been rewritten for clarity; after a dedicated research pass on all 92 initially unresolved entries, 58 now have more useful explanations and 34 remain explicitly marked **Unknown**. Public source references are linked for 66 entries overall; research-backed references are distinct from runtime verification. An identifier alone is never proof of a working toggle.
 
 **All identifiers are included**, including the esoteric, potentially useless, and implementation-only ones. Nothing is hidden merely because it is unlikely to interest casual users.
 
@@ -66,7 +66,10 @@ The current snapshot indexes **691 flag-like identifiers extracted from GboardWu
 |---|---|
 | **Interpreted** | More specific explanation based on naming, context or known behavior; **not** independently verified in every runtime. |
 | **Name-derived** | A carefully edited interpretation based on the identifier; behavior not independently checked. |
-| **Code-referenced** | A related feature mapping or description was found in public source; this alone does not prove a working feature on every build. |
+| **Code-referenced** | A matching flag or related implementation was found in public source; this does not establish runtime support. |
+| **Community-referenced** | A mod developer or technical investigation describes the feature; outcomes depend on build and eligibility. |
+| **Library-referenced** | The identifier maps to platform or networking library code, not necessarily a Gboard feature. |
+| **Unknown** | Reviewed, but reliable behavior couldn't be established; shown with a distinct amber badge. |
 | **Explore / Optional / Low priority** | Editorial navigation, **not** a safety guarantee or evidence of feature support. |
 
 We want documentation supported by source code, logs, UI behavior, experimental results and build/version information. Corrections are welcome—especially when a flag's meaning changes across Gboard releases.
