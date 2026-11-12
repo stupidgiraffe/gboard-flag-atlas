@@ -91,7 +91,7 @@
       "tier": "Optional",
       "impact": "Privacy / permissions",
       "summary": "Allows an old DNS lookup result to be reused after the device changes networks. This belongs to a networking library, not Gboard’s interface.",
-      "confidence": "Code-referenced",
+      "confidence": "Library-referenced",
       "kind": "Candidate flag",
       "references": [
         {
@@ -1641,14 +1641,8 @@
       "tier": "Optional",
       "impact": "Usually low",
       "summary": "Enables a nearest-neighbor similarity index for Emoji Kitchen search. The internal meaning of SCAM is not publicly documented.",
-      "confidence": "Code-referenced",
+      "confidence": "Name-derived",
       "kind": "Candidate flag",
-      "references": [
-        {
-          "label": "Emoji Kitchen search background",
-          "url": "https://9to5google.com/gboard-android-emoji-kitchen-list/"
-        }
-      ],
       "researchStatus": "Clarified"
     },
     {
@@ -2626,15 +2620,9 @@
       "category": "AI & writing tools",
       "tier": "Optional",
       "impact": "Model / compute",
-      "summary": "Activates the experimental Flow Mode pathway associated with Gboard's LLM text-composition features; GboardWu also exposes a separate Flow Mode option.",
-      "confidence": "Community-referenced",
+      "summary": "Controls Gboard's experimental Flow Mode pathway for LLM-assisted text input. GboardWu has a separate Flow Mode setting, but behavior varies by build.",
+      "confidence": "Name-derived",
       "kind": "Candidate flag",
-      "references": [
-        {
-          "label": "GboardWu Flow Mode policy",
-          "url": "https://github.com/jasonwu1994/Gboard-patches/blob/main/extensions/extension/src/main/java/dev/jason/gboardpatches/extension/flowmode/GboardFlowModePolicy.java"
-        }
-      ],
       "researchStatus": "Clarified"
     },
     {
@@ -3264,10 +3252,6 @@
         {
           "label": "Rboard accessibility-layout instructions",
           "url": "https://t.me/s/rkbdigboard/1786"
-        },
-        {
-          "label": "GboardWu accessibility layout tests",
-          "url": "https://github.com/jasonwu1994/Gboard-patches/blob/main/extensions/extension/src/test/java/dev/jason/gboardpatches/extension/accessibilitylayout/GboardAccessibilityLayout1803PolicyTest.java"
         }
       ],
       "researchStatus": "Clarified"
@@ -3841,7 +3825,7 @@
       "tier": "Optional",
       "impact": "Usually low",
       "summary": "Uses an optimized UDP socket receive path in the bundled QUIC networking stack. It does not change keyboard layout or suggestions.",
-      "confidence": "Code-referenced",
+      "confidence": "Library-referenced",
       "kind": "Candidate flag",
       "references": [
         {
@@ -7309,14 +7293,8 @@
       "tier": "Optional",
       "impact": "Usually low",
       "summary": "Downloads and manages Gboard Superpack language/model resources through Google's Mobile Data Download system.",
-      "confidence": "Code-referenced",
+      "confidence": "Name-derived",
       "kind": "Candidate flag",
-      "references": [
-        {
-          "label": "GboardWu model download documentation",
-          "url": "https://github.com/jasonwu1994/Gboard-patches/blob/main/README.md"
-        }
-      ],
       "researchStatus": "Clarified"
     },
     {
@@ -7376,7 +7354,7 @@
       "tier": "Optional",
       "impact": "Usually low",
       "summary": "Lets the networking library reuse a cached DNS result when a fresh lookup fails with 'name not resolved.'",
-      "confidence": "Code-referenced",
+      "confidence": "Library-referenced",
       "kind": "Candidate flag",
       "references": [
         {
@@ -7466,6 +7444,7 @@
     "clarified": 58,
     "unresolved": 34,
     "sourced": 16,
-    "scope": "Phase 1 only. 92 earlier unknown entries reviewed using exact public-code searches, Gboard patch source, developer reports, Android/Chromium source, and APK teardowns. Name-derived explanations remain interpretations, not runtime verification."
+    "scope": "Phase 1 only. 92 earlier unknown entries reviewed using exact public-code searches, Gboard patch source, developer reports, Android/Chromium source, and APK teardowns. Name-derived explanations remain interpretations, not runtime verification.",
+    "referencesCorrected": true
   }
 }
