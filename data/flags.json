@@ -6,15 +6,15 @@
   "disclaimer": "Descriptions are research-informed interpretations of APK-derived identifiers, not proof that an entry is editable or works on every build. Unresolved purposes are marked unknown.",
   "count": 691,
   "categories": {
-    "Technical / other": 178,
+    "Technical / other": 174,
     "Voice & dictation": 44,
     "Languages & accessibility": 17,
     "Themes & layout": 79,
     "Emoji & expression": 93,
     "Toolbar & editing": 59,
-    "Predictions & corrections": 77,
+    "Predictions & corrections": 80,
     "AI & writing tools": 50,
-    "Privacy & diagnostics": 40,
+    "Privacy & diagnostics": 41,
     "Internal & low-value": 54
   },
   "entries": [
@@ -699,13 +699,20 @@
     {
       "name": "enable_ac_threshold",
       "title": "Ac Threshold",
-      "category": "Technical / other",
+      "category": "Predictions & corrections",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown — the acronym AC and the threshold's role aren't documented for this Gboard build.",
-      "confidence": "Unknown",
+      "summary": "Enables an autocorrection confidence threshold, helping Gboard decide when a suggested replacement is reliable enough to apply automatically.",
+      "confidence": "Interpreted",
       "kind": "Candidate flag",
-      "researchStatus": "Unknown"
+      "researchStatus": "Clarified",
+      "researchNote": "Interpretation based on established terminology or the named operation; the exact Gboard flag's runtime effect has not been independently verified.",
+      "references": [
+        {
+          "label": "Google Gboard research — AC means auto correction (flag effect inferred)",
+          "url": "https://aclanthology.org/2024.acl-demos.27/"
+        }
+      ]
     },
     {
       "name": "enable_access_point_keyboard",
@@ -1013,10 +1020,11 @@
       "category": "Privacy & diagnostics",
       "tier": "Low priority",
       "impact": "Privacy / permissions",
-      "summary": "Purpose unknown — a diagnostic best-frame search feature, but the frame source and logging behavior aren't established.",
-      "confidence": "Unknown",
+      "summary": "Enables a diagnostic search for the best frame to record in logs, rather than treating every captured frame equally.",
+      "confidence": "Interpreted",
       "kind": "Candidate flag",
-      "researchStatus": "Unknown"
+      "researchStatus": "Clarified",
+      "researchNote": "Interpretation based on established terminology or the named operation; the exact Gboard flag's runtime effect has not been independently verified."
     },
     {
       "name": "enable_biasing_for_commands",
@@ -1261,10 +1269,17 @@
       "category": "Themes & layout",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown — a Crowdsource integration hook, without reliable evidence of the data or UI it connects.",
-      "confidence": "Unknown",
+      "summary": "Connects Gboard with Google's Crowdsource typing activities, where volunteers contribute examples that help improve keyboard accuracy.",
+      "confidence": "Interpreted",
       "kind": "Candidate flag",
-      "researchStatus": "Unknown"
+      "researchStatus": "Clarified",
+      "researchNote": "Interpretation based on established terminology or the named operation; the exact Gboard flag's runtime effect has not been independently verified.",
+      "references": [
+        {
+          "label": "Google Crowdsource — Speed Type and Gboard",
+          "url": "https://support.google.com/crowdsource/answer/16257774?hl=en"
+        }
+      ]
     },
     {
       "name": "enable_custom_gif_categories",
@@ -1282,10 +1297,11 @@
       "category": "Emoji & expression",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown — an internal custom-sticker 'LOL fix'; the bug it addresses hasn't been documented.",
-      "confidence": "Unknown",
+      "summary": "Applies a fix to the custom-sticker feature identified as “LOL.” The exact bug isn't documented, but this isn't a general sticker switch.",
+      "confidence": "Interpreted",
       "kind": "Candidate flag",
-      "researchStatus": "Unknown"
+      "researchStatus": "Clarified",
+      "researchNote": "Interpretation based on established terminology or the named operation; the exact Gboard flag's runtime effect has not been independently verified."
     },
     {
       "name": "enable_custom_sticker_naive_prompt_expander",
@@ -1510,10 +1526,11 @@
       "category": "Voice & dictation",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown — an internal dynamic training component; no model or learning process has been established.",
-      "confidence": "Unknown",
+      "summary": "Activates Gboard's dynamic training component, which can update prediction-related learning data instead of relying only on a fixed model.",
+      "confidence": "Interpreted",
       "kind": "Candidate flag",
-      "researchStatus": "Unknown"
+      "researchStatus": "Clarified",
+      "researchNote": "Interpretation based on established terminology or the named operation; the exact Gboard flag's runtime effect has not been independently verified."
     },
     {
       "name": "enable_early_capture_decoder_state",
@@ -1832,13 +1849,20 @@
     {
       "name": "enable_export_pcv2_revert_history",
       "title": "Export Pcv2 Revert History",
-      "category": "Technical / other",
+      "category": "Privacy & diagnostics",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown — exports PCV2 revert history, but PCV2's format and what is retained aren't documented.",
-      "confidence": "Unknown",
+      "summary": "Exports records of corrections that were reversed in Gboard’s second-generation post-correction system (PCv2), useful for diagnosing unwanted edits.",
+      "confidence": "Interpreted",
       "kind": "Candidate flag",
-      "researchStatus": "Unknown"
+      "researchStatus": "Clarified",
+      "researchNote": "Interpretation based on established terminology or the named operation; the exact Gboard flag's runtime effect has not been independently verified.",
+      "references": [
+        {
+          "label": "Google Gboard research — PC means post correction (v2 mapping inferred)",
+          "url": "https://aclanthology.org/2024.acl-demos.27/"
+        }
+      ]
     },
     {
       "name": "enable_export_ufc",
@@ -2485,13 +2509,20 @@
     {
       "name": "enable_kc_threshold",
       "title": "Kc Threshold",
-      "category": "Technical / other",
+      "category": "Predictions & corrections",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown — the KC threshold has no documented definition or unit.",
-      "confidence": "Unknown",
+      "summary": "Enables a confidence threshold for key correction (KC), which helps Gboard decide when an imprecise tap should count as a nearby key.",
+      "confidence": "Interpreted",
       "kind": "Candidate flag",
-      "researchStatus": "Unknown"
+      "researchStatus": "Clarified",
+      "researchNote": "Interpretation based on established terminology or the named operation; the exact Gboard flag's runtime effect has not been independently verified.",
+      "references": [
+        {
+          "label": "Google Gboard research — KC means key correction (flag effect inferred)",
+          "url": "https://aclanthology.org/2024.acl-demos.27/"
+        }
+      ]
     },
     {
       "name": "enable_key_border",
@@ -3892,10 +3923,11 @@
       "category": "Voice & dictation",
       "tier": "Optional",
       "impact": "Model / compute",
-      "summary": "Purpose unknown — controls a NAM cache file used by speech enhancement; the model and cache handling aren't documented.",
-      "confidence": "Unknown",
+      "summary": "Allows a file cache for the NAM component used in speech enhancement, so previously loaded model data can be reused.",
+      "confidence": "Interpreted",
       "kind": "Candidate flag",
-      "researchStatus": "Unknown"
+      "researchStatus": "Clarified",
+      "researchNote": "Interpretation based on established terminology or the named operation; the exact Gboard flag's runtime effect has not been independently verified."
     },
     {
       "name": "enable_spell_checker_extension",
@@ -4264,10 +4296,11 @@
       "category": "Technical / other",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown — continuous decoding for an internal TNT model or algorithm.",
-      "confidence": "Unknown",
+      "summary": "Keeps the TNT decoder processing input continuously, rather than treating every segment as a separate decoding operation.",
+      "confidence": "Interpreted",
       "kind": "Candidate flag",
-      "researchStatus": "Unknown"
+      "researchStatus": "Clarified",
+      "researchNote": "Interpretation based on established terminology or the named operation; the exact Gboard flag's runtime effect has not been independently verified."
     },
     {
       "name": "enable_training_cache_db_wal",
@@ -4313,13 +4346,14 @@
     {
       "name": "enable_triggering_model",
       "title": "Triggering Model",
-      "category": "Technical / other",
+      "category": "Predictions & corrections",
       "tier": "Optional",
       "impact": "Model / compute",
-      "summary": "Purpose unknown — a triggering model without a documented feature or decision it triggers.",
-      "confidence": "Unknown",
+      "summary": "Uses a model to decide when Gboard should activate certain prediction features, instead of triggering them solely through fixed rules.",
+      "confidence": "Interpreted",
       "kind": "Candidate flag",
-      "researchStatus": "Unknown"
+      "researchStatus": "Clarified",
+      "researchNote": "Interpretation based on established terminology or the named operation; the exact Gboard flag's runtime effect has not been independently verified."
     },
     {
       "name": "enable_two_stage_decoder",
@@ -4786,10 +4820,11 @@
       "category": "Technical / other",
       "tier": "Low priority",
       "impact": "Usually low",
-      "summary": "Purpose unknown — resets an internal stream after a no-state condition; the affected stream isn't identified.",
-      "confidence": "Unknown",
+      "summary": "Forces an active streaming process to reset when it runs out of valid processing states, rather than continuing from an empty state.",
+      "confidence": "Interpreted",
       "kind": "Candidate flag",
-      "researchStatus": "Unknown"
+      "researchStatus": "Clarified",
+      "researchNote": "Interpretation based on established terminology or the named operation; the exact Gboard flag's runtime effect has not been independently verified."
     },
     {
       "name": "force_speech_language_pack_updates",
@@ -5798,10 +5833,11 @@
       "category": "Technical / other",
       "tier": "Low priority",
       "impact": "Usually low",
-      "summary": "Purpose unknown — stores a close-icon option for an unidentified Jetson interface.",
-      "confidence": "Unknown",
+      "summary": "Stores the close-button icon setting for an internal Gboard interface called Jetson; it doesn't control the keyboard's main toolbar.",
+      "confidence": "Interpreted",
       "kind": "Stored preference",
-      "researchStatus": "Unknown"
+      "researchStatus": "Clarified",
+      "researchNote": "Interpretation based on established terminology or the named operation; the exact Gboard flag's runtime effect has not been independently verified."
     },
     {
       "name": "pref_key_language_promo_last_shown_seconds",
@@ -7200,10 +7236,11 @@
       "category": "Technical / other",
       "tier": "Low priority",
       "impact": "Usually low",
-      "summary": "Purpose unknown — chooses a dominant conversation identifier, but the conflict-resolution method isn't documented.",
-      "confidence": "Unknown",
+      "summary": "Selects the dominant conversation ID when multiple conversation identifiers are available, keeping related input tied to one context.",
+      "confidence": "Interpreted",
       "kind": "Candidate flag",
-      "researchStatus": "Unknown"
+      "researchStatus": "Clarified",
+      "researchNote": "Interpretation based on established terminology or the named operation; the exact Gboard flag's runtime effect has not been independently verified."
     },
     {
       "name": "use_google_servers_toast_tag",
@@ -7437,15 +7474,20 @@
       "researchStatus": "Clarified"
     }
   ],
-  "editorialVersion": "technical-precision-pass-2026-11-13",
+  "editorialVersion": "contextual-unknown-audit-2026-11-13",
   "researchNotes": "Compared public GboardWu feature/runtime sources, independent mod flag mappings, and Google Rambler documentation. A source mapping identifies how a flag is used, not a guaranteed runtime result.",
   "unknownResearch": {
     "initial": 92,
-    "clarified": 58,
-    "unresolved": 34,
+    "clarified": 71,
+    "unresolved": 21,
     "sourced": 16,
     "scope": "Phase 1 only. 92 earlier unknown entries reviewed using exact public-code searches, Gboard patch source, developer reports, Android/Chromium source, and APK teardowns. Name-derived explanations remain interpretations, not runtime verification.",
-    "referencesCorrected": true
+    "referencesCorrected": true,
+    "secondPass": {
+      "date": "2026-11-13",
+      "reclassified": 13,
+      "method": "Used Google-authored Gboard research for AC/KC/PC acronyms, official Crowdsource documentation, and limited high-confidence context-based interpretations. The code-level effects of individual undocumented flags are not independently verified."
+    }
   },
   "editorialNotes": "Editorial standard: retain specific technical names (Gemma, TensorFlow Lite, MDD, HMM, etc.), briefly explain their purpose in context, and don't invent unverified implementation details. Plain English must not erase meaningful identifiers. 34 genuinely unresolved flags remain unchanged."
 }
