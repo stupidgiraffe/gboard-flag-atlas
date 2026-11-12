@@ -31,7 +31,7 @@ Gboard's feature flags are a mixture of new UI, smart predictions, Emoji Kitchen
 
 ### [→ Explore the live catalog](https://gboard-flag-atlas.shipstatic.com)
 
-The current snapshot indexes **691 flag-like identifiers extracted from GboardWu 18.5.4.993608717**. Of these, 114 currently have more specific explanatory annotations. The others remain searchable with cautiously interpreted or name-derived explanations.
+The current snapshot indexes **691 flag-like identifiers extracted from GboardWu 18.5.4.993608717**. Every entry has been rewritten for clarity; 92 remain explicitly marked as unknown where a responsible explanation cannot be established. Linked public-source references are attached to 53 entries. An identifier alone is never proof of a working toggle.
 
 **All identifiers are included**, including the esoteric, potentially useless, and implementation-only ones. Nothing is hidden merely because it is unlikely to interest casual users.
 
@@ -65,7 +65,8 @@ The current snapshot indexes **691 flag-like identifiers extracted from GboardWu
 | Label | Meaning |
 |---|---|
 | **Interpreted** | More specific explanation based on naming, context or known behavior; **not** independently verified in every runtime. |
-| **Name-derived** | An explicitly tentative explanation generated from the identifier itself. |
+| **Name-derived** | A carefully edited interpretation based on the identifier; behavior not independently checked. |
+| **Code-referenced** | A related feature mapping or description was found in public source; this alone does not prove a working feature on every build. |
 | **Explore / Optional / Low priority** | Editorial navigation, **not** a safety guarantee or evidence of feature support. |
 
 We want documentation supported by source code, logs, UI behavior, experimental results and build/version information. Corrections are welcome—especially when a flag's meaning changes across Gboard releases.
