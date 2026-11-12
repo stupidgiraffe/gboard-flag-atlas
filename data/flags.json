@@ -90,9 +90,16 @@
       "category": "Technical / other",
       "tier": "Optional",
       "impact": "Privacy / permissions",
-      "summary": "Purpose unknown — Gboard handling for other network connection types.",
-      "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "summary": "Allows an old DNS lookup result to be reused after the device changes networks. This belongs to a networking library, not Gboard’s interface.",
+      "confidence": "Code-referenced",
+      "kind": "Candidate flag",
+      "references": [
+        {
+          "label": "Chromium DNS resolver implementation",
+          "url": "https://github.com/klzgrad/naiveproxy/blob/master/src/net/dns/stale_host_resolver.cc"
+        }
+      ],
+      "researchStatus": "Clarified"
     },
     {
       "name": "allow_pk_event_from_virtual_device",
@@ -280,9 +287,15 @@
       "category": "Technical / other",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Removes the fast-access bar from the associated Gboard interface.",
+      "summary": "Hides Gboard's quick-emoji row above the keys, the same feature controlled by the fast-access-bar settings. It is separate from the main toolbar.",
       "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "kind": "Candidate flag",
+      "references": [
+        {
+          "label": "Rboard emoji-row documentation",
+          "url": "https://t.me/s/rkbdigboard?before=1553"
+        }
+      ]
     },
     {
       "name": "disable_genai_cache",
@@ -400,9 +413,10 @@
       "category": "Technical / other",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown — internal V2 KLP loader component and loading path.",
-      "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "summary": "Purpose unknown — switches off a second-generation KLP loader; the KLP component hasn't been identified.",
+      "confidence": "Unknown",
+      "kind": "Candidate flag",
+      "researchStatus": "Unknown"
     },
     {
       "name": "disable_new_language_prompt_in_test",
@@ -590,9 +604,10 @@
       "category": "Emoji & expression",
       "tier": "Low priority",
       "impact": "Model / compute",
-      "summary": "Purpose unknown. This Emoji Kitchen search threshold parameter stores a Gemma score cutoff.",
+      "summary": "Sets the relevance-score cutoff used to filter Emoji Kitchen matches returned by Gemma-powered search.",
       "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "kind": "Candidate flag",
+      "researchStatus": "Clarified"
     },
     {
       "name": "emoji_kitchen_gemma_search_for_contextual_ek_timeout_millis",
@@ -600,9 +615,10 @@
       "category": "Emoji & expression",
       "tier": "Low priority",
       "impact": "Model / compute",
-      "summary": "Purpose unknown. This Emoji Kitchen timeout parameter sets a millisecond limit for Gemma contextual search.",
+      "summary": "Sets how long a contextual Emoji Kitchen search can use the Gemma model before timing out, measured in milliseconds.",
       "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "kind": "Candidate flag",
+      "researchStatus": "Clarified"
     },
     {
       "name": "emoji_kitchen_mdd_data_file_group",
@@ -610,9 +626,10 @@
       "category": "Internal & low-value",
       "tier": "Low priority",
       "impact": "Usually low",
-      "summary": "Purpose unknown. This Emoji Kitchen parameter identifies an MDD data-file group used by internal resources.",
+      "summary": "Identifies the download group containing Emoji Kitchen resources managed by Google's Mobile Data Download (MDD) system.",
       "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "kind": "Candidate flag",
+      "researchStatus": "Clarified"
     },
     {
       "name": "emoji_kitchen_scam_index_data_file_group",
@@ -620,9 +637,10 @@
       "category": "Internal & low-value",
       "tier": "Low priority",
       "impact": "Usually low",
-      "summary": "Purpose unknown. This Emoji Kitchen parameter identifies a data-file group for the SCAM index.",
+      "summary": "Names the downloadable files for Emoji Kitchen's similarity-search index. The index's internal SCAM method is undocumented.",
       "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "kind": "Candidate flag",
+      "researchStatus": "Clarified"
     },
     {
       "name": "emoji_kitchen_scam_index_init_delay_ms",
@@ -630,9 +648,10 @@
       "category": "Emoji & expression",
       "tier": "Low priority",
       "impact": "Usually low",
-      "summary": "Purpose unknown. This Emoji Kitchen delay parameter specifies milliseconds before SCAM-index initialization.",
+      "summary": "Sets how many milliseconds Gboard waits before initializing Emoji Kitchen's similarity-search index.",
       "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "kind": "Candidate flag",
+      "researchStatus": "Clarified"
     },
     {
       "name": "emoji_kitchen_scam_nearest_neighbors_cache_size",
@@ -640,9 +659,10 @@
       "category": "Emoji & expression",
       "tier": "Low priority",
       "impact": "Usually low",
-      "summary": "Purpose unknown. This Emoji Kitchen cache-size parameter sets the number of SCAM-index nearest neighbors retained.",
+      "summary": "Limits how many nearby matches the Emoji Kitchen similarity-search index retains for reuse.",
       "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "kind": "Candidate flag",
+      "researchStatus": "Clarified"
     },
     {
       "name": "emoji_kitchen_search_result_ordering_strategy",
@@ -650,9 +670,10 @@
       "category": "Emoji & expression",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown. This Emoji Kitchen search-result ordering parameter specifies a strategy for arranging results.",
+      "summary": "Chooses how Emoji Kitchen search results are ordered, such as which matching stickers appear first. The available strategies aren't documented.",
       "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "kind": "Candidate flag",
+      "researchStatus": "Clarified"
     },
     {
       "name": "emoji_kitchen_sticker_scaling_fife_url_suffix",
@@ -660,9 +681,10 @@
       "category": "Emoji & expression",
       "tier": "Low priority",
       "impact": "Usually low",
-      "summary": "Purpose unknown. This Emoji Kitchen string parameter supplies a FIFE URL suffix for sticker scaling requests.",
+      "summary": "Appends image-scaling instructions to the FIFE image URL used to fetch or display Emoji Kitchen stickers.",
       "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "kind": "Candidate flag",
+      "researchStatus": "Clarified"
     },
     {
       "name": "enable_3d_couple_emojis",
@@ -680,9 +702,10 @@
       "category": "Technical / other",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown — internal AC-threshold handling in Gboard's processing path.",
-      "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "summary": "Purpose unknown — the acronym AC and the threshold's role aren't documented for this Gboard build.",
+      "confidence": "Unknown",
+      "kind": "Candidate flag",
+      "researchStatus": "Unknown"
     },
     {
       "name": "enable_access_point_keyboard",
@@ -790,9 +813,10 @@
       "category": "AI & writing tools",
       "tier": "Optional",
       "impact": "Model / compute",
-      "summary": "Purpose unknown. This AI & writing tools flag references Gemma embeddings in the Android AI Core model-integration path.",
+      "summary": "Allows Gboard to use Gemma text embeddings through Android AICore, supporting semantic matching rather than exact-word matching.",
       "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "kind": "Candidate flag",
+      "researchStatus": "Clarified"
     },
     {
       "name": "enable_ai_core_llm",
@@ -946,9 +970,10 @@
       "category": "Technical / other",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown — multilingual AVT default configuration.",
+      "summary": "Selects Advanced Voice Typing by default for multilingual voice-input configurations, when those languages are supported.",
       "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "kind": "Candidate flag",
+      "researchStatus": "Clarified"
     },
     {
       "name": "enable_back_to_prime_as_top_level",
@@ -956,9 +981,10 @@
       "category": "Technical / other",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown — navigation to the prime state.",
+      "summary": "Makes navigation return to Gboard's primary typing keyboard from another keyboard surface, rather than passing through intermediate panels.",
       "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "kind": "Candidate flag",
+      "researchStatus": "Clarified"
     },
     {
       "name": "enable_backup_delight5_personalized_data",
@@ -966,9 +992,10 @@
       "category": "Technical / other",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown — Delight5 personalized-data backup.",
+      "summary": "Includes personalized data from Gboard's Delight5 prediction model in the backup path.",
       "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "kind": "Candidate flag",
+      "researchStatus": "Clarified"
     },
     {
       "name": "enable_beep_sound_at_recognition_end",
@@ -986,9 +1013,10 @@
       "category": "Privacy & diagnostics",
       "tier": "Low priority",
       "impact": "Privacy / permissions",
-      "summary": "Purpose unknown — best-frame search for logging.",
-      "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "summary": "Purpose unknown — a diagnostic best-frame search feature, but the frame source and logging behavior aren't established.",
+      "confidence": "Unknown",
+      "kind": "Candidate flag",
+      "researchStatus": "Unknown"
     },
     {
       "name": "enable_biasing_for_commands",
@@ -1066,9 +1094,10 @@
       "category": "Technical / other",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown. This technical flag references a call path for performing a PIX operation.",
-      "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "summary": "Purpose unknown — calls an internal PIX operation; neither the operation nor its visible effect is identified.",
+      "confidence": "Unknown",
+      "kind": "Candidate flag",
+      "researchStatus": "Unknown"
     },
     {
       "name": "enable_camera_permission_overlay",
@@ -1156,9 +1185,10 @@
       "category": "Technical / other",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown — desktop entry points for contextual search.",
+      "summary": "Adds access points for contextual search in desktop-style keyboard or windowing interfaces.",
       "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "kind": "Candidate flag",
+      "researchStatus": "Clarified"
     },
     {
       "name": "enable_conv_data_on_predefined_styles",
@@ -1166,9 +1196,10 @@
       "category": "Technical / other",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown. It references conversion data and predefined styles within a technical configuration path.",
-      "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "summary": "Purpose unknown — a data-handling option associated with predefined styles; 'conv' has not been reliably identified.",
+      "confidence": "Unknown",
+      "kind": "Candidate flag",
+      "researchStatus": "Unknown"
     },
     {
       "name": "enable_conversation_id_in_training_cache",
@@ -1192,9 +1223,10 @@
       "category": "Technical / other",
       "tier": "Optional",
       "impact": "Privacy / permissions",
-      "summary": "Purpose unknown. This identifier belongs to a conversation-identifier module in Gboard's internal component architecture.",
+      "summary": "Activates an internal conversation-ID component used to associate related input or assistant interactions.",
       "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "kind": "Candidate flag",
+      "researchStatus": "Clarified"
     },
     {
       "name": "enable_correction_commit_animation",
@@ -1212,9 +1244,16 @@
       "category": "Languages & accessibility",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown — primary-locale crank operation in multilingual mode.",
-      "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "summary": "Uses the primary language's Crank prediction engine while multilingual typing is active.",
+      "confidence": "Code-referenced",
+      "kind": "Candidate flag",
+      "references": [
+        {
+          "label": "KeyFlux multilingual flag mapping",
+          "url": "https://github.com/NawafCode/KeyFlux/blob/main/app/src/main/java/com/keyflux/FlagsOverrideManager.kt"
+        }
+      ],
+      "researchStatus": "Clarified"
     },
     {
       "name": "enable_crowdsource_integration",
@@ -1222,9 +1261,10 @@
       "category": "Themes & layout",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown. It references crowdsource integration in Gboard's interface or configuration components.",
-      "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "summary": "Purpose unknown — a Crowdsource integration hook, without reliable evidence of the data or UI it connects.",
+      "confidence": "Unknown",
+      "kind": "Candidate flag",
+      "researchStatus": "Unknown"
     },
     {
       "name": "enable_custom_gif_categories",
@@ -1242,9 +1282,10 @@
       "category": "Emoji & expression",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown — LOL fix for custom stickers.",
-      "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "summary": "Purpose unknown — an internal custom-sticker 'LOL fix'; the bug it addresses hasn't been documented.",
+      "confidence": "Unknown",
+      "kind": "Candidate flag",
+      "researchStatus": "Unknown"
     },
     {
       "name": "enable_custom_sticker_naive_prompt_expander",
@@ -1318,9 +1359,16 @@
       "category": "Themes & layout",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown — desktop-windowing education for app-to-web use.",
-      "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "summary": "Shows Android's desktop-windowing guidance for moving from an app to its website. This is a platform flag, not a Gboard feature.",
+      "confidence": "Code-referenced",
+      "kind": "Candidate flag",
+      "references": [
+        {
+          "label": "Android desktop windowing flag",
+          "url": "https://github.com/LawnchairLauncher/lawnchair/blob/16-dev/flags/src/com/android/window/flags2/Flags.java"
+        }
+      ],
+      "researchStatus": "Clarified"
     },
     {
       "name": "enable_deterministic_audio_track_release",
@@ -1374,9 +1422,10 @@
       "category": "Technical / other",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown — docked-desk interface.",
-      "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "summary": "Purpose unknown — a docked-desk component with no documented keyboard behavior.",
+      "confidence": "Unknown",
+      "kind": "Candidate flag",
+      "researchStatus": "Unknown"
     },
     {
       "name": "enable_dual_stream_biasing_arbitration",
@@ -1394,9 +1443,10 @@
       "category": "Technical / other",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown — duplicate-key handling.",
+      "summary": "Activates a correction path for duplicate key input events, rather than adding a new visible keyboard control.",
       "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "kind": "Candidate flag",
+      "researchStatus": "Clarified"
     },
     {
       "name": "enable_dynamic_art",
@@ -1460,9 +1510,10 @@
       "category": "Voice & dictation",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown — dynamic voice-training component.",
-      "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "summary": "Purpose unknown — an internal dynamic training component; no model or learning process has been established.",
+      "confidence": "Unknown",
+      "kind": "Candidate flag",
+      "researchStatus": "Unknown"
     },
     {
       "name": "enable_early_capture_decoder_state",
@@ -1526,9 +1577,10 @@
       "category": "Emoji & expression",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown — emoji support for dynamic-art template suggestion candidates.",
+      "summary": "Allows emoji to be considered when Gboard chooses suggested templates for Dynamic Art stickers.",
       "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "kind": "Candidate flag",
+      "researchStatus": "Clarified"
     },
     {
       "name": "enable_emoji_group_candidate_ui",
@@ -1588,9 +1640,16 @@
       "category": "Emoji & expression",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown — Emoji Kitchen component labeled “scam index” for emoji indexing.",
-      "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "summary": "Enables a nearest-neighbor similarity index for Emoji Kitchen search. The internal meaning of SCAM is not publicly documented.",
+      "confidence": "Code-referenced",
+      "kind": "Candidate flag",
+      "references": [
+        {
+          "label": "Emoji Kitchen search background",
+          "url": "https://9to5google.com/gboard-android-emoji-kitchen-list/"
+        }
+      ],
+      "researchStatus": "Clarified"
     },
     {
       "name": "enable_emoji_loader_migration",
@@ -1598,9 +1657,10 @@
       "category": "Emoji & expression",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown — migration path for the emoji loader component.",
+      "summary": "Moves Gboard's emoji-loading process toward a newer implementation; it does not add new emoji by itself.",
       "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "kind": "Candidate flag",
+      "researchStatus": "Clarified"
     },
     {
       "name": "enable_emoji_mistap",
@@ -1654,9 +1714,16 @@
       "category": "Emoji & expression",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown — emoji-to-expression handling within keyboard expression input processing.",
-      "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "summary": "Suggests related GIFs and stickers when you select an emoji in Gboard's emoji keyboard.",
+      "confidence": "Community-referenced",
+      "kind": "Candidate flag",
+      "references": [
+        {
+          "label": "9to5Google APK teardown",
+          "url": "https://9to5google.com/2019/07/15/gboard-8-5-apk-insight-teardown/"
+        }
+      ],
+      "researchStatus": "Clarified"
     },
     {
       "name": "enable_emoji_variant_preferences_backup",
@@ -1774,9 +1841,10 @@
       "category": "Technical / other",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown. It belongs to a technical export path referencing PCV2 revert history.",
-      "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "summary": "Purpose unknown — exports PCV2 revert history, but PCV2's format and what is retained aren't documented.",
+      "confidence": "Unknown",
+      "kind": "Candidate flag",
+      "researchStatus": "Unknown"
     },
     {
       "name": "enable_export_ufc",
@@ -1784,9 +1852,10 @@
       "category": "Technical / other",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown. It belongs to a technical export path labeled UFC within the keyboard’s internal systems.",
-      "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "summary": "Purpose unknown — exports data from an internal component called UFC.",
+      "confidence": "Unknown",
+      "kind": "Candidate flag",
+      "researchStatus": "Unknown"
     },
     {
       "name": "enable_expression_candidates_debug_toast",
@@ -1970,15 +2039,20 @@
       "category": "Technical / other",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown — Gboard fast-access bar.",
-      "confidence": "Code-referenced",
+      "summary": "Shows a quick-emoji row above the keyboard with frequent or preset emoji. Its app whitelist can determine where the row appears.",
+      "confidence": "Community-referenced",
       "kind": "Candidate flag",
       "references": [
         {
-          "label": "Community patch mapping",
+          "label": "Morning Entree flag mapping",
           "url": "https://github.com/Entree3k/Morning-Entree-Patches/blob/main/patches/src/main/kotlin/morningentree/morphe/patches/google/gboard/featureflags/ToggleFeatureFlagsPatch.kt"
+        },
+        {
+          "label": "Rboard feature instructions",
+          "url": "https://t.me/s/rkbdigboard?before=1553"
         }
-      ]
+      ],
+      "researchStatus": "Clarified"
     },
     {
       "name": "enable_feedback_notice_popup",
@@ -1996,9 +2070,10 @@
       "category": "Technical / other",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown. This technical flag references flexible category handling and KCT, an internal label in Gboard's code.",
-      "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "summary": "Purpose unknown — changes category handling for an internal KCT component.",
+      "confidence": "Unknown",
+      "kind": "Candidate flag",
+      "researchStatus": "Unknown"
     },
     {
       "name": "enable_floating_dock_hint_v2",
@@ -2086,9 +2161,10 @@
       "category": "Emoji & expression",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown — internal GIF peer component.",
-      "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "summary": "Purpose unknown — a GIF-related peer component with no independently documented behavior.",
+      "confidence": "Unknown",
+      "kind": "Candidate flag",
+      "researchStatus": "Unknown"
     },
     {
       "name": "enable_global_direct_to_voice_toolbar",
@@ -2146,9 +2222,10 @@
       "category": "Technical / other",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown. This technical flag references reloaded input-context handling, an internal keyboard-state area.",
+      "summary": "Refreshes keyboard state when an app reloads the active text field, helping input features respond to the updated context.",
       "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "kind": "Candidate flag",
+      "researchStatus": "Clarified"
     },
     {
       "name": "enable_handwriting_promo",
@@ -2308,9 +2385,10 @@
       "category": "Languages & accessibility",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown. This entry belongs to language input and references insertion during a transition from SIL bi-key input.",
+      "summary": "Allows text insertion while switching away from the SIL BiKeys input mode; the SIL-specific layout is not otherwise documented.",
       "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "kind": "Candidate flag",
+      "researchStatus": "Clarified"
     },
     {
       "name": "enable_insertion_for_transit_to_sil_bikeys",
@@ -2318,9 +2396,10 @@
       "category": "Languages & accessibility",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown. This language-input entry references insertion during a transition to SIL bi-key input.",
+      "summary": "Allows text insertion when switching into the SIL BiKeys input mode; the SIL-specific layout is not otherwise documented.",
       "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "kind": "Candidate flag",
+      "researchStatus": "Clarified"
     },
     {
       "name": "enable_install_referrer",
@@ -2374,9 +2453,10 @@
       "category": "Technical / other",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown — iOS switcher detection in platform and input-state handling.",
-      "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "summary": "Purpose unknown — an iOS switcher detector whose relationship to Android keyboard input isn't established.",
+      "confidence": "Unknown",
+      "kind": "Candidate flag",
+      "researchStatus": "Unknown"
     },
     {
       "name": "enable_jarvis_thumb_down_feedback_flow",
@@ -2414,9 +2494,10 @@
       "category": "Technical / other",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown — KC threshold parameter in internal decision logic.",
-      "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "summary": "Purpose unknown — the KC threshold has no documented definition or unit.",
+      "confidence": "Unknown",
+      "kind": "Candidate flag",
+      "researchStatus": "Unknown"
     },
     {
       "name": "enable_key_border",
@@ -2504,9 +2585,10 @@
       "category": "Technical / other",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown. This technical entry names an LC task manager, placing it in internal task orchestration rather than a keyboard setting.",
-      "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "summary": "Purpose unknown — manages tasks for an unidentified LC component.",
+      "confidence": "Unknown",
+      "kind": "Candidate flag",
+      "researchStatus": "Unknown"
     },
     {
       "name": "enable_learn_name_biasing",
@@ -2544,9 +2626,16 @@
       "category": "AI & writing tools",
       "tier": "Optional",
       "impact": "Model / compute",
-      "summary": "Purpose unknown. This AI-writing entry names an LLM “PC flow” mode, an internal mode label rather than a defined user control.",
-      "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "summary": "Activates the experimental Flow Mode pathway associated with Gboard's LLM text-composition features; GboardWu also exposes a separate Flow Mode option.",
+      "confidence": "Community-referenced",
+      "kind": "Candidate flag",
+      "references": [
+        {
+          "label": "GboardWu Flow Mode policy",
+          "url": "https://github.com/jasonwu1994/Gboard-patches/blob/main/extensions/extension/src/main/java/dev/jason/gboardpatches/extension/flowmode/GboardFlowModePolicy.java"
+        }
+      ],
+      "researchStatus": "Clarified"
     },
     {
       "name": "enable_llm_pc_smart_retry",
@@ -2554,9 +2643,10 @@
       "category": "AI & writing tools",
       "tier": "Optional",
       "impact": "Model / compute",
-      "summary": "Purpose unknown. This AI-writing entry names smart retry in an LLM “PC” flow, an internal retry-related mode rather than a user setting.",
+      "summary": "Adds a retry path when an operation in Gboard's LLM-PC text-composition system fails.",
       "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "kind": "Candidate flag",
+      "researchStatus": "Clarified"
     },
     {
       "name": "enable_load_key_correction_model_from_klp",
@@ -2604,9 +2694,10 @@
       "category": "Technical / other",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown. This technical entry places a materializer manager in internal component orchestration, outside ordinary keyboard settings.",
-      "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "summary": "Purpose unknown — an internal materializer manager with no established user-facing role.",
+      "confidence": "Unknown",
+      "kind": "Candidate flag",
+      "researchStatus": "Unknown"
     },
     {
       "name": "enable_mdd_metadata_cleanup",
@@ -2710,9 +2801,10 @@
       "category": "AI & writing tools",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown — Muse Opus integration for AI writing generation.",
-      "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "summary": "Purpose unknown — references Muse Opus, but its model, service or feature mapping isn't documented.",
+      "confidence": "Unknown",
+      "kind": "Candidate flag",
+      "researchStatus": "Unknown"
     },
     {
       "name": "enable_muse_screen_context",
@@ -2750,9 +2842,10 @@
       "category": "Technical / other",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown — navigation handling for on-screen virtual-keyboard input controls.",
+      "summary": "Allows navigation commands from a virtual-keyboard input surface.",
       "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "kind": "Candidate flag",
+      "researchStatus": "Clarified"
     },
     {
       "name": "enable_neural_otf_rescoring",
@@ -2984,9 +3077,10 @@
       "category": "Themes & layout",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Layout setting for a one-handed keyboard dialog; Purpose unknown beyond this compact-layout UI and its preference controls.",
+      "summary": "Displays a dialog related to Gboard's one-handed keyboard mode, instead of changing the layout on its own.",
       "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "kind": "Candidate flag",
+      "researchStatus": "Clarified"
     },
     {
       "name": "enable_oov_deduplication",
@@ -3004,9 +3098,16 @@
       "category": "Technical / other",
       "tier": "Optional",
       "impact": "Privacy / permissions",
-      "summary": "Purpose unknown — personalization handling for contact phone numbers in Gboard.",
-      "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "summary": "Tests personalizing text suggestions using contact and phone information; published APK research has not established which data is used.",
+      "confidence": "Community-referenced",
+      "kind": "Candidate flag",
+      "references": [
+        {
+          "label": "Gboard 18.5 beta teardown",
+          "url": "https://nerdschalk.com/gboard-may-shape-suggestions-with-contact-phone-data-punctuation-and-case-apk-teardown/"
+        }
+      ],
+      "researchStatus": "Clarified"
     },
     {
       "name": "enable_p13n_post_processing",
@@ -3084,9 +3185,10 @@
       "category": "Themes & layout",
       "tier": "Optional",
       "impact": "Active-use graphics",
-      "summary": "Purpose unknown — personal-context shader animation in theme rendering pipeline.",
+      "summary": "Enables a shader-based visual animation for Gboard's personal-context interface.",
       "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "kind": "Candidate flag",
+      "researchStatus": "Clarified"
     },
     {
       "name": "enable_personalize_top_bar",
@@ -3144,9 +3246,10 @@
       "category": "Technical / other",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown — physical-keyboard indicator display and status handling in Gboard.",
+      "summary": "Controls a small indicator associated with a physical keyboard and its input status.",
       "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "kind": "Candidate flag",
+      "researchStatus": "Clarified"
     },
     {
       "name": "enable_pk_simulator",
@@ -3154,9 +3257,20 @@
       "category": "Technical / other",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown — physical-keyboard input simulation and event handling in Gboard.",
-      "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "summary": "Exposes an experimental accessibility keyboard layout. Despite its name, it is not simply a simulated external hardware keyboard.",
+      "confidence": "Community-referenced",
+      "kind": "Candidate flag",
+      "references": [
+        {
+          "label": "Rboard accessibility-layout instructions",
+          "url": "https://t.me/s/rkbdigboard/1786"
+        },
+        {
+          "label": "GboardWu accessibility layout tests",
+          "url": "https://github.com/jasonwu1994/Gboard-patches/blob/main/extensions/extension/src/test/java/dev/jason/gboardpatches/extension/accessibilitylayout/GboardAccessibilityLayout1803PolicyTest.java"
+        }
+      ],
+      "researchStatus": "Clarified"
     },
     {
       "name": "enable_pk_spatial_model_features",
@@ -3164,9 +3278,10 @@
       "category": "Technical / other",
       "tier": "Optional",
       "impact": "Model / compute",
-      "summary": "Purpose unknown — spatial-model features for physical-keyboard input processing in Gboard.",
+      "summary": "Uses key-position and spatial-model features in Gboard's physical-keyboard input processing.",
       "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "kind": "Candidate flag",
+      "researchStatus": "Clarified"
     },
     {
       "name": "enable_pk_user_detection",
@@ -3174,9 +3289,10 @@
       "category": "Technical / other",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown — physical-keyboard user detection and input-device handling in Gboard.",
+      "summary": "Detects physical-keyboard input so Gboard can choose a suitable keyboard handling mode.",
       "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "kind": "Candidate flag",
+      "researchStatus": "Clarified"
     },
     {
       "name": "enable_play_emoji_kitchen_mix_animation",
@@ -3200,9 +3316,10 @@
       "category": "Technical / other",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown — poem-input customization controls in Gboard's input interface.",
-      "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "summary": "Purpose unknown — the POEM input subsystem has not been reliably identified; it should not be assumed to generate poetry.",
+      "confidence": "Unknown",
+      "kind": "Candidate flag",
+      "researchStatus": "Unknown"
     },
     {
       "name": "enable_poem_input_customization_api_v2",
@@ -3210,9 +3327,10 @@
       "category": "Technical / other",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown — version-two API for poem-input customization integration in Gboard.",
-      "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "summary": "Purpose unknown — a newer customization API for the unidentified POEM input subsystem.",
+      "confidence": "Unknown",
+      "kind": "Candidate flag",
+      "researchStatus": "Unknown"
     },
     {
       "name": "enable_post_correction_trigger_predictor",
@@ -3326,9 +3444,10 @@
       "category": "Predictions & corrections",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown — query-related candidate handling in prediction generation for text input.",
-      "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "summary": "Purpose unknown — a candidate-generation option tied to queries, with no documented ranking or display behavior.",
+      "confidence": "Unknown",
+      "kind": "Candidate flag",
+      "researchStatus": "Unknown"
     },
     {
       "name": "enable_quick_settings",
@@ -3442,9 +3561,10 @@
       "category": "Technical / other",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown. This technical gate references a requirement for Android's movable-task API, without clarifying its role in keyboard operation.",
+      "summary": "Gates an internal feature on Android's movable-task API, used by desktop and floating-window environments.",
       "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "kind": "Candidate flag",
+      "researchStatus": "Clarified"
     },
     {
       "name": "enable_required_features_in_recognition_request",
@@ -3574,9 +3694,10 @@
       "category": "Technical / other",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown. This technical gate references KCT separation, but the acronym does not identify the component or operation.",
-      "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "summary": "Purpose unknown — controls separation of an unidentified KCT component.",
+      "confidence": "Unknown",
+      "kind": "Candidate flag",
+      "researchStatus": "Unknown"
     },
     {
       "name": "enable_sequential_super_icon_render_jobs",
@@ -3594,9 +3715,10 @@
       "category": "Themes & layout",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown. This interface-level gate references changing Android's global touch mode through an API, within input interaction.",
+      "summary": "Controls use of Android's API for changing global touch-mode handling during keyboard interaction.",
       "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "kind": "Candidate flag",
+      "researchStatus": "Clarified"
     },
     {
       "name": "enable_settings_search",
@@ -3650,9 +3772,16 @@
       "category": "Technical / other",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown. This keyboard-input gate references shortcut keys labeled SI, an abbreviation whose function is unclear from the name.",
-      "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "summary": "Adds shortcut-key support for Super Insert, Gboard's panel for inserting items such as clipboard content, emoji and saved text.",
+      "confidence": "Code-referenced",
+      "kind": "Candidate flag",
+      "references": [
+        {
+          "label": "PixelBoard Super Insert documentation",
+          "url": "https://github.com/Akshayykadam/PixelBoard/blob/main/README.md"
+        }
+      ],
+      "researchStatus": "Clarified"
     },
     {
       "name": "enable_signboard",
@@ -3660,9 +3789,20 @@
       "category": "Technical / other",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown. This technical gate references a component called Signboard, without clarifying its role in keyboard interaction.",
-      "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "summary": "Unlocks the entry point for Sign-to-Text, Google's camera-based sign-language transcription feature. A separate component download is required.",
+      "confidence": "Community-referenced",
+      "kind": "Candidate flag",
+      "references": [
+        {
+          "label": "Gboard Sign-to-Text feature investigation",
+          "url": "https://github.com/Akshayykadam/PixelBoard/issues/45"
+        },
+        {
+          "label": "GboardWu developer confirmation",
+          "url": "https://github.com/jasonwu1994/Gboard-patches/issues/79"
+        }
+      ],
+      "researchStatus": "Clarified"
     },
     {
       "name": "enable_slide_actions_in_a11y_mode",
@@ -3700,9 +3840,16 @@
       "category": "Technical / other",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown. This technical networking gate references socket receive handling, but its operational effect is unclear from the name.",
-      "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "summary": "Uses an optimized UDP socket receive path in the bundled QUIC networking stack. It does not change keyboard layout or suggestions.",
+      "confidence": "Code-referenced",
+      "kind": "Candidate flag",
+      "references": [
+        {
+          "label": "QUIC socket receive option",
+          "url": "https://github.com/klzgrad/naiveproxy/blob/master/src/net/quic/quic_context.h"
+        }
+      ],
+      "researchStatus": "Clarified"
     },
     {
       "name": "enable_soda_longform_experiment",
@@ -3740,9 +3887,10 @@
       "category": "Technical / other",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown — Gboard interface fragment for a special-mode screen.",
-      "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "summary": "Purpose unknown — a special-mode screen fragment with no documented entry point.",
+      "confidence": "Unknown",
+      "kind": "Candidate flag",
+      "researchStatus": "Unknown"
     },
     {
       "name": "enable_speech_enhancement_for_multilang_users",
@@ -3760,9 +3908,10 @@
       "category": "Voice & dictation",
       "tier": "Optional",
       "impact": "Model / compute",
-      "summary": "Purpose unknown — speech-enhancement NAM cache-file handling in voice recognition.",
-      "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "summary": "Purpose unknown — controls a NAM cache file used by speech enhancement; the model and cache handling aren't documented.",
+      "confidence": "Unknown",
+      "kind": "Candidate flag",
+      "researchStatus": "Unknown"
     },
     {
       "name": "enable_spell_checker_extension",
@@ -4024,9 +4173,10 @@
       "category": "Technical / other",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown. This compatibility flag belongs to text-appearance information handling for supported apps.",
+      "summary": "Allows compatible apps to provide text-appearance information for use by the keyboard's editing interface.",
       "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "kind": "Candidate flag",
+      "researchStatus": "Clarified"
     },
     {
       "name": "enable_text_conversion",
@@ -4130,9 +4280,10 @@
       "category": "Technical / other",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown — TNT continuous-decoding path for text input.",
-      "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "summary": "Purpose unknown — continuous decoding for an internal TNT model or algorithm.",
+      "confidence": "Unknown",
+      "kind": "Candidate flag",
+      "researchStatus": "Unknown"
     },
     {
       "name": "enable_training_cache_db_wal",
@@ -4170,9 +4321,10 @@
       "category": "Technical / other",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown — transparent-side rendering or interface element in Gboard.",
-      "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "summary": "Purpose unknown — transparency of an unidentified side region in the keyboard interface.",
+      "confidence": "Unknown",
+      "kind": "Candidate flag",
+      "researchStatus": "Unknown"
     },
     {
       "name": "enable_triggering_model",
@@ -4180,9 +4332,10 @@
       "category": "Technical / other",
       "tier": "Optional",
       "impact": "Model / compute",
-      "summary": "Purpose unknown — model-triggering behavior in Gboard's internal model-processing path.",
-      "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "summary": "Purpose unknown — a triggering model without a documented feature or decision it triggers.",
+      "confidence": "Unknown",
+      "kind": "Candidate flag",
+      "researchStatus": "Unknown"
     },
     {
       "name": "enable_two_stage_decoder",
@@ -4210,9 +4363,10 @@
       "category": "Technical / other",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown — UFC offset-related technical processing path in Gboard.",
-      "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "summary": "Purpose unknown — controls offset handling in an unidentified UFC component.",
+      "confidence": "Unknown",
+      "kind": "Candidate flag",
+      "researchStatus": "Unknown"
     },
     {
       "name": "enable_ufc_for_speed",
@@ -4220,9 +4374,10 @@
       "category": "Technical / other",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown — UFC speed-related technical processing path in Gboard.",
-      "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "summary": "Purpose unknown — controls speed handling in an unidentified UFC component.",
+      "confidence": "Unknown",
+      "kind": "Candidate flag",
+      "researchStatus": "Unknown"
     },
     {
       "name": "enable_unified_feedback_button",
@@ -4280,9 +4435,10 @@
       "category": "Technical / other",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown — vertical widget in an internal keyboard-interface component.",
-      "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "summary": "Purpose unknown — a vertically arranged widget whose function has not been identified.",
+      "confidence": "Unknown",
+      "kind": "Candidate flag",
+      "researchStatus": "Unknown"
     },
     {
       "name": "enable_voice_chip_tooltip",
@@ -4330,9 +4486,10 @@
       "category": "Themes & layout",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown — window-level phonetic arbitration for keyboard input handling in Gboard.",
+      "summary": "Uses window-level context to resolve competing phonetic input candidates.",
       "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "kind": "Candidate flag",
+      "researchStatus": "Clarified"
     },
     {
       "name": "enable_window_repositioning_api",
@@ -4634,9 +4791,10 @@
       "category": "Languages & accessibility",
       "tier": "Low priority",
       "impact": "Usually low",
-      "summary": "Purpose unknown — forced language selection or processing in Gboard.",
+      "summary": "Overrides automatic language selection with an explicitly specified language for the affected input pathway.",
       "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "kind": "Candidate flag",
+      "researchStatus": "Clarified"
     },
     {
       "name": "force_reset_streaming_after_no_states",
@@ -4644,9 +4802,10 @@
       "category": "Technical / other",
       "tier": "Low priority",
       "impact": "Usually low",
-      "summary": "Purpose unknown — streaming-state reset after a no-state condition in Gboard.",
-      "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "summary": "Purpose unknown — resets an internal stream after a no-state condition; the affected stream isn't identified.",
+      "confidence": "Unknown",
+      "kind": "Candidate flag",
+      "researchStatus": "Unknown"
     },
     {
       "name": "force_speech_language_pack_updates",
@@ -5170,9 +5329,16 @@
       "category": "Toolbar & editing",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown — stored preference for Gboard editing access-point configuration.",
-      "confidence": "Name-derived",
-      "kind": "Stored preference"
+      "summary": "A prefix for GboardWu preferences that enable individual editing-toolbar actions, such as Copy, Cut and Paste; not a standalone switch.",
+      "confidence": "Code-referenced",
+      "kind": "Stored preference",
+      "references": [
+        {
+          "label": "GboardWu editing action preference keys",
+          "url": "https://github.com/jasonwu1994/Gboard-patches/blob/main/extensions/extension/src/main/java/dev/jason/gboardpatches/extension/editingaccesspoints/GboardEditingAccessPointsSettings.java"
+        }
+      ],
+      "researchStatus": "Clarified"
     },
     {
       "name": "pref_editing_access_points_enabled",
@@ -5516,9 +5682,10 @@
       "category": "Technical / other",
       "tier": "Low priority",
       "impact": "Usually low",
-      "summary": "Purpose unknown — conv2query text-processing preference.",
+      "summary": "Stores a setting for transforming conversation context into search queries within Gboard's processing tools.",
       "confidence": "Name-derived",
-      "kind": "Stored preference"
+      "kind": "Stored preference",
+      "researchStatus": "Clarified"
     },
     {
       "name": "pref_key_enable_inline_suggestion",
@@ -5586,9 +5753,10 @@
       "category": "Predictions & corrections",
       "tier": "Low priority",
       "impact": "Usually low",
-      "summary": "Purpose unknown — HMM superpack synchronization state stored in a preference.",
+      "summary": "Records whether the HMM model pack has synchronized; this is an internal state marker, not a feature toggle.",
       "confidence": "Name-derived",
-      "kind": "Stored preference"
+      "kind": "Stored preference",
+      "researchStatus": "Clarified"
     },
     {
       "name": "pref_key_inline_suggestion_experiment_version",
@@ -5646,9 +5814,10 @@
       "category": "Technical / other",
       "tier": "Low priority",
       "impact": "Usually low",
-      "summary": "Purpose unknown — Jetson close-icon preference.",
-      "confidence": "Name-derived",
-      "kind": "Stored preference"
+      "summary": "Purpose unknown — stores a close-icon option for an unidentified Jetson interface.",
+      "confidence": "Unknown",
+      "kind": "Stored preference",
+      "researchStatus": "Unknown"
     },
     {
       "name": "pref_key_language_promo_last_shown_seconds",
@@ -6022,9 +6191,10 @@
       "category": "Predictions & corrections",
       "tier": "Optional",
       "impact": "Model / compute",
-      "summary": "Purpose unknown — language-model preference.",
+      "summary": "A shared prefix for per-language model preferences. Actual entries append a model identifier or option to this prefix.",
       "confidence": "Name-derived",
-      "kind": "Stored preference"
+      "kind": "Stored preference",
+      "researchStatus": "Clarified"
     },
     {
       "name": "pref_language_models_enabled",
@@ -6154,9 +6324,10 @@
       "category": "Internal & low-value",
       "tier": "Low priority",
       "impact": "Usually low",
-      "summary": "Purpose unknown — proofreading acceptance preference.",
+      "summary": "A prefix for stored proofreading acceptance events or preferences; not one complete flag by itself.",
       "confidence": "Name-derived",
-      "kind": "Stored preference"
+      "kind": "Stored preference",
+      "researchStatus": "Clarified"
     },
     {
       "name": "pref_proofread_click_",
@@ -6164,9 +6335,10 @@
       "category": "Internal & low-value",
       "tier": "Low priority",
       "impact": "Usually low",
-      "summary": "Purpose unknown — proofreading click preference.",
+      "summary": "A prefix for stored proofreading click events or preferences; not one complete flag by itself.",
       "confidence": "Name-derived",
-      "kind": "Stored preference"
+      "kind": "Stored preference",
+      "researchStatus": "Clarified"
     },
     {
       "name": "pref_proofread_trigger_",
@@ -6174,9 +6346,10 @@
       "category": "Internal & low-value",
       "tier": "Low priority",
       "impact": "Usually low",
-      "summary": "Purpose unknown — proofreading trigger preference.",
+      "summary": "A prefix for stored proofreading trigger events or preferences; not one complete flag by itself.",
       "confidence": "Name-derived",
-      "kind": "Stored preference"
+      "kind": "Stored preference",
+      "researchStatus": "Clarified"
     },
     {
       "name": "pref_quick_insert_enabled",
@@ -6552,9 +6725,16 @@
       "category": "Themes & layout",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown — top-row swipe slot configuration.",
-      "confidence": "Name-derived",
-      "kind": "Stored preference"
+      "summary": "A prefix for per-slot settings in GboardWu's swipeable top row, including displayed text, inserted text and optional JavaScript actions.",
+      "confidence": "Code-referenced",
+      "kind": "Stored preference",
+      "references": [
+        {
+          "label": "GboardWu swipe-slot preference keys",
+          "url": "https://github.com/jasonwu1994/Gboard-patches/blob/main/extensions/extension/src/main/java/dev/jason/gboardpatches/extension/toprowswipe/GboardTopRowSwipeSettings.java"
+        }
+      ],
+      "researchStatus": "Clarified"
     },
     {
       "name": "pref_top_row_swipe_zhuyin_enabled",
@@ -6914,9 +7094,10 @@
       "category": "Technical / other",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown — VK device-name display.",
+      "summary": "Shows names of virtual-keyboard devices in an internal diagnostic or device-selection view.",
       "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "kind": "Candidate flag",
+      "researchStatus": "Clarified"
     },
     {
       "name": "show_voice_reconversion_suggestion_as_chip",
@@ -6984,9 +7165,10 @@
       "category": "Technical / other",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown — Signboard 4C implementation selection.",
-      "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "summary": "Purpose unknown — selects a '4C' path within Sign-to-Text's camera-based sign-language system; the 4C method is undocumented.",
+      "confidence": "Unknown",
+      "kind": "Candidate flag",
+      "researchStatus": "Unknown"
     },
     {
       "name": "use_ascii_password_keyboard",
@@ -7034,9 +7216,10 @@
       "category": "Technical / other",
       "tier": "Low priority",
       "impact": "Usually low",
-      "summary": "Purpose unknown — conversation-ID handling.",
-      "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "summary": "Purpose unknown — chooses a dominant conversation identifier, but the conflict-resolution method isn't documented.",
+      "confidence": "Unknown",
+      "kind": "Candidate flag",
+      "researchStatus": "Unknown"
     },
     {
       "name": "use_google_servers_toast_tag",
@@ -7044,9 +7227,10 @@
       "category": "Technical / other",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown — Google-server toast tag.",
+      "summary": "Assigns a notification tag to short messages related to Google-server processing; an internal UI detail.",
       "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "kind": "Candidate flag",
+      "researchStatus": "Clarified"
     },
     {
       "name": "use_highlight_text_color_for_diff",
@@ -7124,9 +7308,16 @@
       "category": "Technical / other",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown — MDD and Superpack integration.",
-      "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "summary": "Downloads and manages Gboard Superpack language/model resources through Google's Mobile Data Download system.",
+      "confidence": "Code-referenced",
+      "kind": "Candidate flag",
+      "references": [
+        {
+          "label": "GboardWu model download documentation",
+          "url": "https://github.com/jasonwu1994/Gboard-patches/blob/main/README.md"
+        }
+      ],
+      "researchStatus": "Clarified"
     },
     {
       "name": "use_non_breaking_emoticon",
@@ -7184,9 +7375,16 @@
       "category": "Technical / other",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown — stale name-resolution handling.",
-      "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "summary": "Lets the networking library reuse a cached DNS result when a fresh lookup fails with 'name not resolved.'",
+      "confidence": "Code-referenced",
+      "kind": "Candidate flag",
+      "references": [
+        {
+          "label": "Chromium stale DNS resolver",
+          "url": "https://github.com/klzgrad/naiveproxy/blob/master/src/net/dns/stale_host_resolver.cc"
+        }
+      ],
+      "researchStatus": "Clarified"
     },
     {
       "name": "use_system_font",
@@ -7214,9 +7412,10 @@
       "category": "Technical / other",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown — lost end-pointing input tracking.",
+      "summary": "Tracks instances when dictation loses end-of-speech detection, helping diagnose when recording should stop.",
       "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "kind": "Candidate flag",
+      "researchStatus": "Clarified"
     },
     {
       "name": "use_transformer_model",
@@ -7254,11 +7453,19 @@
       "category": "AI & writing tools",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown — writing-tools prompt toast tag.",
+      "summary": "Assigns a consistent notification tag to temporary messages shown by the Writing Tools prompt interface.",
       "confidence": "Name-derived",
-      "kind": "Candidate flag"
+      "kind": "Candidate flag",
+      "researchStatus": "Clarified"
     }
   ],
-  "editorialVersion": "draft-2026-11-13",
-  "researchNotes": "Compared public GboardWu feature/runtime sources, independent mod flag mappings, and Google Rambler documentation. A source mapping identifies how a flag is used, not a guaranteed runtime result."
+  "editorialVersion": "unknown-research-2026-11-13",
+  "researchNotes": "Compared public GboardWu feature/runtime sources, independent mod flag mappings, and Google Rambler documentation. A source mapping identifies how a flag is used, not a guaranteed runtime result.",
+  "unknownResearch": {
+    "initial": 92,
+    "clarified": 58,
+    "unresolved": 34,
+    "sourced": 16,
+    "scope": "Phase 1 only. 92 earlier unknown entries reviewed using exact public-code searches, Gboard patch source, developer reports, Android/Chromium source, and APK teardowns. Name-derived explanations remain interpretations, not runtime verification."
+  }
 }
