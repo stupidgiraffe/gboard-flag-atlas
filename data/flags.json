@@ -1993,7 +1993,7 @@
       "category": "Emoji & expression",
       "tier": "Optional",
       "impact": "Model / compute",
-      "summary": "If Emoji Kitchen's built-in AI search fails, Gboard tries another way to find matching sticker combinations.",
+      "summary": "If Emoji Kitchen’s Gemma-powered search engine encounters an error, Gboard switches to a backup search method for matching stickers.",
       "confidence": "Name-derived",
       "kind": "Candidate flag"
     },
@@ -2013,7 +2013,7 @@
       "category": "Emoji & expression",
       "tier": "Optional",
       "impact": "Model / compute",
-      "summary": "When built-in AI search for emoji fails, Gboard can use a server-provided fallback.",
+      "summary": "If Gemma-powered emoji search fails, Gboard can request fallback search results from a server.",
       "confidence": "Name-derived",
       "kind": "Candidate flag"
     },
@@ -2693,7 +2693,7 @@
       "category": "Technical / other",
       "tier": "Explore",
       "impact": "Usually low",
-      "summary": "Removes obsolete metadata used for model downloads; this does not mean downloaded language or prediction files are deleted.",
+      "summary": "Clears obsolete metadata from Google’s Mobile Data Download (MDD) system, which manages downloaded keyboard resources; it doesn’t delete the models themselves.",
       "confidence": "Interpreted",
       "kind": "Candidate flag"
     },
@@ -2983,7 +2983,7 @@
       "category": "Predictions & corrections",
       "tier": "Explore",
       "impact": "Model / compute",
-      "summary": "Uses a lightweight on-device model to predict the next words you might type.",
+      "summary": "Uses TensorFlow Lite, a lightweight on-device machine-learning engine, to predict words you might type next.",
       "confidence": "Interpreted",
       "kind": "Candidate flag",
       "references": [
@@ -3352,7 +3352,7 @@
       "category": "Emoji & expression",
       "tier": "Explore",
       "impact": "Model / compute",
-      "summary": "Emoji's built-in AI search model loads ahead of use to reduce initial latency, at potential CPU and memory cost.",
+      "summary": "Preloads the Gemma model used by Emoji Kitchen search, so the model is ready before you start searching.",
       "confidence": "Interpreted",
       "kind": "Candidate flag"
     },
@@ -4204,7 +4204,7 @@
       "category": "Predictions & corrections",
       "tier": "Explore",
       "impact": "Model / compute",
-      "summary": "Uses a machine-learning model to interpret smart-key or touch input in Gboard.",
+      "summary": "Uses a TensorFlow Lite model to process key-touch input for Gboard’s Smartkeys feature.",
       "confidence": "Interpreted",
       "kind": "Candidate flag"
     },
@@ -4214,7 +4214,7 @@
       "category": "Predictions & corrections",
       "tier": "Optional",
       "impact": "Model / compute",
-      "summary": "Uses a machine-learning model to decide when Gboard should consider a follow-up prediction action.",
+      "summary": "Uses a TensorFlow Lite model to decide when Gboard should trigger certain prediction-related actions.",
       "confidence": "Name-derived",
       "kind": "Candidate flag"
     },
@@ -4224,7 +4224,7 @@
       "category": "Predictions & corrections",
       "tier": "Optional",
       "impact": "Model / compute",
-      "summary": "Applies Gboard's trigger model across all keys, rather than restricting it to a smaller set.",
+      "summary": "Runs the TensorFlow Lite triggering model on all keys, rather than only selected keys.",
       "confidence": "Name-derived",
       "kind": "Candidate flag"
     },
@@ -4234,7 +4234,7 @@
       "category": "Predictions & corrections",
       "tier": "Optional",
       "impact": "Model / compute",
-      "summary": "Applies Gboard's trigger model to function keys, such as controls rather than ordinary letter keys.",
+      "summary": "Runs the TensorFlow Lite triggering model for function or control keys, instead of regular letter keys.",
       "confidence": "Name-derived",
       "kind": "Candidate flag"
     },
@@ -4244,7 +4244,7 @@
       "category": "Predictions & corrections",
       "tier": "Optional",
       "impact": "Model / compute",
-      "summary": "Applies Gboard's trigger model to Latin-script keys, rather than keys for other writing systems.",
+      "summary": "Runs the TensorFlow Lite triggering model on Latin-script keys, rather than other writing systems.",
       "confidence": "Name-derived",
       "kind": "Candidate flag"
     },
@@ -5737,7 +5737,7 @@
       "category": "Predictions & corrections",
       "tier": "Low priority",
       "impact": "Usually low",
-      "summary": "Records whether Gboard's hidden Markov model superpack has synchronized; this tracks pack synchronization, not whether prediction is enabled.",
+      "summary": "Records whether Gboard’s hidden Markov model (HMM) language pack has finished syncing; this is a status marker, not a feature toggle.",
       "confidence": "Name-derived",
       "kind": "Stored preference",
       "researchStatus": "Clarified"
@@ -6992,7 +6992,7 @@
       "category": "Emoji & expression",
       "tier": "Optional",
       "impact": "Model / compute",
-      "summary": "Displays an error status when Emoji search using built-in AI reports a failure.",
+      "summary": "Shows an error indicator when the Gemma-powered emoji search engine fails.",
       "confidence": "Name-derived",
       "kind": "Candidate flag"
     },
@@ -7099,7 +7099,7 @@
       "category": "AI & writing tools",
       "tier": "Low priority",
       "impact": "Model / compute",
-      "summary": "Lists languages eligible for the embedding model used with Android's on-device AI service; it does not indicate that model files are installed.",
+      "summary": "Lists languages eligible for Gemma text embeddings through Android AI Core; listing a language doesn’t install the necessary model.",
       "confidence": "Name-derived",
       "kind": "Parameter"
     },
@@ -7119,7 +7119,7 @@
       "category": "Emoji & expression",
       "tier": "Low priority",
       "impact": "Model / compute",
-      "summary": "Lists languages eligible for Emoji search using built-in AI; inclusion does not itself enable support or indicate that model files are installed.",
+      "summary": "Lists languages eligible for Gemma-powered emoji search; being listed doesn’t guarantee the feature is available on the device.",
       "confidence": "Name-derived",
       "kind": "Parameter"
     },
@@ -7437,7 +7437,7 @@
       "researchStatus": "Clarified"
     }
   ],
-  "editorialVersion": "plain-language-audit-2026-11-13",
+  "editorialVersion": "technical-precision-pass-2026-11-13",
   "researchNotes": "Compared public GboardWu feature/runtime sources, independent mod flag mappings, and Google Rambler documentation. A source mapping identifies how a flag is used, not a guaranteed runtime result.",
   "unknownResearch": {
     "initial": 92,
@@ -7447,5 +7447,5 @@
     "scope": "Phase 1 only. 92 earlier unknown entries reviewed using exact public-code searches, Gboard patch source, developer reports, Android/Chromium source, and APK teardowns. Name-derived explanations remain interpretations, not runtime verification.",
     "referencesCorrected": true
   },
-  "editorialNotes": "Phase 2: every non-unknown description rewritten for clarity, independently critiqued and reviewed again for jargon, precision and source fidelity. Previous 34 research-status Unknown descriptions preserved. Site-wide accuracy caveat unchanged; explanations remain interpretations unless individually sourced."
+  "editorialNotes": "Editorial standard: retain specific technical names (Gemma, TensorFlow Lite, MDD, HMM, etc.), briefly explain their purpose in context, and don't invent unverified implementation details. Plain English must not erase meaningful identifiers. 34 genuinely unresolved flags remain unchanged."
 }
