@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import Fuse from '../fuse.min.mjs';
-import {createFlagSearch} from '../flag-search.mjs';
-const data=JSON.parse(fs.readFileSync(new URL('../flags.json', import.meta.url),'utf8'));
+import Fuse from '../assets/vendor/fuse.min.mjs';
+import {createFlagSearch} from '../assets/flag-search.mjs';
+const data=JSON.parse(fs.readFileSync(new URL('../data/flags.json', import.meta.url),'utf8'));
 const find=createFlagSearch(data.entries,Fuse);
 const names=(q)=>find(q).map(e=>e.name);
 assert.equal(data.entries.length,691);
