@@ -6,15 +6,15 @@
   "disclaimer": "Descriptions are research-informed interpretations of APK-derived identifiers, not proof that an entry is editable or works on every build. Unresolved purposes are marked unknown.",
   "count": 691,
   "categories": {
-    "Technical / other": 174,
+    "Technical / other": 171,
     "Voice & dictation": 44,
     "Languages & accessibility": 17,
     "Themes & layout": 79,
     "Emoji & expression": 93,
     "Toolbar & editing": 59,
-    "Predictions & corrections": 80,
+    "Predictions & corrections": 82,
     "AI & writing tools": 50,
-    "Privacy & diagnostics": 41,
+    "Privacy & diagnostics": 42,
     "Internal & low-value": 54
   },
   "entries": [
@@ -1867,13 +1867,14 @@
     {
       "name": "enable_export_ufc",
       "title": "Export Ufc",
-      "category": "Technical / other",
+      "category": "Privacy & diagnostics",
       "tier": "Optional",
-      "impact": "Usually low",
-      "summary": "Purpose unknown — exports data from an internal component called UFC.",
-      "confidence": "Unknown",
+      "impact": "Privacy / permissions",
+      "summary": "Allows data to be exported from Gboard’s User Feature Cache (UFC), which holds learned typing-related information. The exported fields and destination are undocumented.",
+      "confidence": "Interpreted",
       "kind": "Candidate flag",
-      "researchStatus": "Unknown"
+      "researchStatus": "Clarified",
+      "researchNote": "Read-only examination of GboardWu 18.5.4 APK found com/google/android/libraries/inputmethod/userfeaturecache/guarder/UfcGuarder, UfcMetricsProcessorModule, UfcUtils, and enable_ufc_for_speed / enable_ufc_for_offset / enable_export_ufc. 'UFC' expansion is supported by the code namespace; exact flag behavior is inferred and not runtime verified."
     },
     {
       "name": "enable_expression_candidates_debug_toast",
@@ -4378,24 +4379,38 @@
     {
       "name": "enable_ufc_for_offset",
       "title": "Ufc For Offset",
-      "category": "Technical / other",
+      "category": "Predictions & corrections",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown — controls offset handling in an unidentified UFC component.",
-      "confidence": "Unknown",
+      "summary": "Uses personalized touch-offset information from Gboard’s User Feature Cache (UFC)—how far taps tend to land from key centers—to help interpret key presses.",
+      "confidence": "Interpreted",
       "kind": "Candidate flag",
-      "researchStatus": "Unknown"
+      "researchStatus": "Clarified",
+      "researchNote": "Read-only examination of GboardWu 18.5.4 APK found com/google/android/libraries/inputmethod/userfeaturecache/guarder/UfcGuarder, UfcMetricsProcessorModule, UfcUtils, and enable_ufc_for_speed / enable_ufc_for_offset / enable_export_ufc. 'UFC' expansion is supported by the code namespace; exact flag behavior is inferred and not runtime verified.",
+      "references": [
+        {
+          "label": "Google Research — personalized touch offsets and typing speed (background, not flag documentation)",
+          "url": "https://research.google/pubs/spatial-model-personalization-in-gboard/"
+        }
+      ]
     },
     {
       "name": "enable_ufc_for_speed",
       "title": "Ufc For Speed",
-      "category": "Technical / other",
+      "category": "Predictions & corrections",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown — controls speed handling in an unidentified UFC component.",
-      "confidence": "Unknown",
+      "summary": "Uses typing-speed information from Gboard’s User Feature Cache (UFC), which retains learned typing characteristics. This is not a general keyboard speed boost.",
+      "confidence": "Interpreted",
       "kind": "Candidate flag",
-      "researchStatus": "Unknown"
+      "researchStatus": "Clarified",
+      "researchNote": "Read-only examination of GboardWu 18.5.4 APK found com/google/android/libraries/inputmethod/userfeaturecache/guarder/UfcGuarder, UfcMetricsProcessorModule, UfcUtils, and enable_ufc_for_speed / enable_ufc_for_offset / enable_export_ufc. 'UFC' expansion is supported by the code namespace; exact flag behavior is inferred and not runtime verified.",
+      "references": [
+        {
+          "label": "Google Research — personalized touch offsets and typing speed (background, not flag documentation)",
+          "url": "https://research.google/pubs/spatial-model-personalization-in-gboard/"
+        }
+      ]
     },
     {
       "name": "enable_unified_feedback_button",
@@ -7474,12 +7489,12 @@
       "researchStatus": "Clarified"
     }
   ],
-  "editorialVersion": "contextual-unknown-audit-2026-11-13",
+  "editorialVersion": "ufc-user-feature-cache-2026-11-13",
   "researchNotes": "Compared public GboardWu feature/runtime sources, independent mod flag mappings, and Google Rambler documentation. A source mapping identifies how a flag is used, not a guaranteed runtime result.",
   "unknownResearch": {
     "initial": 92,
-    "clarified": 71,
-    "unresolved": 21,
+    "clarified": 74,
+    "unresolved": 18,
     "sourced": 16,
     "scope": "Phase 1 only. 92 earlier unknown entries reviewed using exact public-code searches, Gboard patch source, developer reports, Android/Chromium source, and APK teardowns. Name-derived explanations remain interpretations, not runtime verification.",
     "referencesCorrected": true,
@@ -7487,6 +7502,11 @@
       "date": "2026-11-13",
       "reclassified": 13,
       "method": "Used Google-authored Gboard research for AC/KC/PC acronyms, official Crowdsource documentation, and limited high-confidence context-based interpretations. The code-level effects of individual undocumented flags are not independently verified."
+    },
+    "thirdPass": {
+      "date": "2026-11-13",
+      "clarified": 3,
+      "method": "Read-only inspection of GboardWu 18.5.4 APK identifies userfeaturecache namespace and UFC modules; Google Research contextualizes personalized touch-offset and typing-speed features; exact flag behavior remains an interpretation, not a measured effect."
     }
   },
   "editorialNotes": "Editorial standard: retain specific technical names (Gemma, TensorFlow Lite, MDD, HMM, etc.), briefly explain their purpose in context, and don't invent unverified implementation details. Plain English must not erase meaningful identifiers. 34 genuinely unresolved flags remain unchanged."
