@@ -64,7 +64,7 @@ import Fuse from "./assets/vendor/fuse.min.mjs";
 import {createFlagSearch} from "./assets/flag-search.mjs";
 (function(){
 'use strict';
-var all=[],visible=[],page=0,perPage=36,cat='All topics',savedOnly=false,searchEngine=null;
+var all=[],visible=[],renderedCount=0,loadToken=0,perPage=36,cat='All topics',savedOnly=false,searchEngine=null;
 var colors=['#dbf4e0','#ecf0fa','#fff1dd','#def1ed'];
 var search=document.getElementById('search'),tier=document.getElementById('tier'),impact=document.getElementById('impact'),sort=document.getElementById('sort');
 var categories=document.getElementById('categories'),cards=document.getElementById('cards'),more=document.getElementById('more'),status=document.getElementById('shown'),scope=document.getElementById('scope');
@@ -96,16 +96,41 @@ function filter(resetPage){
   else if(sort.value==='tier') visible.sort(function(a,b){return priority[a.tier]-priority[b.tier]||a.name.localeCompare(b.name)});
   else if(sort.value==='category') visible.sort(function(a,b){return a.category.localeCompare(b.category)||a.name.localeCompare(b.name)});
   // "Best match" preserves the token-and-field relevance order from searchEngine.
-  if(resetPage)page=0;
   render();status.textContent=visible.length;
   scope.textContent=visible.length===all.length?'of '+all.length+' in the archive':'of '+all.length+' total';
 }
-function render(){var max=Math.min(visible.length,(page+1)*perPage);cards.replaceChildren();if(!visible.length){cards.appendChild(mk('div','empty','No matching flags. Try another term or reset the filters.'))}else{var frag=document.createDocumentFragment();for(var k=0;k<max;k++)frag.appendChild(card(visible[k]));cards.appendChild(frag)}more.hidden=max>=visible.length;more.textContent='Show more ('+(visible.length-max)+' remaining) ↓'}
+function appendCards(end){
+  var frag=document.createDocumentFragment();
+  for(var k=renderedCount;k<end;k++)frag.appendChild(card(visible[k]));
+  cards.appendChild(frag);
+  renderedCount=end;
+}
+function render(){
+  loadToken++; // Cancel any in-progress expansion when search or filters change.
+  renderedCount=0;
+  cards.replaceChildren();
+  if(!visible.length)cards.appendChild(mk('div','empty','No matching flags. Try another term or reset the filters.'));
+  else appendCards(Math.min(visible.length,perPage));
+  more.hidden=renderedCount>=visible.length;
+  more.textContent='Show all '+(visible.length-renderedCount)+' remaining ↓';
+}
+function expandAll(){
+  if(renderedCount>=visible.length)return;
+  var token=++loadToken;
+  more.hidden=true;
+  // Appending in animation frames avoids freezing mobile browsers on long result lists.
+  function appendNext(){
+    if(token!==loadToken)return;
+    appendCards(Math.min(visible.length,renderedCount+24));
+    if(renderedCount<visible.length)requestAnimationFrame(appendNext);
+  }
+  requestAnimationFrame(appendNext);
+}
 search.addEventListener('input',function(){filter(true)});[tier,impact,sort].forEach(function(e){e.addEventListener('change',function(){filter(true)})});
 document.getElementById('savedToggle').addEventListener('click',function(){savedOnly=!savedOnly;this.classList.toggle('on',savedOnly);this.setAttribute('aria-pressed',String(savedOnly));filter(true)});
 document.getElementById('exportSaved').addEventListener('click',function(){if(!saved.size){toast('Save a flag first');return}var lines=['Gboard Flag Atlas — saved flags',''];Array.from(saved).sort().forEach(function(n){lines.push(n)});var blob=new Blob([lines.join('\n')+'\n'],{type:'text/plain'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='gboard-flag-atlas-saved.txt';a.click();setTimeout(function(){URL.revokeObjectURL(url)},1000);toast('Saved flags exported')});
 document.getElementById('reset').addEventListener('click',function(){cat='All topics';search.value='';tier.value='all';impact.value='all';sort.value='relevance';savedOnly=false;document.getElementById('savedToggle').classList.remove('on');categoryList();filter(true)});
-more.addEventListener('click',function(){page++;render()});
+more.addEventListener('click',expandAll);
 document.addEventListener('keydown',function(e){var tag=document.activeElement&&document.activeElement.tagName;if(e.key==='/'&&tag!=='INPUT'&&tag!=='TEXTAREA'){e.preventDefault();search.focus()}if(e.key==='Escape'&&document.activeElement===search){search.value='';filter(true);search.blur()}});
 fetch('data/flags.json',{cache:'default'}).then(function(r){if(!r.ok)throw Error('data unavailable');return r.json()}).then(function(d){all=d.entries||[];searchEngine=createFlagSearch(all,Fuse);document.getElementById('total').textContent=all.length;document.getElementById('unknownTotal').textContent=all.filter(function(x){return x.confidence==='Unknown'}).length;persist();categoryList();filter(true);var deep=new URLSearchParams(location.search).get('flag');if(deep){search.value=deep;filter(true);document.getElementById('directory').scrollIntoView({block:'start'})}}).catch(function(){cards.appendChild(mk('div','empty','Could not load the atlas data. Refresh this page or read the source on GitHub.'));toast('Data failed to load')});
 })();
