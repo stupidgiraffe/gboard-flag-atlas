@@ -129,3 +129,19 @@ Maintaining a clear, accurate catalog of fast-moving experiments takes ongoing r
 ### Search regression tests
 
 Run `node tests/search.test.mjs` to verify short acronyms, exact flag ranking, typo tolerance and empty results. The vendored Fuse.js 7.5.0 distribution is Apache-2.0 licensed (license included in `assets/vendor/`).
+
+
+## Analytics and search discovery
+
+Cloudflare Web Analytics measures privacy-friendly site traffic via the public Cloudflare beacon on the Atlas homepage and flag/topic pages. Traffic is visible under **Cloudflare Dashboard → Web Analytics → gboard-flag-atlas.shipstatic.com**; there is no login, cookie, or local database on this site.
+
+To keep the catalog useful rather than generate hundreds of thin SEO pages, only **158 specifically interpreted or source-linked flag entries** have individual indexable HTML pages under `/flags/<identifier>/`. The remaining 533 name-only or unresolved identifiers remain available in the full Atlas and can be shared via `/?flag=<identifier>`. Ten topic hubs under `/topics/` provide crawlable internal links, alongside `sitemap.xml` and `robots.txt`. A sitemap aids discovery but does not guarantee ranking or indexing.
+
+Static pages, topic hubs, the homepage assets and the sitemap are reproducibly generated from `data/flags.json` by:
+
+```sh
+node scripts/build-site.mjs
+node tests/site-build.test.mjs
+```
+
+The generator writes a complete ShipStatic-ready `dist/` directory. After changing any flag description, rebuild and include the new generated pages in a deployment. Analytics is domain-scoped to the production ShipStatic hostname; a new custom domain would require updating the Cloudflare Web Analytics registration and beacon.
