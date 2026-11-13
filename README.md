@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="docs/banner.svg" alt="Gboard Flag Atlas — Every switch has a story." width="100%">
+<img src="docs/banner.svg" alt="Gboard Flag Atlas — searchable developer flag reference" width="100%">
 
 <br>
 
@@ -77,7 +77,9 @@ We want documentation supported by source code, logs, UI behavior, experimental 
 ## Data and architecture
 
 ```text
-index.html                 Beautiful standalone static interface
+index.html                 Responsive static search interface
+assets/flag-search.mjs     Exact-token, synonym and relevance ranking
+assets/vendor/              Locally hosted Fuse.js 7.5.0 and license
 data/
   flags.json               Browseable annotations + confidence/risk metadata
   flag-identifiers.json    Raw anonymized candidate identifiers from APK strings
@@ -89,7 +91,7 @@ docs/
 .github/FUNDING.yml        GitHub sponsorship link
 ```
 
-No React build pipeline, cookies, server API, database or user account is required. Favorites are stored locally in the browser using `localStorage` and can be exported as plain text. ShipStatic hosts the public site; GitHub is the source of truth.
+No React build pipeline, cookies, server API, database or user account is required. Search uses locally hosted Fuse.js 7.5.0 (Apache-2.0) for typo tolerance plus exact-token/acronym ranking, and is disabled for misleading two-letter fuzzy matches. Favorites are stored locally in the browser using `localStorage` and can be exported as plain text. ShipStatic hosts the public site; GitHub is the source of truth.
 
 Future version snapshots and community-tested defaults can be added without changing the front-end architecture.
 
@@ -123,3 +125,7 @@ Maintaining a clear, accurate catalog of fast-moving experiments takes ongoing r
 <sub>Made for curious keyboard tinkerers. Contribute what you can verify. Leave the guesswork labeled.</sub><br>
 <sub>Site source: MIT · Original catalog annotations: CC BY 4.0 · © 2026 stupidgiraffe</sub>
 </div>
+
+### Search regression tests
+
+Run `node tests/search.test.mjs` to verify short acronyms, exact flag ranking, typo tolerance and empty results. The vendored Fuse.js 7.5.0 distribution is Apache-2.0 licensed (license included in `assets/vendor/`).
