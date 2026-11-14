@@ -1,0 +1,948 @@
+[
+  {
+    "slug": "gboard-developer-flags-explained",
+    "title": "Gboard Developer Flags Explained: What Is Actually Hidden?",
+    "description": "Understand Gboard's internal experiment flags, which identifiers are real switches, and why turning one on often changes nothing.",
+    "audience": "Curious Gboard power users",
+    "takeaway": "A string recovered from an APK is evidence that an identifier exists, not proof that you can toggle a working feature.",
+    "sections": [
+      [
+        "What counts as a flag",
+        "Gboard contains experiment gates, stored preferences, numeric thresholds, model selectors, diagnostics and version-specific settings. The Atlas catalogs identifiers found in a GboardWu 18.5.4 snapshot; it does not claim every string is a user-editable boolean. An apparently descriptive name can still point to a dormant experiment, an internal counter, or a parameter whose useful values are undocumented."
+      ],
+      [
+        "Read the identifier and the evidence separately",
+        "Start with the exact identifier, then compare its confidence label and notes. Name-derived means we can parse the words but have not traced the behavior. Interpreted means the context is stronger. Code-referenced means implementation evidence exists; it is still not a promise that Google has enabled the feature for your account, language or device."
+      ],
+      [
+        "A safe way to explore",
+        "Prefer ordinary Gboard settings first. On a compatible patched build, record the current flag value and Gboard version, change one parameter at a time, and reproduce the specific behavior in the same app and language. Undo changes that cause startup problems or unreliable input. Treat root-only tools as inspection instruments, not as evidence that the option is effective."
+      ]
+    ],
+    "flags": [
+      "enable_ac_threshold",
+      "enable_writing_tools_v2",
+      "disable_load_v2_klp",
+      "enable_user_feature_cache"
+    ],
+    "questions": [
+      [
+        "Are these official user-facing settings?",
+        "Usually not. The Atlas includes internal identifiers and experimental configuration, not a Google-approved list of user options."
+      ],
+      [
+        "Does finding a flag mean it works?",
+        "No. Feature eligibility, server configuration and compiled code paths can all limit what happens."
+      ]
+    ],
+    "sources": [
+      [
+        "Gboard Patches — Developer options and Flag Editor",
+        "https://github.com/jasonwu1994/Gboard-patches"
+      ],
+      [
+        "Google Gboard troubleshooting",
+        "https://support.google.com/gboard/answer/9058584?hl=en"
+      ]
+    ]
+  },
+  {
+    "slug": "use-gboardwu-flag-editor",
+    "title": "How to Use the GboardWu Flag Editor Without Guesswork",
+    "description": "A practical workflow for looking up GboardWu flags, comparing types and defaults, recording changes, and reversing experiments.",
+    "audience": "People using a compatible GboardWu patched build",
+    "takeaway": "Search the exact name, inspect the actual editable type, and keep a before/after record before touching an experiment.",
+    "sections": [
+      [
+        "Find the right editor",
+        "In a supported GboardWu patch build, look for Patches → More settings → Developer options → Flag Editor. The exact menus may vary by patch version. A normal stock Gboard installation does not expose this workflow. The Atlas is a reference: clicking Copy name copies an identifier; it does not silently change your keyboard."
+      ],
+      [
+        "Don't assume every value is Boolean",
+        "Some entries are numeric limits, model names or stored strings rather than switches. Confirm the type and current value displayed in the editor before editing. If a supposed flag is missing, there may be a build mismatch, a removed implementation or a name that was collected from code but not exposed to the editor."
+      ],
+      [
+        "Test and roll back deliberately",
+        "Record the version, exact flag name and original value, then perform one change. Some settings require restarting the keyboard to reload its configuration; others require a resource or server-side entitlement that a restart cannot provide. The patch project documents backup/restore of settings and flag-store files, but restore support depends on your installed patch."
+      ]
+    ],
+    "flags": [
+      "enable_key_border",
+      "enable_grammar_checker",
+      "enable_quick_settings",
+      "enable_ondevice_voice"
+    ],
+    "questions": [
+      [
+        "Does the Atlas toggle flags?",
+        "No. It is a static, searchable index. Changes happen inside whatever compatible editor you choose."
+      ],
+      [
+        "Should I enable every attractive feature?",
+        "No. Test isolated, reversible changes only when you can observe a specific result."
+      ]
+    ],
+    "sources": [
+      [
+        "Gboard Patches project and feature list",
+        "https://github.com/jasonwu1994/Gboard-patches"
+      ],
+      [
+        "Gboard Patches changelog",
+        "https://github.com/jasonwu1994/Gboard-patches/blob/main/CHANGELOG.md"
+      ]
+    ]
+  },
+  {
+    "slug": "how-to-verify-gboard-flag",
+    "title": "How to Verify Whether a Gboard Flag Really Works",
+    "description": "Design a controlled before-and-after test for experimental Gboard features without mistaking visibility for functionality.",
+    "audience": "Modders documenting reproducible effects",
+    "takeaway": "A good finding pairs the exact APK/build, actual observed behavior, and a repeatable test that isolates one variable.",
+    "sections": [
+      [
+        "Make the claim testable",
+        "Replace broad statements like 'makes typing faster' with an observable prediction: for example, a particular UI control appears, or a named suggestion chip becomes available in a defined text field. Write down keyboard version, language, Android version, relevant model downloads, app under test and whether a restart occurred."
+      ],
+      [
+        "Separate code evidence from runtime evidence",
+        "Finding a string in DEX proves presence. Identifying an option declaration can reveal its declared default and type. Finding a call site tells us how a value is consumed. None of those alone prove the current effective Phenotype or server-provided value or that a feature changes under normal conditions."
+      ],
+      [
+        "Compare outcomes and document failures",
+        "Use the same typing phrase or interaction in both conditions, with one switch changed. Try more than once, include a negative result, and restore the original value. A feature may be gated by locale, account cohort, model availability or patch implementation. Submit the outcome with caveats instead of promoting one lucky observation into a universal claim."
+      ]
+    ],
+    "flags": [
+      "enable_ac_threshold",
+      "enable_ufc_for_offset",
+      "enable_emoji_kitchen_browse_entry_point_v2",
+      "disable_load_v2_klp"
+    ],
+    "questions": [
+      [
+        "Is decompiling enough for Verified status?",
+        "Not for an end-user effect. It can validate a configuration path and type but not a measured on-device outcome."
+      ],
+      [
+        "Can an A/B test override my choice?",
+        "Depending on the flag, server-managed values or eligibility may affect what the user sees."
+      ]
+    ],
+    "sources": [
+      [
+        "Gboard Patches source repository",
+        "https://github.com/jasonwu1994/Gboard-patches"
+      ],
+      [
+        "Google research on personalized keyboard models",
+        "https://research.google/pubs/spatial-model-personalization-in-gboard/"
+      ]
+    ]
+  },
+  {
+    "slug": "gboard-flags-not-working",
+    "title": "Why Gboard Flags Don't Work After You Enable Them",
+    "description": "Diagnose missing controls, unchanged behavior, inactive model flags and unsupported language experiments in patched Gboard.",
+    "audience": "Users troubleshooting apparently ineffective toggles",
+    "takeaway": "A flag can exist in the APK yet do nothing because its consumer, model, locale or rollout condition is absent.",
+    "sections": [
+      [
+        "Check what you actually changed",
+        "Confirm the exact identifier, type and value; many flags differ by one prefix. For example, disable_load_v2_klp disables an internal V2 option when true. A title that drops 'disable' can reverse the meaning. Compare the record with the installed APK build rather than assuming screenshots from another release match yours."
+      ],
+      [
+        "Identify the missing dependency",
+        "An AI or speech flag may gate only the UI entry point while models, AICore, downloads, language eligibility and server-side feature access are evaluated elsewhere. Likewise, visual changes can depend on Android window mode, theme preferences or app-specific text fields. A toggle is not a substitute for code and data supporting the feature."
+      ],
+      [
+        "Use conventional troubleshooting before more flags",
+        "If Gboard lags, fails to appear or misbehaves, try Google's documented settings and cache troubleshooting before random flag changes. Clearing app storage resets settings and learned state, so record anything important first. Revert the experimental edit when the behavior is worse, instead of stacking ten more guesses."
+      ]
+    ],
+    "flags": [
+      "disable_load_v2_klp",
+      "enable_ai_core_llm",
+      "enable_split_keyboard_on_tablet_large",
+      "enable_grammar_checker"
+    ],
+    "questions": [
+      [
+        "Does restarting always apply a flag?",
+        "No. It can reload local configuration, but cannot create missing server eligibility or bundled code."
+      ],
+      [
+        "Is an absent editor entry an error?",
+        "Not necessarily. Some Atlas entries were collected from APK strings, not from a live editor enumeration."
+      ]
+    ],
+    "sources": [
+      [
+        "Fix problems with Gboard",
+        "https://support.google.com/gboard/answer/9058584?hl=en"
+      ],
+      [
+        "Gboard Patches README",
+        "https://github.com/jasonwu1994/Gboard-patches"
+      ]
+    ]
+  },
+  {
+    "slug": "gboard-autocorrect-flags",
+    "title": "Gboard Autocorrect Flags: Thresholds, Reverts and Corrections",
+    "description": "Understand Gboard autocorrection experiments, confidence thresholds and why a correction can appear aggressive or hesitant.",
+    "audience": "People debugging autocorrection quality",
+    "takeaway": "Autocorrection is a decision about whether to replace text; key correction and next-word prediction are related but different mechanisms.",
+    "sections": [
+      [
+        "What the AC threshold represents",
+        "In Gboard's research vocabulary, AC denotes auto correction. An identifier like enable_ac_threshold suggests a threshold-based correction decision. It does not reveal a public numeric threshold or guarantee that turning it on increases accuracy. Consider confidence thresholds as one ingredient in a decoder and suggestion pipeline, not an independent 'accuracy boost'."
+      ],
+      [
+        "Distinguish replacement from prediction",
+        "Autocorrection changes or proposes a replacement for text already typed, while next-word prediction offers what might come after it. Related flags can control revert behavior, bias from earlier corrections and UI presentation. These paths may interact, making before-and-after testing harder than judging one screenshot."
+      ],
+      [
+        "Get useful evidence",
+        "Test an intentionally misspelled phrase, a proper noun and a normal sentence on the same language layout. Record whether the inserted text is replaced automatically, which correction is suggested, and whether accepting or undoing one correction affects subsequent predictions. If you want less aggressive correction, prefer the normal Text correction settings first."
+      ]
+    ],
+    "flags": [
+      "enable_ac_threshold",
+      "enable_biasing_for_past_corrections",
+      "pref_key_latin_enable_ac_revert",
+      "enable_post_correction_trigger_predictor"
+    ],
+    "questions": [
+      [
+        "Is enable_ac_threshold safe to force?",
+        "Its meaning is interpreted, not fully runtime-verified; forcing it can alter suggestions or have no visible effect."
+      ],
+      [
+        "Are AC and KC synonyms?",
+        "No. AC refers to auto correction and KC to key correction in Google-authored research terminology."
+      ]
+    ],
+    "sources": [
+      [
+        "Google Gboard personalization research",
+        "https://research.google/pubs/spatial-model-personalization-in-gboard/"
+      ],
+      [
+        "Gboard correction settings and troubleshooting",
+        "https://support.google.com/gboard/answer/9058584?hl=en"
+      ]
+    ]
+  },
+  {
+    "slug": "gboard-touch-accuracy-key-correction",
+    "title": "Gboard Key Correction and Touch Accuracy: What the Flags Mean",
+    "description": "Explore Gboard key-correction thresholds, personalized touch offsets and the research behind mistap handling.",
+    "audience": "Users studying wrong-key predictions or touch accuracy",
+    "takeaway": "Typing accuracy depends on how the decoder interprets touch positions, not merely the visual size of the keyboard.",
+    "sections": [
+      [
+        "Where KC differs from AC",
+        "Key correction (KC) is related to interpreting taps and neighboring-key errors before or alongside word decoding. Autocorrection (AC) instead concerns word replacements. An enable_kc_threshold flag points to a possible control in this process, but its numeric semantics and effects aren't independently measured by the Atlas."
+      ],
+      [
+        "What research can actually establish",
+        "Google's published spatial-model personalization work describes adapting virtual-key centers and learned touch behavior. It found measurable but modest improvements in speed and decoder accuracy across real typing. That paper supports the overall concept, not the exact effect of any particular enable_ufc_for_offset toggle extracted from a later APK."
+      ],
+      [
+        "Test the right failure mode",
+        "If you hit an adjacent letter by accident, compare words corrected from the same mistap patterns. Keep layout size and typing posture constant. Changing keyboard height while testing a key-correction flag creates a confound; it changes where your fingers land. Prefer repeated phrases and save the original configuration."
+      ]
+    ],
+    "flags": [
+      "enable_kc_threshold",
+      "enable_ufc_for_offset",
+      "enable_load_key_correction_model_from_klp",
+      "enable_tflite_smartkeys_model"
+    ],
+    "questions": [
+      [
+        "Does offset refer to spacing between keys?",
+        "In this context, the plausible meaning is learned touch displacement relative to key centers, not a promise of physical key movement."
+      ],
+      [
+        "Can a flag fix a broken touchscreen?",
+        "No. Input hardware, scaling, autocorrection and learned touch models are different layers."
+      ]
+    ],
+    "sources": [
+      [
+        "Spatial model personalization in Gboard",
+        "https://research.google/pubs/spatial-model-personalization-in-gboard/"
+      ],
+      [
+        "Gboard help — fix typing problems",
+        "https://support.google.com/gboard/answer/9058584?hl=en"
+      ]
+    ]
+  },
+  {
+    "slug": "gboard-next-word-prediction",
+    "title": "Gboard Next-Word Prediction and Smart Suggestions Flags",
+    "description": "A practical guide to next-word prediction, multiword suggestions, user-history signals and inline suggestion experiments.",
+    "audience": "Users comparing Gboard prediction behavior",
+    "takeaway": "NWP and inline suggestions are different stages of suggesting text, and neither should be confused with autocorrection.",
+    "sections": [
+      [
+        "Prediction is not a single feature",
+        "Gboard may surface next-word predictions, multiword completions, inline suggestions or context-dependent chips. Their signals can include the typed prefix, language, earlier context and on-device history. Flags such as enable_nwp_tflite_engine refer to implementation choices, not a universal option that increases intelligence."
+      ],
+      [
+        "Look at the presentation layer too",
+        "enable_inline_suggestions_on_decoder_side and enable_inline_suggestions_on_client_side imply separate processing points. If a result appears in one text field and not another, the receiving application may matter. Treat a UI hint as different evidence from changes in model quality or speed."
+      ],
+      [
+        "Compare useful examples",
+        "Type a familiar three-word prefix, repeat it in multiple apps and record whether suggestions appear, how many words they span and whether tapping them inserts exactly the expected text. Repeat after any change using the same locale, model state and connectivity. Resist the temptation to change both a model flag and a suggestion-strip flag together."
+      ]
+    ],
+    "flags": [
+      "enable_nwp_tflite_engine",
+      "enable_multiword_suggestions_from_user_history",
+      "enable_inline_suggestions_on_client_side",
+      "enable_inline_suggestions_on_decoder_side"
+    ],
+    "questions": [
+      [
+        "Why do suggestions vary between apps?",
+        "Different text-field capabilities and app integration can influence the UI, even when the same keyboard is active."
+      ],
+      [
+        "Is NWP the same as autocorrect?",
+        "No. Next-word prediction offers future text; autocorrection revises or replaces what you typed."
+      ]
+    ],
+    "sources": [
+      [
+        "Gboard Patches feature list",
+        "https://github.com/jasonwu1994/Gboard-patches"
+      ],
+      [
+        "Fix problems with Gboard",
+        "https://support.google.com/gboard/answer/9058584?hl=en"
+      ]
+    ]
+  },
+  {
+    "slug": "gboard-user-feature-cache-ufc",
+    "title": "Gboard UFC Flags: User Feature Cache, Touch Offsets and Speed",
+    "description": "Read the APK evidence identifying UFC as User Feature Cache, and distinguish cached typing information from a supposed speed boost.",
+    "audience": "Researchers decoding UFC Gboard flags",
+    "takeaway": "UFC maps to User Feature Cache in the inspected GboardWu APK; the speed flag is not a general performance accelerator.",
+    "sections": [
+      [
+        "What the APK actually calls UFC",
+        "Read-only analysis of GboardWu 18.5.4 identified package paths including com/google/android/libraries/inputmethod/userfeaturecache/guarder/UfcGuarder and UfcMetricsProcessorModule. These class names strongly support User Feature Cache as the expansion. They do not disclose every stored field or the persistence and export policy."
+      ],
+      [
+        "Interpret the three visible controls",
+        "enable_ufc_for_offset plausibly allows the decoder to use learned touch offsets. enable_ufc_for_speed plausibly uses a learned typing-speed signal rather than increasing processor speed. enable_export_ufc suggests an export path, but its destination and field contents are unverified. These are interpretations grounded in code context; individual runtime call-site outcomes have not been proven."
+      ],
+      [
+        "What not to infer",
+        "A paper on personalized keyboard geometry describes offset learning and measured decoder improvements, but it is not evidence that flipping the UFC switches yields those gains. An export toggle deserves caution because cached typing-related statistics can be sensitive. Avoid enabling diagnostics or dumping personal data simply to answer a curiosity."
+      ]
+    ],
+    "flags": [
+      "enable_ufc_for_offset",
+      "enable_ufc_for_speed",
+      "enable_export_ufc",
+      "enable_user_feature_cache"
+    ],
+    "questions": [
+      [
+        "Does UFC make Gboard faster?",
+        "It may provide typing-speed information; the examined flag does not establish a performance boost."
+      ],
+      [
+        "What is in the UFC export?",
+        "The precise exported fields and destination are not documented by the evidence currently available to the Atlas."
+      ]
+    ],
+    "sources": [
+      [
+        "Google Research — spatial model personalization",
+        "https://research.google/pubs/spatial-model-personalization-in-gboard/"
+      ],
+      [
+        "Gboard Patches source",
+        "https://github.com/jasonwu1994/Gboard-patches"
+      ]
+    ]
+  },
+  {
+    "slug": "gboard-v2-klp-language-pack-loader",
+    "title": "Gboard V2 KLP Loader Explained From Real APK Bytecode",
+    "description": "Investigate disable_load_v2_klp, the real default and the LatinIme call site—without inventing a legacy loader or layout-package expansion.",
+    "audience": "Technical readers researching KLP internals",
+    "takeaway": "The real flag name is disable_load_v2_klp. It is read by LatinIme and changes internal configuration when true; a forced V1 fallback is not proven.",
+    "sections": [
+      [
+        "The exact declaration",
+        "In the inspected GboardWu 18.5.4.993608717 arm64 APK, classes.dex registers disable_load_v2_klp as a boolean with a declared false default. This is the APK's hardcoded declaration, not necessarily the server-overridden value. The full disable_ prefix is essential: descriptions that say 'Load V2 KLP' obscure the switch's direction."
+      ],
+      [
+        "The consumer is real",
+        "In classes5.dex, com.google.android.apps.inputmethod.libs.latin5.LatinIme.O() reads the flag and, when true, sets an internal option bit 0x8 and a Boolean field on a generated configuration object. The same routine consumes lazy_load_klp_sections, whose defaults reference spatial_model_features and monolingual_pk_trigger_model. This ties the option to the language/decoder pipeline."
+      ],
+      [
+        "What KLP can and cannot mean",
+        "The APK also contains DelightKlpDownloader, klp_locales, klp_versions, and a setting to load a key-correction model from KLP. Download paths under dl.google.com/gboard/klp/ contain speech and TensorFlow Lite language-model resources. That argues against reducing KLP to keyboard geometry alone. We have not established what KLP stands for, whether a V1 fallback is invoked, or any speed/RAM improvement."
+      ]
+    ],
+    "flags": [
+      "disable_load_v2_klp",
+      "enable_load_key_correction_model_from_klp",
+      "enable_pk_spatial_model_features",
+      "enable_ondevice_voice"
+    ],
+    "questions": [
+      [
+        "What is the APK default?",
+        "False in the decompiled flag declaration. The effective value can be overridden by other configuration."
+      ],
+      [
+        "Does enabling the disable flag select a V1 parser?",
+        "That interpretation has not been proven by the identified consumer; the observable code sets configuration fields."
+      ]
+    ],
+    "sources": [
+      [
+        "Gboard Patches repo (build context)",
+        "https://github.com/jasonwu1994/Gboard-patches"
+      ],
+      [
+        "Google Research — touch and decoder model context",
+        "https://research.google/pubs/spatial-model-personalization-in-gboard/"
+      ]
+    ]
+  },
+  {
+    "slug": "gboard-multilingual-typing-language-switch",
+    "title": "Gboard Multilingual Typing and Language Switching Flags",
+    "description": "Distinguish multilingual typing, language prompts and locale-specific experiments before changing your keyboard setup.",
+    "audience": "People typing in more than one language",
+    "takeaway": "The language selected, model installed, and per-language eligibility often matter more than an isolated flag.",
+    "sections": [
+      [
+        "Why language state matters",
+        "Multilingual typing is not identical to adding two layouts to Gboard. The keyboard may maintain a primary locale, detect a language from context, and select separate correction and suggestion resources. enable_multilingual_typing and enable_crank_for_primary_locale_in_multilingual indicate parts of this internal policy, but their combined behavior isn't fully documented."
+      ],
+      [
+        "Japanese, Chinese and English are not interchangeable cases",
+        "Predictive models, gesture input, voice recognition and punctuation behavior can differ by script and installed language pack. A flag that appears during English QWERTY typing may be irrelevant to a Japanese 12-key or handwriting method. When reporting a result, always include the exact language layout and whether a speech or decoder pack was downloaded."
+      ],
+      [
+        "Test switching rather than guessing",
+        "Use the standard Gboard language selector first. Compare the same language-switch action in a text field before experimenting with prompt or order settings. Record whether the visible layout changes, whether autocorrection language changes, and whether a bilingual suggestion appears. An apparent English improvement can mask worse suggestions in another language."
+      ]
+    ],
+    "flags": [
+      "enable_multilingual_typing",
+      "enable_crank_for_primary_locale_in_multilingual",
+      "enable_gboard_language_picker_redesign",
+      "enable_voice_in_japanese"
+    ],
+    "questions": [
+      [
+        "Will a flag download languages for me?",
+        "Not necessarily. Layout and model availability are separate from the existence of a configuration identifier."
+      ],
+      [
+        "Can I use the same results on every locale?",
+        "No. Test results should always specify language and input method."
+      ]
+    ],
+    "sources": [
+      [
+        "Gboard help — glide typing language limitations",
+        "https://support.google.com/gboard/answer/2811346?hl=en"
+      ],
+      [
+        "Gboard Patches project — language features",
+        "https://github.com/jasonwu1994/Gboard-patches"
+      ]
+    ]
+  },
+  {
+    "slug": "gboard-voice-typing-and-dictation",
+    "title": "Gboard Voice Typing Flags: Dictation, Commands and Language Support",
+    "description": "Learn which Gboard voice typing controls affect UI entry points, dictation models and locale support, and which are still experiments.",
+    "audience": "People comparing voice typing behavior",
+    "takeaway": "A voice typing switch can expose a microphone button without proving its speech backend is installed or eligible.",
+    "sections": [
+      [
+        "Begin with the supported microphone path",
+        "Gboard includes a standard voice input UI with language and device limitations. Advanced voice typing can have additional eligibility and speech features. First test the normal microphone, punctuation behavior, and chosen language using documented Gboard settings. A modifier flag is meaningful only relative to a working baseline."
+      ],
+      [
+        "What the Atlas flags describe",
+        "enable_ondevice_voice suggests a path for local recognition, while enable_global_direct_to_voice_toolbar concerns access to the voice UI. enable_voice_in_japanese indicates language-specific eligibility. enable_agentic_dictation is a separate advanced behavior name; do not infer it is available merely from the identifier. The data path, UI entry point and model-download requirement may all be separate gates."
+      ],
+      [
+        "How to compare without false positives",
+        "Read a short fixed phrase, an address and a sentence with punctuation into the same app in similar noise conditions. Record word substitutions, auto-punctuation, microphone source and whether connectivity changes behavior. Keep a note of the exact Gboard build. Never enable diagnostics that record speech content just to test a button."
+      ]
+    ],
+    "flags": [
+      "enable_ondevice_voice",
+      "enable_global_direct_to_voice_toolbar",
+      "enable_voice_in_japanese",
+      "enable_agentic_dictation"
+    ],
+    "questions": [
+      [
+        "Does 'on-device' mean Gboard never connects to a server?",
+        "Not by itself. It names a potential processing path, not a complete network/privacy audit."
+      ],
+      [
+        "Why is a microphone option missing?",
+        "Language, rollout, build, permissions and backend availability can all affect it."
+      ]
+    ],
+    "sources": [
+      [
+        "Google Gboard settings and voice input",
+        "https://support.google.com/gboard/answer/6102154?hl=en"
+      ],
+      [
+        "Gboard Patches voice typing support",
+        "https://github.com/jasonwu1994/Gboard-patches"
+      ]
+    ]
+  },
+  {
+    "slug": "gboard-offline-speech-models",
+    "title": "Gboard Offline Speech Packs, Language Models and Download Flags",
+    "description": "Investigate speech pack downloads, metered connections and on-device model resources without assuming a flag enables offline dictation.",
+    "audience": "Users studying offline voice support",
+    "takeaway": "Speech model downloads and UI availability are separate; a download flag alone cannot guarantee offline voice typing.",
+    "sections": [
+      [
+        "Understand the pack lifecycle",
+        "The catalog exposes allow_metered_small_speech_pack_downloads and force_speech_language_pack_updates alongside other speech parameters. Names like these suggest conditions around model transfer and refresh, not that offline recognition is guaranteed for every language. A speech system may also have separate punctuation, capitalization and accent-enhancement models."
+      ],
+      [
+        "What the inspected APK adds",
+        "The GboardWu 18.5.4 APK contained resource URLs under dl.google.com/gboard/klp/experiment/smartdictation, including language-specific .tflite files and protobuf-style resources. That is concrete evidence that speech-related model assets can be distributed separately. It does not tell us whether a particular model is installed, current or activated in your account."
+      ],
+      [
+        "Test offline operation carefully",
+        "First ensure the chosen language's voice typing works normally. Then compare a short dictation sample with connectivity disabled, without confusing microphone permission failures with network requirements. Record language and device, and observe whether recognition begins, completes locally or requests another resource. Restore connectivity and baseline settings afterward."
+      ]
+    ],
+    "flags": [
+      "allow_metered_small_speech_pack_downloads",
+      "force_speech_language_pack_updates",
+      "enable_ondevice_voice",
+      "enable_pcm_audio_caching_for_offline_fallback"
+    ],
+    "questions": [
+      [
+        "Does downloading a speech pack prove offline voice works?",
+        "No. Runtime eligibility and the recognition backend still matter."
+      ],
+      [
+        "Should I force language-pack updates?",
+        "Only with a concrete compatibility reason; forced downloads can consume storage and data."
+      ]
+    ],
+    "sources": [
+      [
+        "Google Gboard help — change input options",
+        "https://support.google.com/gboard/answer/2811346?hl=en"
+      ],
+      [
+        "Gboard Patches source code",
+        "https://github.com/jasonwu1994/Gboard-patches"
+      ]
+    ]
+  },
+  {
+    "slug": "gboard-ai-writing-tools-flags",
+    "title": "Gboard AI Writing Tools Flags: Rewrite, Style and Model Gates",
+    "description": "Explore Gboard's writing tools controls and distinguish a visible rewrite button from actual on-device or service-backed generation.",
+    "audience": "Users exploring AI rewrite and tone tools",
+    "takeaway": "Writing Tools may involve multiple eligibility checks and model dependencies beyond a single enabled flag.",
+    "sections": [
+      [
+        "What the controls seem to separate",
+        "The Atlas includes enable_writing_tools_v2, enable_writing_tools_v2_on_toolbar, enable_writing_tools_suggest_style and enable_writing_tools_my_style. These names point at a product surface, its placement and style selection; they do not prove that a particular generative model is loaded. UI presentation and text generation are distinct functions."
+      ],
+      [
+        "Model gates are another layer",
+        "enable_ai_core_llm and other language-model identifiers suggest integrations with on-device or system AI components. But the exact requirements depend on Gboard and Android versions, language, device capability, downloadable assets and remote feature eligibility. Showing a button may be easier than producing a result, and an empty result is not necessarily a bug in the toolbar flag."
+      ],
+      [
+        "Test outputs responsibly",
+        "Use disposable text, not confidential messages. Compare neutral and formal rewrites, inspect whether the result preserves meaning and verify the destination text field before inserting it. Record whether an action is unavailable, fails to load or produces a response: those outcomes reveal different layers of a feature."
+      ]
+    ],
+    "flags": [
+      "enable_writing_tools_v2",
+      "enable_writing_tools_v2_on_toolbar",
+      "enable_writing_tools_suggest_style",
+      "enable_writing_tools_my_style",
+      "enable_ai_core_llm"
+    ],
+    "questions": [
+      [
+        "Can one flag unlock all AI writing tools?",
+        "No single flag has been shown to bypass every language, model, device and rollout dependency."
+      ],
+      [
+        "Is a rewritten suggestion guaranteed private?",
+        "No. The flag name does not establish the processing location or data-handling policy."
+      ]
+    ],
+    "sources": [
+      [
+        "Gboard Patches — AI Writing Tools",
+        "https://github.com/jasonwu1994/Gboard-patches"
+      ],
+      [
+        "Google Gboard help",
+        "https://support.google.com/gboard/answer/9058584?hl=en"
+      ]
+    ]
+  },
+  {
+    "slug": "gboard-grammar-checker-proofreading",
+    "title": "Gboard Grammar Checker and Proofreading: Flags vs Real Behavior",
+    "description": "Compare grammar checker, LLM proofreading and on-device proofreading experiments with practical tests and clear confidence limits.",
+    "audience": "People studying writing-quality features",
+    "takeaway": "Grammar highlighting, rewrite suggestions and proofread actions are different product surfaces even when they share AI models.",
+    "sections": [
+      [
+        "Not every writing correction is autocorrect",
+        "Autocorrection handles words as you type; grammar checking may evaluate clauses or an entire sentence. The Atlas lists enable_grammar_checker, enable_llm_based_grammar_checker and enable_on_device_proofread as distinct identifiers. Names imply separate experiment paths, but the current build may collapse them or leave some gated."
+      ],
+      [
+        "Why the editing app matters",
+        "A keyboard may present a suggestion chip in one editor but not in another. A web view, messaging field and long-form note can expose different capabilities. enable_grammar_checker_on_webview is especially relevant to this distinction, though the exact implementation is not verified from the identifier alone."
+      ],
+      [
+        "A useful evaluation set",
+        "Use a sentence with subject–verb disagreement, a sentence with misplaced punctuation and a correct sentence that should remain unchanged. Record whether the keyboard underlines text, offers a replacement, explains it or requires a manual action. A quality check should penalize false corrections as much as missed mistakes."
+      ]
+    ],
+    "flags": [
+      "enable_grammar_checker",
+      "enable_llm_based_grammar_checker",
+      "enable_on_device_proofread",
+      "enable_grammar_checker_on_webview"
+    ],
+    "questions": [
+      [
+        "Will enable_grammar_checker correct every error?",
+        "No. Language support, model availability and contextual thresholds can limit suggestions."
+      ],
+      [
+        "Does on-device_proofread guarantee offline use?",
+        "The identifier alone does not verify offline execution, even though it names a local-processing path."
+      ]
+    ],
+    "sources": [
+      [
+        "Gboard Patches — Grammar Checker patch",
+        "https://github.com/jasonwu1994/Gboard-patches"
+      ],
+      [
+        "Google Gboard troubleshooting",
+        "https://support.google.com/gboard/answer/9058584?hl=en"
+      ]
+    ]
+  },
+  {
+    "slug": "gboard-emoji-kitchen-experiments",
+    "title": "Gboard Emoji Kitchen Flags, Browse UI and AI Ranking",
+    "description": "Find the flags related to Emoji Kitchen discovery, zero-state suggestions, animation and embedding-based ranking.",
+    "audience": "Emoji Kitchen explorers",
+    "takeaway": "Emoji Kitchen has separate browsing, suggestion, animation and ranking systems; one toggle rarely controls the entire experience.",
+    "sections": [
+      [
+        "Separate the content from its entry points",
+        "Emoji Kitchen can involve suggested emoji combinations, a browsing panel and contextual chips. enable_emoji_kitchen_browse_entry_point_v2 suggests a revised way to enter browsing, whereas enable_emoji_kitchen_for_zero_state_emojis concerns suggestions without a typed query. A visible control does not guarantee the associated sticker assets or ranker are ready."
+      ],
+      [
+        "Why multiple model names appear",
+        "The catalog contains references to an embedding index, TensorFlow Lite emoji prediction and a Gemma embedding ranker. They are clues to different techniques used in searching or prioritizing expressive results. They should not be conflated with a full chatbot running inside the keyboard or evidence that every device downloads a large model."
+      ],
+      [
+        "Test discovery and rendering separately",
+        "Try opening Emoji Kitchen directly, then compare suggestions after typing the same short phrase. Note whether a combination appears, whether a search result ranks differently and whether an animation plays. These are independent observations; testing them individually produces much more useful bug reports than saying 'Emoji Kitchen works.'"
+      ]
+    ],
+    "flags": [
+      "enable_emoji_kitchen_browse_entry_point_v2",
+      "enable_emoji_kitchen_for_zero_state_emojis",
+      "enable_gemma_embedding_emoji_kitchen_ranker",
+      "enable_emoji_embedding_index",
+      "enable_play_emoji_kitchen_mix_animation"
+    ],
+    "questions": [
+      [
+        "Does a Gemma flag mean the whole keyboard uses Gemma?",
+        "No. The identifier concerns a specific embedding/ranking function, not necessarily text generation."
+      ],
+      [
+        "Can I unlock every sticker with one flag?",
+        "Not reliably. Asset delivery and feature availability can be independent of browsing controls."
+      ]
+    ],
+    "sources": [
+      [
+        "Gboard Patches project",
+        "https://github.com/jasonwu1994/Gboard-patches"
+      ],
+      [
+        "Google Gboard Help — emoji and appearance controls",
+        "https://support.google.com/gboard/answer/6102154?hl=en"
+      ]
+    ]
+  },
+  {
+    "slug": "gboard-gif-sticker-suggestions",
+    "title": "Gboard GIF and Sticker Prediction Flags Explained",
+    "description": "Understand contextual GIF search, custom stickers, prediction timing and why an expression tab can differ across apps.",
+    "audience": "Users customizing expressive suggestions",
+    "takeaway": "Search-ranking controls, sticker prediction and UI tabs are separate from which GIFs a provider can return.",
+    "sections": [
+      [
+        "Search suggestions versus content",
+        "enable_contextual_gif_search_query_suggestion suggests recommending a search query based on nearby context; enable_prioritize_recent_gifs suggests reordering results by recency. Neither guarantees that a GIF appears in every conversation. Availability can depend on provider data, connectivity and regional or app restrictions."
+      ],
+      [
+        "Sticker generation and presentation",
+        "enable_custom_sticker_tab and enable_sticker_predictions_while_typing point at surfaces for custom content and typing-time suggestions. The catalog also includes settings for delays and rendering, but those are different layers from whether a sticker is supported at all. An animation or chip appearing is not equivalent to successful sending."
+      ],
+      [
+        "Compare surfaces in the same conversation",
+        "Check the expression tab, search, and typed suggestions separately. Use the same text in two chat apps and record whether the result is suggested, selected and actually inserted. If an experiment merely rearranges a UI panel, capture the before/after position rather than claiming that GIF quality improved."
+      ]
+    ],
+    "flags": [
+      "enable_contextual_gif_search_query_suggestion",
+      "enable_prioritize_recent_gifs",
+      "enable_custom_sticker_tab",
+      "enable_sticker_predictions_while_typing"
+    ],
+    "questions": [
+      [
+        "Why do GIF results change without a flag edit?",
+        "Online provider inventory, recent usage and context can change independently."
+      ],
+      [
+        "Are custom sticker flags guaranteed to be available?",
+        "No. The visible identifiers do not establish product entitlement or supported generation backends."
+      ]
+    ],
+    "sources": [
+      [
+        "Gboard Patches — expression customizations",
+        "https://github.com/jasonwu1994/Gboard-patches"
+      ],
+      [
+        "Google Gboard help",
+        "https://support.google.com/gboard/answer/6102154?hl=en"
+      ]
+    ]
+  },
+  {
+    "slug": "gboard-layout-height-split-keyboard",
+    "title": "Gboard Layout Flags: Keyboard Height, Floating Mode and Split Keys",
+    "description": "Compare keyboard size and appearance controls with floating and split layouts without confusing preference flags with geometry models.",
+    "audience": "People optimizing keyboard comfort and layout",
+    "takeaway": "First use Gboard's built-in settings; layout flags can be limited by screen size, window mode and hardware.",
+    "sections": [
+      [
+        "Standard settings versus experimental layout flags",
+        "A theme or keyboard-height setting usually affects appearance or touch targets. enable_adjust_default_keyboard_height and enable_number_row suggest layout preferences, while enable_key_border is visual. A screenshot change does not establish that the underlying tap-correction model was recalibrated; finger position and decoding remain related but separate."
+      ],
+      [
+        "Floating and split are context dependent",
+        "enable_auto_float_keyboard_in_landscape and enable_auto_float_keyboard_in_multi_window refer to automatic behavior in certain window states. enable_split_keyboard_on_tablet_large signals a tablet-specific layout condition. Trying to infer support on a small phone from a flag name alone can create misleading reports."
+      ],
+      [
+        "Keep typing tests fair",
+        "Compare one-handed and two-handed typing with the same app, device posture and locale. Record screen size, orientation, Android version and whether the UI is floating, split or docked. If the keyboard gets smaller, measure how comfortable and accurate it feels before claiming a particular rendering option makes typing faster."
+      ]
+    ],
+    "flags": [
+      "enable_adjust_default_keyboard_height",
+      "enable_number_row",
+      "enable_auto_float_keyboard_in_landscape",
+      "enable_split_keyboard_on_tablet_large",
+      "enable_key_border"
+    ],
+    "questions": [
+      [
+        "Does a split-keyboard flag work on every phone?",
+        "No. The identifier itself advertises a tablet/large-display condition."
+      ],
+      [
+        "Can smaller keys improve decoding accuracy?",
+        "A geometry change alone does not guarantee that; accuracy should be tested separately."
+      ]
+    ],
+    "sources": [
+      [
+        "Google Gboard themes and keyboard preferences",
+        "https://support.google.com/gboard/answer/6102154?hl=en"
+      ],
+      [
+        "Spatial model personalization research",
+        "https://research.google/pubs/spatial-model-personalization-in-gboard/"
+      ]
+    ]
+  },
+  {
+    "slug": "gboard-clipboard-history-editing",
+    "title": "Gboard Clipboard History, Editing Tools and Patch Flags",
+    "description": "Learn how clipboard retention experiments, editing shortcuts and Gboard Patches features differ from stock keyboard behavior.",
+    "audience": "Users working with clipboard and editing",
+    "takeaway": "Clipboard content is potentially sensitive. Differentiate stock Gboard options from extra features added by Gboard Patches.",
+    "sections": [
+      [
+        "What stock and patched builds offer",
+        "Stock Gboard provides clipboard and text editing tools, while Gboard Patches documents enhancements to retention time, item count, preview formatting, backup/restore and a local-network web clipboard. These patched features are not proof that the same UI exists in every Gboard release. A flag that begins with pref_ may be a stored preference exposed by a patch."
+      ],
+      [
+        "The flags tell different stories",
+        "enable_extended_clipboard_history describes expanded historical behavior; pref_clipboard_ttl_ms refers to a retention period, not a Boolean. pref_force_cursor_trackpad_mode concerns editing navigation rather than clipboard storage. Data persistence, UI presentation and cursor movement should be tested independently."
+      ],
+      [
+        "Privacy before convenience",
+        "Clipboard histories may contain verification codes, private messages or financial text. Shorter retention can reduce exposure, while a web clipboard introduces LAN pairing and access considerations. The patch project documents controls, but the safest behavior depends on your configuration; don't expose a web clipboard without understanding how it authenticates and which network it can reach."
+      ]
+    ],
+    "flags": [
+      "enable_extended_clipboard_history",
+      "pref_clipboard_ttl_ms",
+      "pref_clipboard_max_count",
+      "pref_force_cursor_trackpad_mode",
+      "pref_web_clipboard_enabled"
+    ],
+    "questions": [
+      [
+        "Is pref_clipboard_ttl_ms an on/off switch?",
+        "Its name suggests a millisecond value; always inspect actual type before editing."
+      ],
+      [
+        "Is web clipboard built into every Gboard?",
+        "No. The cited Gboard Patches project adds its own web clipboard feature."
+      ]
+    ],
+    "sources": [
+      [
+        "Gboard Patches — Clipboard Enhancements and Web Clipboard",
+        "https://github.com/jasonwu1994/Gboard-patches"
+      ],
+      [
+        "Gboard Patches changelog",
+        "https://github.com/jasonwu1994/Gboard-patches/blob/main/CHANGELOG.md"
+      ]
+    ]
+  },
+  {
+    "slug": "gboard-privacy-logging-diagnostic-flags",
+    "title": "Gboard Privacy and Diagnostic Flags: What to Avoid Enabling",
+    "description": "Identify flags that may affect diagnostic data, audio history and training caches, and learn how to evaluate privacy implications.",
+    "audience": "Privacy-conscious modders",
+    "takeaway": "A diagnostic flag name is not a privacy guarantee. Avoid collecting sensitive typing or speech data without an explicit reason.",
+    "sections": [
+      [
+        "Logging and feature behavior aren't interchangeable",
+        "enable_internal_speech_enhancement_pii_logging indicates logging connected to speech-enhancement internals, not a normal feature to enable casually. enable_save_audio_history_to_file suggests persistence of audio-related data. enable_logging_for_emoji_search_query likewise concerns traces that could reveal what was typed or searched. These are especially poor candidates for blanket 'recommended tweaks' lists."
+      ],
+      [
+        "Local caches have tradeoffs",
+        "Gboard includes references to user-feature caches, training caches and locally aggregated metrics. A flag's presence does not tell us the exact retention period, where data is stored, whether encryption is used or which diagnostic endpoint might receive a report. Even an 'on-device' name does not certify the absence of all network activity."
+      ],
+      [
+        "Use normal privacy controls",
+        "Prefer supported Gboard privacy and personalization settings, avoid enabling PII/audio logging, and review permissions with Android settings when investigating behavior. If you need evidence for the Atlas, inspect code paths in an APK or use synthetic test inputs. Don't upload a private real-world cache or speech recording just to decipher a flag."
+      ]
+    ],
+    "flags": [
+      "enable_internal_speech_enhancement_pii_logging",
+      "enable_save_audio_history_to_file",
+      "enable_logging_for_emoji_search_query",
+      "enable_on_device_metrics_aggregation",
+      "enable_export_ufc"
+    ],
+    "questions": [
+      [
+        "Does disabling a logging flag stop all telemetry?",
+        "No. One identifier is not a complete audit of every diagnostics and network path."
+      ],
+      [
+        "Is exporting the UFC cache safe?",
+        "Its exported fields and destination are unverified. Treat the data as potentially sensitive."
+      ]
+    ],
+    "sources": [
+      [
+        "Google Gboard — troubleshoot personalization",
+        "https://support.google.com/gboard/answer/9058584?hl=en"
+      ],
+      [
+        "Google Search Central — people-first sources and transparency",
+        "https://developers.google.com/search/docs/fundamentals/creating-helpful-content"
+      ]
+    ]
+  },
+  {
+    "slug": "gboard-typing-lag-battery-performance",
+    "title": "Gboard Typing Lag and Battery: What Flags Can Actually Tell You",
+    "description": "Separate measurable Gboard responsiveness from unsupported 'speed boost' flag claims and apply safer troubleshooting first.",
+    "audience": "People dealing with slow typing or battery drain",
+    "takeaway": "There is no verified magic speed-up flag in this catalog; benchmark a reproducible problem before changing model or cache settings.",
+    "sections": [
+      [
+        "Find the symptom before changing anything",
+        "A delay opening the keyboard, a missed keypress, slow suggestion refresh and a model download are different problems. Measure which one occurs and in which app. Google recommends ordinary cache and personalization troubleshooting for lag, but clearing app storage resets preferences; don't start there if you need to preserve learned settings."
+      ],
+      [
+        "What performance-looking flags actually mean",
+        "enable_ufc_for_speed refers to typing-speed information in User Feature Cache; it is not demonstrated to speed up Gboard. enable_sqlite_release_memory suggests a database memory-release path, not a proven lower RAM footprint. disable_nwp_result_cache could even remove a cache that normally avoids repeated work. Reading the words of a flag as a measured optimization is a common mistake."
+      ],
+      [
+        "Run a useful before-and-after test",
+        "Compare startup latency after a cold keyboard activation and suggestion latency during a fixed typing sequence. Record Gboard version, battery mode, model-download status and keyboard language. Don't change cache, model and UI animation flags at once. If a change only modifies visuals, don't advertise it as a battery-saving breakthrough without current draw measurements."
+      ]
+    ],
+    "flags": [
+      "enable_ufc_for_speed",
+      "enable_sqlite_release_memory",
+      "disable_nwp_result_cache",
+      "enable_tflite_smartkeys_model",
+      "disable_ondevice_auto_download"
+    ],
+    "questions": [
+      [
+        "Which flag should I turn on for less lag?",
+        "None has a verified universal performance improvement in this reference. Start by identifying the specific lag."
+      ],
+      [
+        "Can a cache flag reduce memory and make performance worse?",
+        "Yes, in principle: removing cached results can trade memory consumption for repeat computation. This specific flag's effect is not measured."
+      ]
+    ],
+    "sources": [
+      [
+        "Google Gboard — fix typing lag",
+        "https://support.google.com/gboard/answer/9058584?hl=en"
+      ],
+      [
+        "Spatial model personalization in Gboard",
+        "https://research.google/pubs/spatial-model-personalization-in-gboard/"
+      ]
+    ]
+  }
+]
