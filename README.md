@@ -26,12 +26,12 @@ Gboard's feature flags are a mixture of new UI, smart predictions, Emoji Kitchen
 
 <table>
 <tr><td width="33%">🔎 <b>Search everything</b><br><sub>Find exact identifiers or search in plain English.</sub></td><td width="33%">🧭 <b>Filter by purpose</b><br><sub>Ten categories, from Emoji Kitchen and AI to internal plumbing.</sub></td><td width="33%">🧪 <b>Understand uncertainty</b><br><sub>Clearly distinguish interpreted flags from name-derived guesses.</sub></td></tr>
-<tr><td>⭐ <b>Save favorites</b><br><sub>Build a shortlist in your browser—no account required.</sub></td><td>📋 <b>Copy in one tap</b><br><sub>Paste the exact identifier into GboardWu's flag editor.</sub></td><td>🔐 <b>Static and private</b><br><sub>No tracking, analytics, backend or server-side accounts.</sub></td></tr>
+<tr><td>⭐ <b>Save favorites</b><br><sub>Build a shortlist in your browser—no account required.</sub></td><td>📋 <b>Copy in one tap</b><br><sub>Paste the exact identifier into GboardWu's flag editor.</sub></td><td>🔐 <b>Static and private</b><br><sub>No account or backend; privacy-friendly Cloudflare Web Analytics.</sub></td></tr>
 </table>
 
 ### [→ Explore the live catalog](https://gboard-flag-atlas.shipstatic.com)
 
-The current snapshot indexes **691 flag-like identifiers extracted from GboardWu 18.5.4.993608717**. Every entry has been rewritten for clarity; after two research passes on all 92 initially unresolved entries, 74 now have useful explanations and 18 remain explicitly marked **Unknown**. Public source references are linked for 70 entries overall; research-backed references are distinct from runtime verification. An identifier alone is never proof of a working toggle.
+The current snapshot indexes **691 flag-like identifiers extracted from GboardWu 18.5.4.993608717**. Every entry has been rewritten for clarity; after two research passes on all 92 initially unresolved entries, 75 now have useful explanations and 17 remain explicitly marked **Unknown**. Public source references are linked for 70 entries overall; research-backed references are distinct from runtime verification. An identifier alone is never proof of a working toggle.
 
 **All identifiers are included**, including the esoteric, potentially useless, and implementation-only ones. Nothing is hidden merely because it is unlikely to interest casual users.
 
@@ -133,15 +133,20 @@ Run `node tests/search.test.mjs` to verify short acronyms, exact flag ranking, t
 
 ## Analytics and search discovery
 
-Cloudflare Web Analytics measures privacy-friendly site traffic via the public Cloudflare beacon on the Atlas homepage and flag/topic pages. Traffic is visible under **Cloudflare Dashboard → Web Analytics → gboard-flag-atlas.shipstatic.com**; there is no login, cookie, or local database on this site.
+Cloudflare Web Analytics measures privacy-friendly site traffic via the public Cloudflare beacon on the Atlas homepage and flag/topic/guide pages. Traffic is visible under **Cloudflare Dashboard → Web Analytics → gboard-flag-atlas.shipstatic.com**; there is no login, cookie, or local database on this site.
 
-To keep the catalog useful rather than generate hundreds of thin SEO pages, only **158 specifically interpreted or source-linked flag entries** have individual indexable HTML pages under `/flags/<identifier>/`. The remaining 533 name-only or unresolved identifiers remain available in the full Atlas and can be shared via `/?flag=<identifier>`. Ten topic hubs under `/topics/` provide crawlable internal links, alongside `sitemap.xml` and `robots.txt`. A sitemap aids discovery but does not guarantee ranking or indexing.
+To keep the catalog useful rather than generate hundreds of thin SEO pages, only **159 specifically interpreted or source-linked flag entries** have individual indexable HTML pages under `/flags/<identifier>/`. The remaining 532 name-only or unresolved identifiers remain available in the full Atlas and can be shared via `/?flag=<identifier>`. Ten topic hubs under `/topics/` provide crawlable internal links, alongside **20 original, user-focused technical guides**, an index at `/guides/`, `sitemap.xml` (191 URLs) and `robots.txt`. A sitemap aids discovery but does not guarantee ranking or indexing.
 
 Static pages, topic hubs, the homepage assets and the sitemap are reproducibly generated from `data/flags.json` by:
 
 ```sh
 node scripts/build-site.mjs
 node tests/site-build.test.mjs
+node tests/search.test.mjs
 ```
 
 The generator writes a complete ShipStatic-ready `dist/` directory. After changing any flag description, rebuild and include the new generated pages in a deployment. Analytics is domain-scoped to the production ShipStatic hostname; a new custom domain would require updating the Cloudflare Web Analytics registration and beacon.
+
+## Technical guides
+
+20 editorial guides in `data/guides.json` cover flag editor workflows, reproducible verification, autocorrection/key correction, User Feature Cache, KLP bytecode analysis, multilingual typing, voice dictation, model downloads, AI writing, grammar checking, Emoji Kitchen, stickers, layout, clipboard, privacy, and performance troubleshooting. Each guide provides original explanations, cautious evidence claims, named flag cross-links, FAQs and relevant references. The generator outputs `/guides/` and 20 canonical `/guides/<topic>/` pages; guide metadata and content are version-controlled. Google indexing is not guaranteed. These pages are written to answer user questions rather than mass-produce near-duplicate SEO text.

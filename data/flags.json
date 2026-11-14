@@ -409,14 +409,15 @@
     },
     {
       "name": "disable_load_v2_klp",
-      "title": "Load V2 Klp",
+      "title": "Disable V2 KLP Loading",
       "category": "Technical / other",
       "tier": "Optional",
       "impact": "Usually low",
-      "summary": "Purpose unknown — switches off a second-generation KLP loader; the KLP component hasn't been identified.",
-      "confidence": "Unknown",
+      "summary": "Disables an internal V2 KLP-loading configuration in Gboard’s Latin typing engine. KLP resources include versioned language and prediction-model assets. The precise fallback behavior is not verified.",
+      "confidence": "Interpreted",
       "kind": "Candidate flag",
-      "researchStatus": "Unknown"
+      "researchStatus": "Clarified",
+      "researchNote": "Direct read-only APK disassembly, GboardWu 18.5.4.993608717: classes.dex Lifb.<clinit> registers disable_load_v2_klp as a boolean with declared default false. classes5.dex com.google.android.apps.inputmethod.libs.latin5.LatinIme.O() reads the flag and, when true, sets option bit 0x8 and Lyqx.c=true; it also consumes lazy_load_klp_sections (default entries include spatial_model_features and monolingual_pk_trigger_model). DelightKlpDownloader, versioned klp_locales/klp_versions and key-correction model references show KLP includes language/model resources. KLP expansion, V1 fallback, actual remotely overridden value and performance impact remain unverified."
     },
     {
       "name": "disable_new_language_prompt_in_test",
@@ -7489,12 +7490,12 @@
       "researchStatus": "Clarified"
     }
   ],
-  "editorialVersion": "ufc-user-feature-cache-2026-11-13",
+  "editorialVersion": "klp-latin-ime-apk-analysis-2026-11-15",
   "researchNotes": "Compared public GboardWu feature/runtime sources, independent mod flag mappings, and Google Rambler documentation. A source mapping identifies how a flag is used, not a guaranteed runtime result.",
   "unknownResearch": {
     "initial": 92,
-    "clarified": 74,
-    "unresolved": 18,
+    "clarified": 75,
+    "unresolved": 17,
     "sourced": 16,
     "scope": "Phase 1 only. 92 earlier unknown entries reviewed using exact public-code searches, Gboard patch source, developer reports, Android/Chromium source, and APK teardowns. Name-derived explanations remain interpretations, not runtime verification.",
     "referencesCorrected": true,
@@ -7507,7 +7508,12 @@
       "date": "2026-11-13",
       "clarified": 3,
       "method": "Read-only inspection of GboardWu 18.5.4 APK identifies userfeaturecache namespace and UFC modules; Google Research contextualizes personalized touch-offset and typing-speed features; exact flag behavior remains an interpretation, not a measured effect."
+    },
+    "fourthPass": {
+      "date": "2026-11-15",
+      "clarified": 1,
+      "method": "Read-only on-device APK DEX bytecode analysis of disable_load_v2_klp registration, hardcoded false default, and LatinIme.O() caller; more precise engine effect inferred without inventing a V1 fallback or KLP expansion."
     }
   },
-  "editorialNotes": "Editorial standard: retain specific technical names (Gemma, TensorFlow Lite, MDD, HMM, etc.), briefly explain their purpose in context, and don't invent unverified implementation details. Plain English must not erase meaningful identifiers. 34 genuinely unresolved flags remain unchanged."
+  "editorialNotes": "Editorial standard: retain specific technical names (Gemma, TensorFlow Lite, MDD, HMM, etc.), briefly explain their purpose in context, and don't invent unverified implementation details. Plain English must not erase meaningful identifiers. 17 flags remain explicitly Unknown as of the November 15 KLP investigation."
 }
