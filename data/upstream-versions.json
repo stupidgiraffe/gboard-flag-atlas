@@ -7,6 +7,26 @@
       "18.5.4.993608717-release-arm64-v8a"
     ]
   },
-  "mirror": null,
-  "history": []
+  "mirror": {
+    "stable": "18.8.1.1022711984",
+    "beta": "18.8.1.1022711984"
+  },
+  "history": [
+    {
+      "observedAt": "2026-11-26T23:45:07.989Z",
+      "patches": {
+        "patchVersion": "4.5.0",
+        "supportedGboardVersions": [
+          "18.5.4.993608717-release-arm64-v8a"
+        ]
+      },
+      "mirror": {
+        "stable": "18.8.1.1022711984",
+        "beta": "18.8.1.1022711984"
+      },
+      "changeTypes": [
+        "initial source baseline / patch release"
+      ]
+    }
+  ]
 }
