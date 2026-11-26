@@ -45,6 +45,16 @@ jobs:
           if ! gh issue list --state all --limit 250 --json title --jq '.[].title' | grep -Fxq "$title"; then
             gh issue create --title "$title" --body-file /tmp/gboard-apk-report.md
           fi
+      - name: Track unavailable APK acquisitions without spamming
+        if: steps.scan.outputs.failed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          FAILURE_KEY: ${{ steps.scan.outputs.failure_key }}
+        run: |
+          title="Gboard APK acquisition needs attention [$FAILURE_KEY]"
+          if ! gh issue list --state all --limit 250 --json title --jq '.[].title' | grep -Fxq "$title"; then
+            gh issue create --title "$title" --body-file /tmp/gboard-apk-report.md
+          fi
       - name: Persist extracted names only (never APK bytes)
         if: steps.scan.outputs.updated == 'true'
         run: |
