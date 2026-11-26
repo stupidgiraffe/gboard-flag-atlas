@@ -56,6 +56,9 @@ def extract_dex(blob):
 
 def scan_apk(content, expected):
     from androguard.core.apk import APK
+    from loguru import logger
+    logger.remove()
+    logger.add(sys.stderr, level="ERROR")
     app = APK(content, raw=True)
     pkg, version = app.get_package(), str(app.get_androidversion_name() or "")
     if pkg != PACKAGE:
@@ -85,6 +88,7 @@ def scan_package(path, expected):
         raise ValueError("Unexpected package format")
     with zipfile.ZipFile(io.BytesIO(data)) as bundle:
         names = set()
+        diagnostic = []
         for member in bundle.infolist():
             if not member.filename.lower().endswith(".apk") or member.file_size > 200000000:
                 continue
@@ -93,9 +97,10 @@ def scan_package(path, expected):
             except ValueError as e:
                 if "Wrong package" in str(e):
                     raise
+                diagnostic.append(member.filename + ": " + str(e)[:160])
                 continue
         if not names:
-            raise ValueError("No matching base APK with DEX in bundle")
+            raise ValueError("No matching base APK with DEX in bundle; " + "; ".join(diagnostic[:5]))
         return names, sha
 
 
