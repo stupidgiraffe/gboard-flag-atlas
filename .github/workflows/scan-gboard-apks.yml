@@ -2,7 +2,7 @@ name: Acquire and compare Gboard APK flag candidates
 
 on:
   push:
-    branches: [main, feat/automated-apk-flag-snapshots]
+    branches: [main]
     paths:
       - '.github/workflows/scan-gboard-apks.yml'
       - 'scripts/scan-gboard-apks.py'
