@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "notes": "Metadata only; APK identifier differences require a separately acquired and scanned APK. Google Gboard versions from APKMirror are best effort.",
+  "patches": {
+    "patchVersion": "4.5.0",
+    "supportedGboardVersions": [
+      "18.5.4.993608717-release-arm64-v8a"
+    ]
+  },
+  "mirror": null,
+  "history": []
+}
