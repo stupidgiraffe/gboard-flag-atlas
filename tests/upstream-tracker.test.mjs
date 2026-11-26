@@ -13,7 +13,8 @@ test('reads version compatibility from upstream patch manifest', () => {
   });
 });
 test('separately tracks beta and stable APKMirror versions', () => {
-  const html = '<h3>Gboard - the Google Keyboard 18.8.1.1022711984 beta</h3>' +
+  const html = '<a>Gboard - the Google Keyboard 18.8.1.1022711984</a>' +
+               '<h3>Gboard - the Google Keyboard 18.8.1.1022711984 beta</h3>' +
                '<h3>Gboard - the Google Keyboard 18.6.9.1002251336</h3>' +
                '<h3>Gboard - the Google Keyboard 18.6.10.1002251336</h3>';
   assert.deepEqual(parseApkMirror(html), {stable:'18.6.10.1002251336',beta:'18.8.1.1022711984'});
