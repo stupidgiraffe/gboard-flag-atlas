@@ -199,6 +199,9 @@ def main():
             f.write("updated=" + str(updated).lower() + "\n")
             f.write("notify=" + str(bool(issues)).lower() + "\n")
             f.write("issue_key=" + fingerprint + "\n")
+            f.write("failed=" + str(bool(failures)).lower() + "\n")
+            failkey = hashlib.sha256(json.dumps([(x.split(":")[0]) for x in failures], sort_keys=True).encode()).hexdigest()[:12]
+            f.write("failure_key=" + failkey + "\n")
     print(json.dumps({"updates": outputs, "issues": len(issues), "failures": failures}, indent=2))
 
 
