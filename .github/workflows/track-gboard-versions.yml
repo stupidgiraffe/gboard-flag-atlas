@@ -1,6 +1,14 @@
 name: Track public Gboard versions
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/track-gboard-versions.yml'
+      - 'scripts/check-upstream-versions.mjs'
+      - 'scripts/diff-flag-snapshots.mjs'
+      - 'tests/upstream-tracker.test.mjs'
+      - 'tests/flag-version-diff.test.mjs'
   schedule:
     - cron: '17 6 * * *'
   workflow_dispatch:
@@ -23,7 +31,7 @@ jobs:
         with:
           node-version: '24'
       - name: Validate parsing
-        run: node --test tests/upstream-tracker.test.mjs
+        run: node --test tests/upstream-tracker.test.mjs tests/flag-version-diff.test.mjs
       - name: Read public version sources
         id: scan
         run: node scripts/check-upstream-versions.mjs
