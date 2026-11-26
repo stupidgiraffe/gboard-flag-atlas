@@ -29,12 +29,18 @@ export function parsePatchCatalog(raw) {
 }
 export function parseApkMirror(html) {
   // APKMirror's public versions listing is a best-effort indicator, NOT a Google Play API.
-  const re = /Gboard(?:\s*-\s*the Google Keyboard)?\s+(18(?:\.\d+){3})(?:\s+(beta))?/gi;
+  const re = /Gboard(?:\s*-\s*the Google Keyboard)?\s+(\d{1,2}(?:\.\d+){3})(?:\s+(beta))?/gi;
   const rows = [...html.matchAll(re)].map(m => ({version: m[1], channel: m[2] ? 'beta' : 'stable'}));
   if (!rows.length) throw new Error('Could not parse APKMirror public release list');
+  // The listing repeats beta titles in HTML snippets without their beta suffix.
+  // Any explicit beta occurrence takes precedence over unlabelled duplicates.
+  const channels = new Map();
+  for (const row of rows) {
+    if (row.channel === 'beta' || !channels.has(row.version)) channels.set(row.version, row.channel);
+  }
   const latest = {};
   for (const channel of ['stable', 'beta']) {
-    const versions = [...new Set(rows.filter(x => x.channel === channel).map(x => x.version))]
+    const versions = [...channels].filter(([, type]) => type === channel).map(([version]) => version)
       .sort(compareVersions).reverse();
     if (versions.length) latest[channel] = versions[0];
   }
