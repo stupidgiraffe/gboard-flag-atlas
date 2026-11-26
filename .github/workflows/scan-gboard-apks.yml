@@ -1,0 +1,66 @@
+name: Acquire and compare Gboard APK flag candidates
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/scan-gboard-apks.yml'
+      - 'scripts/scan-gboard-apks.py'
+      - 'tests/test_apk_scanner.py'
+  schedule:
+    - cron: '37 7 * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: gboard-apk-snapshot-scan
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Install read-only extraction tools
+        run: python -m pip install --disable-pip-version-check justapk==0.1.1 androguard==4.1.3
+      - name: Test DEX parser without downloaded APKs
+        run: python -m unittest discover -s tests -p 'test_apk_scanner.py' -v
+      - name: Download and examine current Gboard stable/beta APKs
+        id: scan
+        run: python scripts/scan-gboard-apks.py
+      - name: Report new and removed candidate identifiers
+        if: steps.scan.outputs.notify == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ISSUE_KEY: ${{ steps.scan.outputs.issue_key }}
+        run: |
+          title="Gboard APK candidate flag changes [$ISSUE_KEY]"
+          if ! gh issue list --state all --limit 250 --json title --jq '.[].title' | grep -Fxq "$title"; then
+            gh issue create --title "$title" --body-file /tmp/gboard-apk-report.md
+          fi
+      - name: Track unavailable APK acquisitions without spamming
+        if: steps.scan.outputs.failed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          FAILURE_KEY: ${{ steps.scan.outputs.failure_key }}
+        run: |
+          title="Gboard APK acquisition needs attention [$FAILURE_KEY]"
+          if ! gh issue list --state all --limit 250 --json title --jq '.[].title' | grep -Fxq "$title"; then
+            gh issue create --title "$title" --body-file /tmp/gboard-apk-report.md
+          fi
+      - name: Persist extracted names only (never APK bytes)
+        if: steps.scan.outputs.updated == 'true'
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/apk-scan-state.json data/version-snapshots
+          git diff --cached --quiet || git commit -m 'chore: record Gboard APK flag candidate snapshot'
+          git pull --rebase
+          git push
