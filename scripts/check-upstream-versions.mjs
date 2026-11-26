@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // Public upstream VERSION watcher. An APK is needed before flag additions can be verified.
 import fs from 'node:fs';
+import { createHash } from 'node:crypto';
 import { pathToFileURL } from 'node:url';
 
 const STATE = 'data/upstream-versions.json';
@@ -73,6 +74,7 @@ async function main() {
   } catch (err) {errors.push('APKMirror: ' + err.message);}
   if (!successes) throw new Error('Both public sources unavailable: ' + errors.join(' | '));
   const changed = changesBetween(old, next);
+  const eventKey = createHash('sha256').update(JSON.stringify({patches: next.patches.supportedGboardVersions, mirror: next.mirror})).digest('hex').slice(0,12);
   // Version numbers changing does NOT establish a change in flag identifiers.
   const stateChanged = JSON.stringify(old.patches) !== JSON.stringify(next.patches) ||
                        JSON.stringify(old.mirror) !== JSON.stringify(next.mirror);
@@ -105,7 +107,7 @@ async function main() {
   fs.writeFileSync('/tmp/gboard-version-report.md', report + '\n');
   if (process.env.GITHUB_STEP_SUMMARY) fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, report + '\n');
   if (process.env.GITHUB_OUTPUT) fs.appendFileSync(process.env.GITHUB_OUTPUT,
-    'state_changed=' + stateChanged + '\n' + 'notify=' + Boolean(changed.length) + '\n');
+    'state_changed=' + stateChanged + '\n' + 'notify=' + Boolean(changed.length) + '\n' + 'event_key=' + eventKey + '\n');
   console.log(JSON.stringify({stateChanged, changed, patch: next.patches, mirror: next.mirror, errors}, null, 2));
 }
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
