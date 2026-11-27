@@ -273,5 +273,280 @@
         "https://support.google.com/gboard/answer/10742542?hl=en"
       ]
     ]
+  },
+  {
+    "slug": "gboard-toolbar-editing-buttons-shortcuts",
+    "title": "Gboard Toolbar Editing Buttons and Long-Press Shortcuts",
+    "description": "Find practical cursor, selection and clipboard shortcuts without confusing patch-added controls with Google's flags.",
+    "audience": "Anyone editing long text on Android",
+    "takeaway": "Editing buttons can save taps, but patch-added toolbar items and core Gboard access-point experiments are separate settings.",
+    "sections": [
+      [
+        "What is added by the patch",
+        "Gboard Patches explicitly adds customizable toolbar editing buttons, including cursor arrows, Select All, Copy, Cut, Paste, Forward Delete, Home, End and Tab. It also offers long-press editing shortcuts on supported layouts. These are usable interface changes provided by the patch, not proof that Google quietly ships every button behind one hidden Boolean. Some functions depend on which Android text editor receives the key event, so a button that works in a message field may behave differently in a web form."
+      ],
+      [
+        "How access-point flags fit in",
+        "Gboard calls its toolbar entries and menus access points. The Atlas includes identifiers for menu redesigns, displaying access-point customization and preferences about ordering and counts. Those names describe possible internal UI controls, but a stored count is not an alternative to installing the patch's toolbar-button feature. Before adjusting one of these values, verify whether a corresponding normal Patches screen already gives you the exact layout you want. Prefer the supported screen over forcing an undocumented menu flag."
+      ],
+      [
+        "Build a practical editing layout",
+        "For writing and code snippets, prioritize Forward Delete, Select All, left/right arrows and Paste as plain text if the patched build exposes them. Test a multiline note with cursor moves at both ends, then try selections across a line break. Long-press actions may differ by English QWERTY, Zhuyin or another layout. Keep a record of the original toolbar arrangement and check that adding buttons does not hide the language switcher or microphone you still use."
+      ],
+      [
+        "Troubleshoot unsupported app behavior",
+        "Android editors can treat Tab, Home, End, arrow events and selection commands differently. If a button appears but does nothing, check an ordinary text editor before changing flags. Browser text areas, messaging apps and terminal emulators do not promise identical input handling. Verify the patch version against the release notes, because new buttons were added recently. A flag that changes toolbar presentation may alter placement, but it will not necessarily fix an app that rejects a specific command."
+      ]
+    ],
+    "flags": [
+      "enable_access_points_menu_redesign",
+      "pref_editing_access_points_enabled",
+      "pref_access_point_count_value",
+      "pref_key_access_points_showing_order"
+    ],
+    "questions": [
+      [
+        "Can I get Select All and cursor arrows without rooting Android?",
+        "The patch provides toolbar editing controls inside its modified keyboard; that is distinct from root access. Availability depends on installing a compatible patched APK."
+      ],
+      [
+        "Why does Tab work in one app but not another?",
+        "The receiving editor decides how to handle input events. Test the same shortcut in a plain text editor before assuming a Gboard flag is malfunctioning."
+      ]
+    ],
+    "sources": [
+      [
+        "Gboard Patches: patch-specific toolbar and layout features",
+        "https://github.com/jasonwu1994/Gboard-patches"
+      ],
+      [
+        "Gboard Patches: new toolbar controls in release notes",
+        "https://github.com/jasonwu1994/Gboard-patches/blob/main/CHANGELOG.md"
+      ],
+      [
+        "Google: Use your Gboard keyboard",
+        "https://support.google.com/gboard/answer/2842292?hl=en"
+      ]
+    ]
+  },
+  {
+    "slug": "gboard-swipe-down-dismiss-top-row",
+    "title": "Swipe Down to Hide Gboard and Customize the Top Row",
+    "description": "Understand patched swipe-to-dismiss behavior, programmable top-row slots and the security tradeoffs of JavaScript actions.",
+    "audience": "Gboard customizer and automation users",
+    "takeaway": "Gesture patches and JavaScript-enabled top-row slots are custom extensions; they should be configured intentionally, not discovered through random flag flipping.",
+    "sections": [
+      [
+        "Two gesture features with different purposes",
+        "Gboard Patches documents a swipe-down gesture that dismisses the keyboard from its suggestions or toolbar area. Separately, it offers a swipeable custom top row that can expose user-defined text and JavaScript slots. The first controls keyboard visibility; the second adds an interaction surface and optional script execution. Treating them as a single gesture can lead to frustrating conflicts or accidental taps. Start with one capability enabled and learn its swipe target before combining them."
+      ],
+      [
+        "Why the script limits matter",
+        "The Atlas's candidate preferences include maximum JavaScript execution time, stack size and memory limits for top-row scripts. These are settings for a patch-specific scripting feature, not a license to execute arbitrary unreviewed code from a chat or social post. Treat scripts as programs running within a privileged keyboard context. Do not paste credentials into a slot, copy scripts that silently send text over the network, or relax memory and timeout limits merely to make an unknown script execute."
+      ],
+      [
+        "A useful starter configuration",
+        "Begin with static text snippets: an email sign-off, frequently typed punctuation or a harmless template. Test short horizontal swipes versus vertical swipe-to-dismiss in an unsent message field, both with and without the suggestion strip. If the swipe triggers the wrong function, choose a less crowded layout or disable the extension before trying to change low-level gesture settings. Make the keyboard comfortable for real typing instead of optimizing only for a demonstration."
+      ],
+      [
+        "Confirm the feature you have installed",
+        "The stock keyboard's glide typing is a gesture on letter keys and is unrelated to a top-row swipe extension. Verify that your patch version includes both features, and check its own UI for slot configuration. When an option is absent after upgrading, compare the installed APK's package identity and patch compatibility first. Flag names such as pref_top_row_swipe_enabled identify stored settings, but they do not prove that a particular build contains a functioning handler."
+      ]
+    ],
+    "flags": [
+      "pref_swipe_down_dismiss_keyboard_enabled",
+      "pref_top_row_swipe_enabled",
+      "pref_top_row_swipe_global_java_script",
+      "pref_top_row_swipe_js_timeout_max_ms"
+    ],
+    "questions": [
+      [
+        "Is this the same as Gboard Glide typing?",
+        "No. Glide typing draws words across letter keys. These patches add dismissal gestures and a separate swipeable top-row surface."
+      ],
+      [
+        "Should I increase the JavaScript timeout to run complex scripts?",
+        "Not by default. Keep scripts small and inspect their behavior; limits help bound work performed in a keyboard process that must remain responsive."
+      ]
+    ],
+    "sources": [
+      [
+        "Gboard Patches: patch-specific toolbar and layout features",
+        "https://github.com/jasonwu1994/Gboard-patches"
+      ],
+      [
+        "Gboard Patches: top-row and swipe changes",
+        "https://github.com/jasonwu1994/Gboard-patches/blob/main/CHANGELOG.md"
+      ],
+      [
+        "Google: Slide your finger to type",
+        "https://support.google.com/gboard/answer/2811346?hl=en"
+      ]
+    ]
+  },
+  {
+    "slug": "gboard-keypress-haptics-vibration",
+    "title": "Gboard Vibration and Haptics: Why Changes Sometimes Do Nothing",
+    "description": "Differentiate Android-wide haptic settings, Gboard keypress options and patched vibration intensity controls.",
+    "audience": "People tuning keyboard feedback",
+    "takeaway": "A vibration control can be overridden by device hardware, Android settings or patch compatibility; a haptics flag alone is not a measured improvement.",
+    "sections": [
+      [
+        "Identify where vibration is controlled",
+        "Gboard's user-facing Preferences include keypress feedback controls, while Android also manages system haptics and intensity on supported devices. Gboard Patches documents a feature for keypress vibration intensity rather than only duration. The right choice depends on what you are trying to feel: shorter feedback, a softer pulse or no vibration at all. Before opening developer flags, check the normal Gboard settings and the phone's system vibration settings, then compare with a simple repeated typing test."
+      ],
+      [
+        "Why the modern haptics flag is not enough",
+        "The candidate identifier pref_modern_keypress_haptics_enabled suggests a modern feedback path, but the Atlas does not independently establish its default, supported devices or effect on intensity. A device may lack the haptic hardware capability used by that path, enforce system restrictions or map several requested intensity levels to the same physical result. Changing a preference can therefore appear to succeed without changing what you feel. Record device model, Android version and the actual Gboard build alongside the value."
+      ],
+      [
+        "Measure comfort, not imaginary battery gains",
+        "Try a short paragraph at a fixed typing speed and compare several permitted settings, including off. Pay attention to whether haptic events feel late, double-triggered or harsh rather than claiming a setting saves a precise percentage of battery. Typing feedback can be affected by system load and animation delays, but the Atlas has no hardware power measurements for this flag. Changes to key correction or commit animations are separate experiments, not replacement vibration toggles."
+      ],
+      [
+        "A clean troubleshooting path",
+        "If haptics suddenly stop after an update, test whether system vibration works elsewhere, then inspect Gboard's own feedback setting. Recheck the patched intensity setting if installed. Only after those checks should you compare the developer preference between two Gboard versions. If you enable an obscure flag and the keyboard becomes inconsistent, undo that single change rather than adjusting animations, touch-correction thresholds and vibration settings together. One-variable tests make regressions diagnosable."
+      ]
+    ],
+    "flags": [
+      "pref_modern_keypress_haptics_enabled",
+      "enable_correction_commit_animation",
+      "enable_key_correction_debug_visualizer",
+      "enable_set_can_change_global_touch_mode_api"
+    ],
+    "questions": [
+      [
+        "Will forcing modern haptics make every phone vibrate harder?",
+        "No. Hardware support, Android policy and Gboard's selected feedback path may prevent any noticeable difference."
+      ],
+      [
+        "Does vibration intensity directly control key correction?",
+        "No. The haptic and key-correction paths are distinct. Do not use correction-debug flags as a substitute for feedback settings."
+      ]
+    ],
+    "sources": [
+      [
+        "Google: Change theme, sound or vibration",
+        "https://support.google.com/gboard/answer/6102154?hl=en"
+      ],
+      [
+        "Gboard Patches: patch-specific toolbar and layout features",
+        "https://github.com/jasonwu1994/Gboard-patches"
+      ],
+      [
+        "Google: Fix Gboard problems",
+        "https://support.google.com/gboard/answer/9058584?hl=en"
+      ]
+    ]
+  },
+  {
+    "slug": "gboard-split-keyboard-tablets-foldables",
+    "title": "Gboard Split Keyboard on Tablets and Foldables",
+    "description": "Troubleshoot split layout, auto-split prompts and screen-size changes on large displays and foldable phones.",
+    "audience": "Tablet and foldable users",
+    "takeaway": "Split layout is a screen-geometry problem first; a developer flag cannot force a usable layout on every device size or orientation.",
+    "sections": [
+      [
+        "Separate forced split from automatic split",
+        "A split keyboard spaces letter groups toward the left and right edges, which can make thumb typing easier on a large screen. The Atlas includes candidates for auto-split behavior, forced split preference and split layouts on larger tablets. Their names are not proof that all combinations work. A normal split keyboard setting or the Gboard Patches feature unlock is preferable when available, because those interfaces can account for screen posture and other supported layout conditions."
+      ],
+      [
+        "Foldables add state changes",
+        "A foldable can switch rapidly between a narrow outer screen, a wide inner screen and multi-window mode. An auto-split preference may react to dimensions or the receiving app; forcing a split state can produce an awkward result after folding. Test the same keyboard in portrait and landscape, in a messaging app and a plain text editor, then close and reopen the device. Reproduce the problem at the same display density before blaming a specific flag. A delayed layout switch is not necessarily a missing experiment."
+      ],
+      [
+        "Evaluate the actual typing geometry",
+        "Check whether center gaps are too wide, suggestion chips are still reachable and the symbols layout follows the letter layout. Compare split enabled and disabled without changing the global display size or font scaling during the test. Large-screen users also need to consider one-handed and floating layouts, which solve different problems. A split keyboard helps reach both outer edges; floating mode shortens the keyboard width; one-handed mode typically shifts a compact keyboard toward one side."
+      ],
+      [
+        "Recover a bad forced layout",
+        "If a forced split remains after returning to the outer screen, clear only that explicit override, reopen ordinary layout controls and restart the keyboard process if necessary. Do not clear all Gboard data unless you have a backup and have ruled out a simple layout conflict. When using a patched copy, verify that the base Gboard version is compatible with the Split Keyboard patch. Keep your old typing arrangement documented so recovery takes minutes rather than a full reinstall."
+      ]
+    ],
+    "flags": [
+      "enable_split_keyboard_on_tablet_large",
+      "pref_auto_split_keyboard_enabled",
+      "pref_force_split_keyboard_enabled",
+      "enable_auto_split_for_android_messenger"
+    ],
+    "questions": [
+      [
+        "Why does split keyboard activate in one app but not another?",
+        "Automatic layout choices can depend on display geometry, app context and version-specific conditions. Test the same posture and window size before assuming a broken flag."
+      ],
+      [
+        "Should I force split on a small phone?",
+        "Usually not. It may reduce key size or make the center gap hard to reach. A regular or one-handed layout is often a more suitable starting point."
+      ]
+    ],
+    "sources": [
+      [
+        "Gboard Patches: patch-specific toolbar and layout features",
+        "https://github.com/jasonwu1994/Gboard-patches"
+      ],
+      [
+        "Google: Use your Gboard keyboard",
+        "https://support.google.com/gboard/answer/2842292?hl=en"
+      ],
+      [
+        "Google: Fix Gboard problems",
+        "https://support.google.com/gboard/answer/9058584?hl=en"
+      ]
+    ]
+  },
+  {
+    "slug": "gboard-one-handed-keyboard-options",
+    "title": "Gboard One-Handed Mode vs Floating and Compact Layouts",
+    "description": "Choose between one-handed keyboard, resized keyboard and floating mode rather than forcing layout experiments.",
+    "audience": "People typing with one hand",
+    "takeaway": "One-handed mode, floating mode and keyboard height are separate layout choices; pick the geometry that fits your grip.",
+    "sections": [
+      [
+        "Start with the everyday problem",
+        "If the far side of the keyboard is hard to reach while holding the phone, a compact one-handed layout may help. If the keyboard covers an important part of the screen, resizing or floating mode addresses a different issue. Gboard includes ordinary interface routes to keyboard layout controls depending on device and version. The Atlas also carries an enable_one_handed_dialog candidate, but its name only implies a dialog or prompt and does not guarantee that it activates the actual layout engine."
+      ],
+      [
+        "Understand related flags without overreading them",
+        "The identifier enable_adjust_default_keyboard_height is plausibly connected to sizing behavior; enable_extra_small_width_portrait_theme and use_default_display_size_theme relate to theme or density choices. None is a documented replacement for one-handed mode. More importantly, a theme resource can be present in an APK yet inactive on a particular device. Keep the normal one-handed choice as the control variable and avoid altering several resource-selection flags just to make a narrower keyboard."
+      ],
+      [
+        "Test reachability with realistic tasks",
+        "Open a familiar messaging input, type a long word, punctuation and a short number sequence while holding the device normally. Compare one-handed left and right alignments if the UI offers them. Check whether the suggestion bar, microphone and language switcher remain easy to reach, not only the letters. For a floating keyboard, test dragging it near the bottom of the display and returning it to the default docking position. Use the same screen orientation throughout each comparison."
+      ],
+      [
+        "When the setting seems to vanish",
+        "App updates and different display sizes can change which layout affordances are shown. Check whether the keyboard is in split mode, landscape, a desktop-like window or an accessibility layout. If you use a modified build, also compare the package version and any layout patches. Reverting a forced height or theme experiment is safer than resetting personal dictionaries. Keep the solution simple: the best mode is the one that remains predictable as you switch between apps."
+      ]
+    ],
+    "flags": [
+      "enable_one_handed_dialog",
+      "enable_adjust_default_keyboard_height",
+      "enable_extra_small_width_portrait_theme",
+      "use_default_display_size_theme"
+    ],
+    "questions": [
+      [
+        "Does enable_one_handed_dialog force the keyboard into one-handed mode?",
+        "That has not been independently established. The name suggests a dialog-related control; use the ordinary layout interface for supported behavior."
+      ],
+      [
+        "Which is better for a foldable?",
+        "It depends on screen posture. Split mode often suits a wide inner display, while one-handed or floating mode can help reachability on smaller or windowed layouts."
+      ]
+    ],
+    "sources": [
+      [
+        "Google: Use your Gboard keyboard",
+        "https://support.google.com/gboard/answer/2842292?hl=en"
+      ],
+      [
+        "Gboard Patches: patch-specific toolbar and layout features",
+        "https://github.com/jasonwu1994/Gboard-patches"
+      ],
+      [
+        "Google: Change theme, sound or vibration",
+        "https://support.google.com/gboard/answer/6102154?hl=en"
+      ]
+    ]
   }
 ]
