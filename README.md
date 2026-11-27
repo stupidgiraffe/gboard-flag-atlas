@@ -135,7 +135,7 @@ Run `node tests/search.test.mjs` to verify short acronyms, exact flag ranking, t
 
 Cloudflare Web Analytics measures privacy-friendly site traffic via the public Cloudflare beacon on the Atlas homepage and flag/topic/guide pages. Traffic is visible under **Cloudflare Dashboard → Web Analytics → gboard-flag-atlas.shipstatic.com**; there is no login, cookie, or local database on this site.
 
-To keep the catalog useful rather than generate hundreds of thin SEO pages, only **159 specifically interpreted or source-linked flag entries** have individual indexable HTML pages under `/flags/<identifier>/`. The remaining 532 name-only or unresolved identifiers remain available in the full Atlas and can be shared via `/?flag=<identifier>`. Ten topic hubs under `/topics/` provide crawlable internal links, alongside **20 original, user-focused technical guides**, an index at `/guides/`, `sitemap.xml` (191 URLs) and `robots.txt`. A sitemap aids discovery but does not guarantee ranking or indexing.
+To keep the catalog useful rather than generate hundreds of thin SEO pages, only **159 specifically interpreted or source-linked flag entries** have individual indexable HTML pages under `/flags/<identifier>/`. The remaining 532 name-only or unresolved identifiers remain available in the full Atlas and can be shared via `/?flag=<identifier>`. Ten topic hubs under `/topics/` provide crawlable internal links, alongside **20 original, user-focused technical guides**, an index at `/guides/`, `sitemap.xml` (211 URLs) and `robots.txt`. A sitemap aids discovery but does not guarantee ranking or indexing.
 
 Static pages, topic hubs, the homepage assets and the sitemap are reproducibly generated from `data/flags.json` by:
 
@@ -149,7 +149,7 @@ The generator writes a complete ShipStatic-ready `dist/` directory. After changi
 
 ## Technical guides
 
-20 editorial guides in `data/guides.json` cover flag editor workflows, reproducible verification, autocorrection/key correction, User Feature Cache, KLP bytecode analysis, multilingual typing, voice dictation, model downloads, AI writing, grammar checking, Emoji Kitchen, stickers, layout, clipboard, privacy, and performance troubleshooting. Each guide provides original explanations, cautious evidence claims, named flag cross-links, FAQs and relevant references. The generator outputs `/guides/` and 20 canonical `/guides/<topic>/` pages; guide metadata and content are version-controlled. Google indexing is not guaranteed. These pages are written to answer user questions rather than mass-produce near-duplicate SEO text.
+40 editorial guides in `data/guides.json` cover flag editor workflows, reproducible verification, autocorrection/key correction, User Feature Cache, KLP bytecode analysis, multilingual typing, voice dictation, model downloads, AI writing, grammar checking, Emoji Kitchen, stickers, layout, clipboard, privacy, and performance troubleshooting. Each guide provides original explanations, cautious evidence claims, named flag cross-links, FAQs and relevant references. The generator outputs `/guides/` and 40 canonical `/guides/<topic>/` pages; guide metadata and content are version-controlled. Google indexing is not guaranteed. These pages are written to answer user questions rather than mass-produce near-duplicate SEO text.
 
 ## Free automatic Gboard version tracking
 

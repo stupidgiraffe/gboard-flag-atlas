@@ -80,4 +80,4 @@ for (const [category,list] of groups){
 sitemap.push(...buildGuidePages({root,dest,BASE,all,href,esc,shell}));
 write('robots.txt',`User-agent: *\nAllow: /\nSitemap: ${BASE}/sitemap.xml\n`);
 write('sitemap.xml',`<?xml version="1.0" encoding="utf-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${sitemap.map(u=>`<url><loc>${esc(u)}</loc></url>`).join('')}</urlset>`);
-console.log(JSON.stringify({total:all.length,indexableFlags:publish.length,topics:categories.length,guides:20,sitemapURLs:sitemap.length,dist:dest},null,2));
+console.log(JSON.stringify({total:all.length,indexableFlags:publish.length,topics:categories.length,guides:40,sitemapURLs:sitemap.length,dist:dest},null,2));

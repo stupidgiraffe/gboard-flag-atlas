@@ -7,7 +7,7 @@ const root=process.cwd(),out='/tmp/gfa-site-build-test';
 execFileSync(process.execPath,[join(root,'scripts/build-site.mjs'),out],{stdio:'pipe'});
 const read=p=>readFileSync(join(out,p),'utf8');
 const flags=JSON.parse(read('data/flags.json')).entries;
-const guides=JSON.parse(readFileSync(join(root,'data/guides.json'),'utf8'));
+const guides=[...JSON.parse(readFileSync(join(root,'data/guides.json'),'utf8')),...JSON.parse(readFileSync(join(root,'data/guides-extended.json'),'utf8'))];
 const eligible=flags.filter(f=>['Code-referenced','Community-referenced','Library-referenced','Interpreted'].includes(f.confidence));
 assert.equal(flags.length,691,'all catalog records retained');
 assert.equal(new Set(flags.map(f=>f.name)).size,691,'unique identifiers');
@@ -17,13 +17,13 @@ assert.equal(flags.find(f=>f.name==='disable_load_v2_klp').title,'Disable V2 KLP
 assert.equal(eligible.length,159);
 assert.equal(readdirSync(join(out,'flags')).length,159);
 assert.equal(readdirSync(join(out,'topics')).length,10);
-assert.equal(guides.length,20);
-assert.equal(new Set(guides.map(g=>g.slug)).size,20);
-assert.equal(readdirSync(join(out,'guides')).length,21,'20 guides + guide hub');
+assert.equal(guides.length,40);
+assert.equal(new Set(guides.map(g=>g.slug)).size,40);
+assert.equal(readdirSync(join(out,'guides')).length,41,'20 guides + guide hub');
 const xml=read('sitemap.xml');
-assert.equal((xml.match(/<loc>/g)||[]).length,191);
+assert.equal((xml.match(/<loc>/g)||[]).length,211);
 const urls=(xml.match(/<loc>(.*?)<\/loc>/g)||[]);
-assert.equal(new Set(urls).size,191,'unique sitemap URLs');
+assert.equal(new Set(urls).size,211,'unique sitemap URLs');
 assert.ok(xml.includes('/flags/disable_load_v2_klp/'));
 assert.ok(xml.includes('/guides/gboard-v2-klp-language-pack-loader/'));
 assert.ok(!xml.includes('/flags/use_4c_in_signboard/'));
@@ -54,10 +54,11 @@ for(const g of guides){
  assert.ok(html.includes('Frequently asked questions'),'FAQ missing '+g.slug);
  assert.ok(g.sections.length>=3 && g.questions.length>=2 && g.sources.length>0);
  const text=g.sections.map(x=>x[1]).join(' ').split(/\s+/);
+ if(guides.indexOf(g)>=20)assert.ok(text.length>=220,'new guide too thin '+g.slug);
  assert.ok(text.length>=120,'thin editorial page '+g.slug+': '+text.length+' words');
  for(const f of g.flags)assert.ok(html.includes(f),'missing flag link '+f);
 }
 assert.ok(read('flags/enable_ac_threshold/index.html').includes('Google Gboard research'));
 assert.ok(read('topics/predictions-and-corrections/index.html').includes('enable_ac_threshold'));
-console.log('PASS: 691 flags, 17 Unknown, 159 indexable flags, 20 substantive guides, 191 unique sitemap URLs.');
+console.log('PASS: 691 flags, 17 Unknown, 159 indexable flags, 40 substantive guides, 211 unique sitemap URLs.');
 

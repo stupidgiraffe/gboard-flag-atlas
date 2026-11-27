@@ -2,8 +2,8 @@ import {readFileSync,writeFileSync,mkdirSync} from "node:fs";
 import {join,dirname} from "node:path";
 
 export function buildGuidePages({root,dest,BASE,all,href,esc,shell}) {
-  const guides=JSON.parse(readFileSync(join(root,"data/guides.json"),"utf8"));
-  if(guides.length!==20 || new Set(guides.map(g=>g.slug)).size!==20) throw Error("20 unique guides required");
+  const guides=[...JSON.parse(readFileSync(join(root,"data/guides.json"),"utf8")),...JSON.parse(readFileSync(join(root,"data/guides-extended.json"),"utf8"))];
+  if(guides.length!==40 || new Set(guides.map(g=>g.slug)).size!==40) throw Error("20 unique guides required");
   const flags=new Map(all.map(f=>[f.name,f]));
   const urls=[];
   const url=g=>"/guides/"+g.slug+"/";
@@ -12,18 +12,26 @@ export function buildGuidePages({root,dest,BASE,all,href,esc,shell}) {
   for(const g of guides) {
     if(g.sections.length<3||g.questions.length<2||g.flags.length<3||g.flags.some(n=>!flags.has(n))||g.sources.length===0) throw Error("Incomplete guide "+g.slug);
   }
+  for(const g of guides.slice(20)) {
+    const words=g.sections.map(s=>s[1]).join(" ").trim().split(/\s+/).length;
+    if(g.sections.length<4||g.flags.length<4||g.sources.length<2||words<220) throw Error("New guide lacks sufficient original research: "+g.slug);
+  }
   const groups=[
     ["Start here",guides.slice(0,4)],
     ["Autocorrection, touch accuracy and language",guides.slice(4,10)],
     ["Voice typing and AI",guides.slice(10,14)],
     ["Emoji, stickers, layout and editing",guides.slice(14,18)],
-    ["Privacy and performance",guides.slice(18)]
+    ["Privacy and performance",guides.slice(18,20)],
+    ["GboardWu, backups and privacy",guides.slice(20,25)],
+    ["Editing, gestures and layouts",guides.slice(25,30)],
+    ["Appearance, handwriting and language",guides.slice(30,35)],
+    ["Punctuation, dictation, OCR and emoji search",guides.slice(35,40)]
   ];
   const hub='<nav class="breadcrumbs"><a href="/">Flag Atlas</a> / Guides</nav>'
-    +'<div class="hero"><div class="eyebrow">20 independent guides</div><h1>Gboard hidden features, explained with evidence</h1><p class="lead">Learn how Gboard flags relate to corrections, AI features, voice typing, model downloads, Emoji Kitchen and diagnostics. Follow exact identifiers, original analysis and source references.</p></div>'
+    +'<div class="hero"><div class="eyebrow">40 independent guides</div><h1>Gboard hidden features, explained with evidence</h1><p class="lead">Learn how Gboard flags relate to corrections, AI features, voice typing, model downloads, Emoji Kitchen and diagnostics. Follow exact identifiers, original analysis and source references.</p></div>'
     +'<main class="grid"><div>'+groups.map(([heading,items])=>'<section class="panel"><h2>'+esc(heading)+'</h2><div class="items">'+items.map(item).join("")+'</div></section>').join("")+'</div><aside><section class="panel"><h2>How this reference works</h2><p>The Atlas documents 691 candidate identifiers from GboardWu 18.5.4. A matching identifier is not proof that a feature can be enabled on every phone.</p><p>Guides explain mechanisms and testing methods. The search shows exact IDs, evidence labels and research notes.</p><a class="btn secondary" href="/#directory">Search all flags</a></section></aside></main>';
   const hubURL=BASE+"/guides/";
-  write("guides/index.html",shell({pageTitle:"20 Gboard Developer Flag Guides | Gboard Flag Atlas",desc:"20 original guides to GboardWu flags, keyboard corrections, voice typing, Emoji Kitchen, AI writing and safe flag testing.",url:hubURL,main:hub}));
+  write("guides/index.html",shell({pageTitle:"20 Gboard Developer Flag Guides | Gboard Flag Atlas",desc:"40 original guides to GboardWu flags, keyboard corrections, voice typing, Emoji Kitchen, AI writing and safe flag testing.",url:hubURL,main:hub}));
   urls.push(hubURL);
   for(let i=0;i<guides.length;i++) {
     const g=guides[i],canonical=BASE+url(g);
@@ -42,7 +50,7 @@ export function buildGuidePages({root,dest,BASE,all,href,esc,shell}) {
       +paragraphs
       +'<section class="panel"><h2>Frequently asked questions</h2>'+faqs+'</section>'
       +'<section class="panel"><h2>References and context</h2><ul class="references">'+sources+'</ul><p>External sources support the cited general mechanisms or patch features. They do not independently verify the behavior of every individual undocumented flag.</p></section>'
-      +'<section class="panel"><h2>Related reading</h2><div class="items">'+neighbors.map(item).join("")+'<a class="item" href="/guides/">All 20 guides</a></div></section>'
+      +'<section class="panel"><h2>Related reading</h2><div class="items">'+neighbors.map(item).join("")+'<a class="item" href="/guides/">All 40 guides</a></div></section>'
       +'</main><aside><section class="panel"><h2>Explore exact flags</h2><p>Identifiers from the current Atlas snapshot:</p><div class="items">'+flaglist+'</div></section><section class="panel"><h2>Use the Atlas</h2><p>Search all 691 identifiers, filter by evidence level, and save useful examples.</p><a class="btn secondary" href="/#directory">Search flags</a></section></aside></div>';
     write("guides/"+g.slug+"/index.html",shell({pageTitle:g.title+" | Gboard Flag Atlas",desc:g.description,url:canonical,main}));
     urls.push(canonical);
@@ -54,8 +62,8 @@ export function buildGuidePages({root,dest,BASE,all,href,esc,shell}) {
   if(!html.includes('href="/guides/"')) {
     html=html.replace('<a data-hide href="#about">About</a>','<a data-hide href="/guides/">Guides</a><a data-hide href="#about">About</a>');
   }
-  const picks=["gboard-developer-flags-explained","use-gboardwu-flag-editor","gboard-autocorrect-flags","gboard-v2-klp-language-pack-loader","gboard-emoji-kitchen-experiments","gboard-typing-lag-battery-performance"];
-  const featured='<section class="guide-preview" aria-labelledby="guide-preview-title"><div class="sectiontitle"><div><h2 id="guide-preview-title">Guides to Gboard hidden features</h2><p>Understand the evidence, test safely, and find the exact flags behind each feature.</p></div><a class="guide-all" href="/guides/">All 20 guides</a></div><div class="guide-tiles">'
+  const picks=["gboard-developer-flags-explained","use-gboardwu-flag-editor","gboard-v2-klp-language-pack-loader","gboard-emoji-kitchen-experiments","gboardwu-vs-stock-gboard","gboard-flag-backup-restore-pb-xml","gboard-web-clipboard-sync-security","gboard-custom-themes-material-3-colors","gboard-rambler-voice-editing"];
+  const featured='<section class="guide-preview" aria-labelledby="guide-preview-title"><div class="sectiontitle"><div><h2 id="guide-preview-title">Guides to Gboard hidden features</h2><p>Understand the evidence, test safely, and find the exact flags behind each feature.</p></div><a class="guide-all" href="/guides/">All 40 guides</a></div><div class="guide-tiles">'
    +picks.map(id=>{const g=guides.find(x=>x.slug===id);return '<a href="'+url(g)+'"><strong>'+esc(g.title)+'</strong><span>'+esc(g.description)+'</span></a>'}).join("")
    +'</div></section>';
   if(!html.includes('class="guide-preview"')) {

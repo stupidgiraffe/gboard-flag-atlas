@@ -1,0 +1,1102 @@
+[
+  {
+    "slug": "gboardwu-vs-stock-gboard",
+    "title": "GboardWu vs Stock Gboard: What Changes and What Stays Google's?",
+    "description": "Understand GboardWu, Morphe patches, package renaming, stock flags and why the two keyboards can behave differently.",
+    "audience": "Users of patched Gboard",
+    "takeaway": "The patched APK starts with Google's Gboard code, but the patch layer and Android package identity can change what settings and data you see.",
+    "sections": [
+      [
+        "Three layers, not two unrelated keyboards",
+        "Stock Gboard supplies the keyboard engine, internal experiments, language support and normal user settings. Morphe is a patching framework; the Gboard Patches project builds optional changes for a chosen compatible APK. GboardWu is a common display name used for the resulting installed app. A patch can expose an existing Google option or add entirely new behavior. Our Atlas catalogs candidate identifiers from a patched build, so it should not be mistaken for a second official flag registry."
+      ],
+      [
+        "Package names determine where Android keeps data",
+        "Android separates app data by package identity. Gboard Patches documents an optional Package Rename feature, including the coexistence name dev.jason.com.google.android.inputmethod.latin. When stock Gboard and a renamed patched copy coexist, they can maintain independent preferences, learned words and stored flag overrides. An update installed under a different package name may look like a new keyboard rather than an upgrade. Record the installed package name, not only the app label, before comparing two devices or backups."
+      ],
+      [
+        "Separate a patch control from a Google flag",
+        "A control labeled Web Clipboard, custom theme or toolbar buttons may be implemented by the patch project rather than by a Google flag. In contrast, the exposed Flag Editor offers access to values Gboard itself may read. For a concrete test, compare the exact identifier and underlying Gboard version on stock and patched builds, then check whether a patch needs to be installed to expose the screen. A visible setting alone does not prove that its backend is enabled."
+      ],
+      [
+        "Avoid misleading side-by-side comparisons",
+        "Build number, architecture, installed patches, account eligibility and language must be matched before attributing any behavior to Morphe. If one keyboard shows a new feature while the other does not, check these differences before copying flags blindly. Export settings through the patch's backup facilities where available, keep the current keyboard working, and avoid mixing data files between distinct package identities without knowing their schemas. This is a compatibility question, not evidence that Google maintains two unrelated flag systems."
+      ]
+    ],
+    "flags": [
+      "pref_custom_theme_enabled",
+      "pref_manual_incognito_feature_enabled",
+      "pref_web_clipboard_enabled",
+      "pref_key_enable_inline_suggestion"
+    ],
+    "questions": [
+      [
+        "Does GboardWu get a different set of Google flags?",
+        "Not inherently. It starts from a particular Gboard build, then patches may expose, alter or add features. Two different builds can contain different identifiers, and patch-only preferences should be labeled separately."
+      ],
+      [
+        "Can stock Gboard and GboardWu be installed together?",
+        "Yes, when a supported Package Rename patch assigns a distinct package identity. They can then have independent app data and may need separate setup."
+      ]
+    ],
+    "sources": [
+      [
+        "Gboard Patches: current features and limitations",
+        "https://github.com/jasonwu1994/Gboard-patches"
+      ],
+      [
+        "Gboard Patches: version changes",
+        "https://github.com/jasonwu1994/Gboard-patches/blob/main/CHANGELOG.md"
+      ],
+      [
+        "Google: Fix problems with Gboard",
+        "https://support.google.com/gboard/answer/9058584?hl=en"
+      ]
+    ]
+  },
+  {
+    "slug": "gboard-flag-backup-restore-pb-xml",
+    "title": "Back Up Gboard Flags Safely: PB, XML and Patch Settings",
+    "description": "Distinguish Gboard's stored flag files from Morphe settings and personal data before exporting or restoring.",
+    "audience": "Advanced flag editor users",
+    "takeaway": "Backing up a flag store is not the same as backing up dictionaries, clipboard pins, themes or Morphe configuration.",
+    "sections": [
+      [
+        "Know which data you are exporting",
+        "Gboard Patches currently documents three different backup concerns: the patches' own configuration, Gboard's personal data, and Gboard's raw PB/XML flag-store files. A list of identifiers recovered from an APK is static evidence about code; a saved flag store is device state. Those are different artifacts. A manifest may contain hundreds of possible flag names even though the device stores only values that were fetched, set or overridden."
+      ],
+      [
+        "Why PB and XML both appear",
+        "Gboard Patches source recognizes a Jetpack DataStore protobuf file named flags_jetpack_data_store.pb plus legacy XML files flag_override.xml and flag_value.xml. These are storage formats, not a guarantee that every version reads all of them simultaneously. A raw backup should record the Gboard version and package identity, because defaults and serialization can change across releases. Never interpret a missing key in a backup as proof that an experiment has been removed from Gboard code."
+      ],
+      [
+        "A reproducible backup workflow",
+        "Before experimenting, export the patch settings and the available flag-store data. Keep the export alongside a plain-text note of the installed Gboard build, patch version, package name and changed identifiers. When comparing backups, compare keys and values rather than file byte size: protobuf order, migration and unrelated preference writes may produce noisy differences. Make one deliberate change, reopen the editor, then export again to see what actually persisted."
+      ],
+      [
+        "Restore with version and privacy awareness",
+        "A raw import can replace existing local flag overrides, while a personal-data backup may contain learned words, pinned clipboard content or other sensitive data. Keep these files private. The patched app documents version checks for personal data restoration; do not assume cross-version raw flag imports are safe. If a new keyboard build crashes or silently ignores old settings, first test ordinary Gboard settings with the old overrides removed rather than repeatedly restoring the same possibly incompatible file."
+      ]
+    ],
+    "flags": [
+      "pref_restart_restore_crash_recovery_clean_flag",
+      "enable_hmm_user_history_backup",
+      "enable_emoji_variant_preferences_backup",
+      "pref_key_use_personalized_dicts"
+    ],
+    "questions": [
+      [
+        "Will a backup reveal every available flag?",
+        "No. A backup captures stored state; the Atlas's APK string scan captures candidate identifiers. Neither proves that every identifier is a live Boolean option."
+      ],
+      [
+        "Can I restore old flags into a newer version?",
+        "It may work, but a changed schema or removed experiment can make some values irrelevant or harmful. Compare versions and preserve an untouched backup before importing."
+      ]
+    ],
+    "sources": [
+      [
+        "Gboard Patches: current features and limitations",
+        "https://github.com/jasonwu1994/Gboard-patches"
+      ],
+      [
+        "Gboard Patches: version changes",
+        "https://github.com/jasonwu1994/Gboard-patches/blob/main/CHANGELOG.md"
+      ],
+      [
+        "Gboard Patches: known PB/XML storage file paths",
+        "https://github.com/jasonwu1994/Gboard-patches/blob/main/extensions/extension/src/main/java/dev/jason/gboardpatches/extension/backuprestore/flagstore/GboardFlagStoreFiles.java"
+      ]
+    ]
+  },
+  {
+    "slug": "gboard-flags-across-app-updates",
+    "title": "What Happens to Gboard Flags After an App Update?",
+    "description": "Learn how to distinguish newly added flags, renamed experiments, changed defaults and old overrides that no longer work.",
+    "audience": "Gboard experiment trackers",
+    "takeaway": "A new APK version is a signal to compare code and behavior, not evidence that the flag list or defaults changed.",
+    "sections": [
+      [
+        "Version changes can have four outcomes",
+        "A newer Gboard release may add a new identifier, remove an obsolete one, change the code path controlled by an existing identifier or leave the identifier unchanged while its runtime default changes. Server-side eligibility can also change without an APK update. Comparing only a flag editor's visible list is insufficient: stored overrides can linger after the implementation that once read them has disappeared. Track both the APK version and the context of a specific experiment."
+      ],
+      [
+        "How the Atlas measures changes",
+        "The Atlas has automated public-version monitoring and a separate APK scanning workflow. The latter validates the downloaded Android package and version, extracts candidate identifier strings from DEX tables, and records a versioned snapshot without retaining the APK itself. Changes between comparable snapshots can reveal added or missing strings; they do not establish type, default value or functioning code paths. A patched build and stock APK may also differ, so we keep source provenance rather than treating every raw difference as a Google change."
+      ],
+      [
+        "A proper release comparison",
+        "Record the base version, architecture and source; compare identifiers as sorted sets; then manually inspect promising additions in code, flag stores and UI. For unchanged names, measure behavior using the same device, app, locale and repeatable test sentence before and after updating. If a flag is only a stored preference, classify it accordingly. If its meaning is uncertain, keep that uncertainty visible instead of extrapolating from a word like enable or disable."
+      ],
+      [
+        "What users should do when flags reset",
+        "First confirm that the update used the same package identity and really upgraded the existing installation. Search the Flag Editor for the exact old name, inspect its current type and default, then check the export of stored overrides. Some flags depend on network rollout data or availability that an app update cannot force. Preserve a backup, restore only compatible settings, and avoid copying hundreds of values into an untested build merely to replicate the old screen."
+      ]
+    ],
+    "flags": [
+      "disable_load_v2_klp",
+      "enable_user_feature_cache",
+      "enable_writing_tools_v2",
+      "pref_restart_restore_crash_recovery_clean_flag"
+    ],
+    "questions": [
+      [
+        "Does the Atlas update itself when Google publishes Gboard?",
+        "The upstream version watcher and APK candidate scans run on schedules. New explanatory articles still need research; automation does not invent definitions for unfamiliar flags."
+      ],
+      [
+        "If a flag disappears, was the feature removed?",
+        "Not necessarily. Identifiers can move, be renamed, become server-controlled or remain in another module; a string-diff is a research lead, not a final product conclusion."
+      ]
+    ],
+    "sources": [
+      [
+        "Gboard Patches: current features and limitations",
+        "https://github.com/jasonwu1994/Gboard-patches"
+      ],
+      [
+        "Gboard Flag Atlas: source snapshots and scanner",
+        "https://github.com/stupidgiraffe/gboard-flag-atlas/tree/main/data/version-snapshots"
+      ],
+      [
+        "Gboard Patches: version changes",
+        "https://github.com/jasonwu1994/Gboard-patches/blob/main/CHANGELOG.md"
+      ]
+    ]
+  },
+  {
+    "slug": "gboard-manual-incognito-mode",
+    "title": "Gboard Incognito Mode: What It Protects and What It Doesn't",
+    "description": "Separate Gboard incognito controls from Android privacy, clipboard retention and network-backed typing features.",
+    "audience": "Privacy-conscious Android users",
+    "takeaway": "Incognito is about limiting keyboard personalization; it is not a guarantee that apps, the network or the operating system cannot observe your text.",
+    "sections": [
+      [
+        "What incognito changes in practice",
+        "Incognito behavior is part of keyboard state, not a global Android private mode. Gboard Patches offers a manual Incognito Mode Toggle in its access points, with optional controls for clipboard and voice typing while incognito is active. That is a patch feature and should not be confused with an official Android privacy switch. The Atlas also contains preference-like identifiers associated with manual incognito, but their exact persisted values and effective policy depend on the installed patched build."
+      ],
+      [
+        "Understand the data boundaries",
+        "A messaging app can still retain everything you submit while Gboard is incognito. Screenshots, accessibility services, app analytics and system clipboard interactions remain separate concerns. Likewise, certain speech and AI services have their own processing rules; incognito does not automatically make a cloud-backed dictation or rewriting request local. Google's own help pages document distinct permissions and voice-typing behavior. Evaluate the full feature path rather than assuming the keyboard label controls every destination."
+      ],
+      [
+        "Test behavior instead of relying on the icon",
+        "In a throwaway text field, note whether the incognito indicator appears and whether suggestions from recent typing persist after leaving the field. Repeat with manual incognito off, using non-sensitive invented text. Check the patch's options for clipboard and voice typing separately. Avoid testing with private names, passwords or medical phrases: creating a privacy test that copies genuine secrets into a log defeats the purpose. Keep notes about build and patch version."
+      ],
+      [
+        "Choose the least confusing configuration",
+        "For routine private fields, prefer Android and app-level privacy protections first. Use manual incognito if the patch provides a behavior you actually need, not because its name sounds like comprehensive anonymity. Do not force preferences controlling logging or personal data without understanding the consequences. If changing an incognito-related flag disables normal keyboard functions, revert the exact value and verify a cold keyboard start before editing another setting."
+      ]
+    ],
+    "flags": [
+      "pref_manual_incognito_feature_enabled",
+      "pref_manual_incognito_requested",
+      "pref_incognito_allow_clipboard",
+      "pref_incognito_allow_voice_typing"
+    ],
+    "questions": [
+      [
+        "Does Gboard incognito prevent the app I'm typing into from seeing text?",
+        "No. The target app receives text you enter; incognito governs selected keyboard behaviors, not what your recipient app can read."
+      ],
+      [
+        "Is an Incognito toggle part of original Google Gboard?",
+        "The manual toolbar toggle described here is implemented by Gboard Patches. Built-in incognito behaviors may exist separately; don't conflate the two."
+      ]
+    ],
+    "sources": [
+      [
+        "Gboard Patches: current features and limitations",
+        "https://github.com/jasonwu1994/Gboard-patches"
+      ],
+      [
+        "Google: Gboard privacy and troubleshooting",
+        "https://support.google.com/gboard/answer/9058584?hl=en"
+      ],
+      [
+        "Google: Advanced voice typing privacy details",
+        "https://support.google.com/gboard/answer/11197787?hl=en"
+      ]
+    ]
+  },
+  {
+    "slug": "gboard-web-clipboard-sync-security",
+    "title": "Gboard Web Clipboard: LAN Sync, Pairing and Security",
+    "description": "How patched Gboard shares clipboard text with a browser, and how to evaluate local-network exposure and pairing.",
+    "audience": "GboardWu power users",
+    "takeaway": "Web Clipboard is a patch-added local service, not an ordinary Google feature flag; pairing and network reachability matter more than a toggle's name.",
+    "sections": [
+      [
+        "What the patch actually supplies",
+        "Gboard Patches includes Web Clipboard, which runs a phone-hosted portal accessible to a browser on the same local network. Recent release notes describe bidirectional clipboard text and image transfers, browser uploads and a Quick Settings entry. This is built by the patch project, not an official Google sync service or a feature switched on by a generic stock Gboard flag. The Atlas includes patch preference identifiers for the service, pairing and port configuration."
+      ],
+      [
+        "Understand the trust boundary",
+        "A local-network service can be reachable by other devices on the Wi-Fi if the phone and network permit it. Pairing codes and a requirement to pair reduce exposure, but their strength depends on implementation and local threat conditions. Do not expose a clipboard portal through a public port forward, reverse proxy or public tunnel by accident. Treat synced items like passwords or recovery codes as sensitive even if the connection never leaves your home LAN."
+      ],
+      [
+        "A safer first setup",
+        "Read the patch's current instructions and keep pairing enabled. Start the service only when needed, open the provided local address from a trusted browser, and verify that the phone prompts or validates access as documented. Try harmless test text first, then verify whether clipboard updates flow in both directions. Close the session and stop the service when finished. If a browser can reconnect without the intended pairing step, check the active setting before syncing actual personal content."
+      ],
+      [
+        "When sync fails",
+        "Distinguish Wi-Fi connectivity problems from Gboard clipboard state and patch compatibility. Confirm both devices are on the expected local network, check captive portals or guest-network client isolation, and verify the phone's reported service port. Recent patches changed image-handling behavior, so ensure the installed patch version supports the mode you are testing. Never treat the existence of pref_web_clipboard_enabled as proof that a server is running or accessible."
+      ]
+    ],
+    "flags": [
+      "pref_web_clipboard_enabled",
+      "pref_web_clipboard_pairing_required",
+      "pref_web_clipboard_pairing_code",
+      "pref_web_clipboard_port"
+    ],
+    "questions": [
+      [
+        "Is the Web Clipboard feature built into stock Gboard?",
+        "No. The referenced phone-hosted web portal comes from the independent Gboard Patches project."
+      ],
+      [
+        "Can I use it securely on public Wi-Fi?",
+        "Avoid exposing clipboard contents on untrusted networks. Pairing is useful but not a substitute for network isolation, careful session management and keeping the patch current."
+      ]
+    ],
+    "sources": [
+      [
+        "Gboard Patches: current features and limitations",
+        "https://github.com/jasonwu1994/Gboard-patches"
+      ],
+      [
+        "Gboard Patches: version changes",
+        "https://github.com/jasonwu1994/Gboard-patches/blob/main/CHANGELOG.md"
+      ],
+      [
+        "Google: Copy and paste with Gboard",
+        "https://support.google.com/gboard/answer/10742542?hl=en"
+      ]
+    ]
+  },
+  {
+    "slug": "gboard-toolbar-editing-buttons-shortcuts",
+    "title": "Gboard Toolbar Editing Buttons and Long-Press Shortcuts",
+    "description": "Find practical cursor, selection and clipboard shortcuts without confusing patch-added controls with Google's flags.",
+    "audience": "Anyone editing long text on Android",
+    "takeaway": "Editing buttons can save taps, but patch-added toolbar items and core Gboard access-point experiments are separate settings.",
+    "sections": [
+      [
+        "What is added by the patch",
+        "Gboard Patches explicitly adds customizable toolbar editing buttons, including cursor arrows, Select All, Copy, Cut, Paste, Forward Delete, Home, End and Tab. It also offers long-press editing shortcuts on supported layouts. These are usable interface changes provided by the patch, not proof that Google quietly ships every button behind one hidden Boolean. Some functions depend on which Android text editor receives the key event, so a button that works in a message field may behave differently in a web form."
+      ],
+      [
+        "How access-point flags fit in",
+        "Gboard calls its toolbar entries and menus access points. The Atlas includes identifiers for menu redesigns, displaying access-point customization and preferences about ordering and counts. Those names describe possible internal UI controls, but a stored count is not an alternative to installing the patch's toolbar-button feature. Before adjusting one of these values, verify whether a corresponding normal Patches screen already gives you the exact layout you want. Prefer the supported screen over forcing an undocumented menu flag."
+      ],
+      [
+        "Build a practical editing layout",
+        "For writing and code snippets, prioritize Forward Delete, Select All, left/right arrows and Paste as plain text if the patched build exposes them. Test a multiline note with cursor moves at both ends, then try selections across a line break. Long-press actions may differ by English QWERTY, Zhuyin or another layout. Keep a record of the original toolbar arrangement and check that adding buttons does not hide the language switcher or microphone you still use."
+      ],
+      [
+        "Troubleshoot unsupported app behavior",
+        "Android editors can treat Tab, Home, End, arrow events and selection commands differently. If a button appears but does nothing, check an ordinary text editor before changing flags. Browser text areas, messaging apps and terminal emulators do not promise identical input handling. Verify the patch version against the release notes, because new buttons were added recently. A flag that changes toolbar presentation may alter placement, but it will not necessarily fix an app that rejects a specific command."
+      ]
+    ],
+    "flags": [
+      "enable_access_points_menu_redesign",
+      "pref_editing_access_points_enabled",
+      "pref_access_point_count_value",
+      "pref_key_access_points_showing_order"
+    ],
+    "questions": [
+      [
+        "Can I get Select All and cursor arrows without rooting Android?",
+        "The patch provides toolbar editing controls inside its modified keyboard; that is distinct from root access. Availability depends on installing a compatible patched APK."
+      ],
+      [
+        "Why does Tab work in one app but not another?",
+        "The receiving editor decides how to handle input events. Test the same shortcut in a plain text editor before assuming a Gboard flag is malfunctioning."
+      ]
+    ],
+    "sources": [
+      [
+        "Gboard Patches: patch-specific toolbar and layout features",
+        "https://github.com/jasonwu1994/Gboard-patches"
+      ],
+      [
+        "Gboard Patches: new toolbar controls in release notes",
+        "https://github.com/jasonwu1994/Gboard-patches/blob/main/CHANGELOG.md"
+      ],
+      [
+        "Google: Use your Gboard keyboard",
+        "https://support.google.com/gboard/answer/2842292?hl=en"
+      ]
+    ]
+  },
+  {
+    "slug": "gboard-swipe-down-dismiss-top-row",
+    "title": "Swipe Down to Hide Gboard and Customize the Top Row",
+    "description": "Understand patched swipe-to-dismiss behavior, programmable top-row slots and the security tradeoffs of JavaScript actions.",
+    "audience": "Gboard customizer and automation users",
+    "takeaway": "Gesture patches and JavaScript-enabled top-row slots are custom extensions; they should be configured intentionally, not discovered through random flag flipping.",
+    "sections": [
+      [
+        "Two gesture features with different purposes",
+        "Gboard Patches documents a swipe-down gesture that dismisses the keyboard from its suggestions or toolbar area. Separately, it offers a swipeable custom top row that can expose user-defined text and JavaScript slots. The first controls keyboard visibility; the second adds an interaction surface and optional script execution. Treating them as a single gesture can lead to frustrating conflicts or accidental taps. Start with one capability enabled and learn its swipe target before combining them."
+      ],
+      [
+        "Why the script limits matter",
+        "The Atlas's candidate preferences include maximum JavaScript execution time, stack size and memory limits for top-row scripts. These are settings for a patch-specific scripting feature, not a license to execute arbitrary unreviewed code from a chat or social post. Treat scripts as programs running within a privileged keyboard context. Do not paste credentials into a slot, copy scripts that silently send text over the network, or relax memory and timeout limits merely to make an unknown script execute."
+      ],
+      [
+        "A useful starter configuration",
+        "Begin with static text snippets: an email sign-off, frequently typed punctuation or a harmless template. Test short horizontal swipes versus vertical swipe-to-dismiss in an unsent message field, both with and without the suggestion strip. If the swipe triggers the wrong function, choose a less crowded layout or disable the extension before trying to change low-level gesture settings. Make the keyboard comfortable for real typing instead of optimizing only for a demonstration."
+      ],
+      [
+        "Confirm the feature you have installed",
+        "The stock keyboard's glide typing is a gesture on letter keys and is unrelated to a top-row swipe extension. Verify that your patch version includes both features, and check its own UI for slot configuration. When an option is absent after upgrading, compare the installed APK's package identity and patch compatibility first. Flag names such as pref_top_row_swipe_enabled identify stored settings, but they do not prove that a particular build contains a functioning handler."
+      ]
+    ],
+    "flags": [
+      "pref_swipe_down_dismiss_keyboard_enabled",
+      "pref_top_row_swipe_enabled",
+      "pref_top_row_swipe_global_java_script",
+      "pref_top_row_swipe_js_timeout_max_ms"
+    ],
+    "questions": [
+      [
+        "Is this the same as Gboard Glide typing?",
+        "No. Glide typing draws words across letter keys. These patches add dismissal gestures and a separate swipeable top-row surface."
+      ],
+      [
+        "Should I increase the JavaScript timeout to run complex scripts?",
+        "Not by default. Keep scripts small and inspect their behavior; limits help bound work performed in a keyboard process that must remain responsive."
+      ]
+    ],
+    "sources": [
+      [
+        "Gboard Patches: patch-specific toolbar and layout features",
+        "https://github.com/jasonwu1994/Gboard-patches"
+      ],
+      [
+        "Gboard Patches: top-row and swipe changes",
+        "https://github.com/jasonwu1994/Gboard-patches/blob/main/CHANGELOG.md"
+      ],
+      [
+        "Google: Slide your finger to type",
+        "https://support.google.com/gboard/answer/2811346?hl=en"
+      ]
+    ]
+  },
+  {
+    "slug": "gboard-keypress-haptics-vibration",
+    "title": "Gboard Vibration and Haptics: Why Changes Sometimes Do Nothing",
+    "description": "Differentiate Android-wide haptic settings, Gboard keypress options and patched vibration intensity controls.",
+    "audience": "People tuning keyboard feedback",
+    "takeaway": "A vibration control can be overridden by device hardware, Android settings or patch compatibility; a haptics flag alone is not a measured improvement.",
+    "sections": [
+      [
+        "Identify where vibration is controlled",
+        "Gboard's user-facing Preferences include keypress feedback controls, while Android also manages system haptics and intensity on supported devices. Gboard Patches documents a feature for keypress vibration intensity rather than only duration. The right choice depends on what you are trying to feel: shorter feedback, a softer pulse or no vibration at all. Before opening developer flags, check the normal Gboard settings and the phone's system vibration settings, then compare with a simple repeated typing test."
+      ],
+      [
+        "Why the modern haptics flag is not enough",
+        "The candidate identifier pref_modern_keypress_haptics_enabled suggests a modern feedback path, but the Atlas does not independently establish its default, supported devices or effect on intensity. A device may lack the haptic hardware capability used by that path, enforce system restrictions or map several requested intensity levels to the same physical result. Changing a preference can therefore appear to succeed without changing what you feel. Record device model, Android version and the actual Gboard build alongside the value."
+      ],
+      [
+        "Measure comfort, not imaginary battery gains",
+        "Try a short paragraph at a fixed typing speed and compare several permitted settings, including off. Pay attention to whether haptic events feel late, double-triggered or harsh rather than claiming a setting saves a precise percentage of battery. Typing feedback can be affected by system load and animation delays, but the Atlas has no hardware power measurements for this flag. Changes to key correction or commit animations are separate experiments, not replacement vibration toggles."
+      ],
+      [
+        "A clean troubleshooting path",
+        "If haptics suddenly stop after an update, test whether system vibration works elsewhere, then inspect Gboard's own feedback setting. Recheck the patched intensity setting if installed. Only after those checks should you compare the developer preference between two Gboard versions. If you enable an obscure flag and the keyboard becomes inconsistent, undo that single change rather than adjusting animations, touch-correction thresholds and vibration settings together. One-variable tests make regressions diagnosable."
+      ]
+    ],
+    "flags": [
+      "pref_modern_keypress_haptics_enabled",
+      "enable_correction_commit_animation",
+      "enable_key_correction_debug_visualizer",
+      "enable_set_can_change_global_touch_mode_api"
+    ],
+    "questions": [
+      [
+        "Will forcing modern haptics make every phone vibrate harder?",
+        "No. Hardware support, Android policy and Gboard's selected feedback path may prevent any noticeable difference."
+      ],
+      [
+        "Does vibration intensity directly control key correction?",
+        "No. The haptic and key-correction paths are distinct. Do not use correction-debug flags as a substitute for feedback settings."
+      ]
+    ],
+    "sources": [
+      [
+        "Google: Change theme, sound or vibration",
+        "https://support.google.com/gboard/answer/6102154?hl=en"
+      ],
+      [
+        "Gboard Patches: patch-specific toolbar and layout features",
+        "https://github.com/jasonwu1994/Gboard-patches"
+      ],
+      [
+        "Google: Fix Gboard problems",
+        "https://support.google.com/gboard/answer/9058584?hl=en"
+      ]
+    ]
+  },
+  {
+    "slug": "gboard-split-keyboard-tablets-foldables",
+    "title": "Gboard Split Keyboard on Tablets and Foldables",
+    "description": "Troubleshoot split layout, auto-split prompts and screen-size changes on large displays and foldable phones.",
+    "audience": "Tablet and foldable users",
+    "takeaway": "Split layout is a screen-geometry problem first; a developer flag cannot force a usable layout on every device size or orientation.",
+    "sections": [
+      [
+        "Separate forced split from automatic split",
+        "A split keyboard spaces letter groups toward the left and right edges, which can make thumb typing easier on a large screen. The Atlas includes candidates for auto-split behavior, forced split preference and split layouts on larger tablets. Their names are not proof that all combinations work. A normal split keyboard setting or the Gboard Patches feature unlock is preferable when available, because those interfaces can account for screen posture and other supported layout conditions."
+      ],
+      [
+        "Foldables add state changes",
+        "A foldable can switch rapidly between a narrow outer screen, a wide inner screen and multi-window mode. An auto-split preference may react to dimensions or the receiving app; forcing a split state can produce an awkward result after folding. Test the same keyboard in portrait and landscape, in a messaging app and a plain text editor, then close and reopen the device. Reproduce the problem at the same display density before blaming a specific flag. A delayed layout switch is not necessarily a missing experiment."
+      ],
+      [
+        "Evaluate the actual typing geometry",
+        "Check whether center gaps are too wide, suggestion chips are still reachable and the symbols layout follows the letter layout. Compare split enabled and disabled without changing the global display size or font scaling during the test. Large-screen users also need to consider one-handed and floating layouts, which solve different problems. A split keyboard helps reach both outer edges; floating mode shortens the keyboard width; one-handed mode typically shifts a compact keyboard toward one side."
+      ],
+      [
+        "Recover a bad forced layout",
+        "If a forced split remains after returning to the outer screen, clear only that explicit override, reopen ordinary layout controls and restart the keyboard process if necessary. Do not clear all Gboard data unless you have a backup and have ruled out a simple layout conflict. When using a patched copy, verify that the base Gboard version is compatible with the Split Keyboard patch. Keep your old typing arrangement documented so recovery takes minutes rather than a full reinstall."
+      ]
+    ],
+    "flags": [
+      "enable_split_keyboard_on_tablet_large",
+      "pref_auto_split_keyboard_enabled",
+      "pref_force_split_keyboard_enabled",
+      "enable_auto_split_for_android_messenger"
+    ],
+    "questions": [
+      [
+        "Why does split keyboard activate in one app but not another?",
+        "Automatic layout choices can depend on display geometry, app context and version-specific conditions. Test the same posture and window size before assuming a broken flag."
+      ],
+      [
+        "Should I force split on a small phone?",
+        "Usually not. It may reduce key size or make the center gap hard to reach. A regular or one-handed layout is often a more suitable starting point."
+      ]
+    ],
+    "sources": [
+      [
+        "Gboard Patches: patch-specific toolbar and layout features",
+        "https://github.com/jasonwu1994/Gboard-patches"
+      ],
+      [
+        "Google: Use your Gboard keyboard",
+        "https://support.google.com/gboard/answer/2842292?hl=en"
+      ],
+      [
+        "Google: Fix Gboard problems",
+        "https://support.google.com/gboard/answer/9058584?hl=en"
+      ]
+    ]
+  },
+  {
+    "slug": "gboard-one-handed-keyboard-options",
+    "title": "Gboard One-Handed Mode vs Floating and Compact Layouts",
+    "description": "Choose between one-handed keyboard, resized keyboard and floating mode rather than forcing layout experiments.",
+    "audience": "People typing with one hand",
+    "takeaway": "One-handed mode, floating mode and keyboard height are separate layout choices; pick the geometry that fits your grip.",
+    "sections": [
+      [
+        "Start with the everyday problem",
+        "If the far side of the keyboard is hard to reach while holding the phone, a compact one-handed layout may help. If the keyboard covers an important part of the screen, resizing or floating mode addresses a different issue. Gboard includes ordinary interface routes to keyboard layout controls depending on device and version. The Atlas also carries an enable_one_handed_dialog candidate, but its name only implies a dialog or prompt and does not guarantee that it activates the actual layout engine."
+      ],
+      [
+        "Understand related flags without overreading them",
+        "The identifier enable_adjust_default_keyboard_height is plausibly connected to sizing behavior; enable_extra_small_width_portrait_theme and use_default_display_size_theme relate to theme or density choices. None is a documented replacement for one-handed mode. More importantly, a theme resource can be present in an APK yet inactive on a particular device. Keep the normal one-handed choice as the control variable and avoid altering several resource-selection flags just to make a narrower keyboard."
+      ],
+      [
+        "Test reachability with realistic tasks",
+        "Open a familiar messaging input, type a long word, punctuation and a short number sequence while holding the device normally. Compare one-handed left and right alignments if the UI offers them. Check whether the suggestion bar, microphone and language switcher remain easy to reach, not only the letters. For a floating keyboard, test dragging it near the bottom of the display and returning it to the default docking position. Use the same screen orientation throughout each comparison."
+      ],
+      [
+        "When the setting seems to vanish",
+        "App updates and different display sizes can change which layout affordances are shown. Check whether the keyboard is in split mode, landscape, a desktop-like window or an accessibility layout. If you use a modified build, also compare the package version and any layout patches. Reverting a forced height or theme experiment is safer than resetting personal dictionaries. Keep the solution simple: the best mode is the one that remains predictable as you switch between apps."
+      ]
+    ],
+    "flags": [
+      "enable_one_handed_dialog",
+      "enable_adjust_default_keyboard_height",
+      "enable_extra_small_width_portrait_theme",
+      "use_default_display_size_theme"
+    ],
+    "questions": [
+      [
+        "Does enable_one_handed_dialog force the keyboard into one-handed mode?",
+        "That has not been independently established. The name suggests a dialog-related control; use the ordinary layout interface for supported behavior."
+      ],
+      [
+        "Which is better for a foldable?",
+        "It depends on screen posture. Split mode often suits a wide inner display, while one-handed or floating mode can help reachability on smaller or windowed layouts."
+      ]
+    ],
+    "sources": [
+      [
+        "Google: Use your Gboard keyboard",
+        "https://support.google.com/gboard/answer/2842292?hl=en"
+      ],
+      [
+        "Gboard Patches: patch-specific toolbar and layout features",
+        "https://github.com/jasonwu1994/Gboard-patches"
+      ],
+      [
+        "Google: Change theme, sound or vibration",
+        "https://support.google.com/gboard/answer/6102154?hl=en"
+      ]
+    ]
+  },
+  {
+    "slug": "gboard-custom-themes-material-3-colors",
+    "title": "Gboard Custom Themes, Material 3 Colors and Frosted Glass",
+    "description": "Separate Gboard's built-in theme selection from patch-specific ZIP themes, transparency, blur and color experiments.",
+    "audience": "Keyboard theme enthusiasts",
+    "takeaway": "A custom theme, a Material color token and the patch's blur feature are three different layers; test them separately.",
+    "sections": [
+      [
+        "Stock themes and custom ZIPs are different inputs",
+        "Google's Gboard exposes ordinary theme choices and appearance settings. Gboard Patches extends the available choices with imported custom ZIP themes, including designs from the Rboard ecosystem, and additional appearance modifications. A patched keyboard may show a theme that is impossible to reproduce by changing a Google flag alone. Start by identifying whether the appearance you want is a standard Gboard theme, a patch-imported package or a runtime drawing effect such as frosted glass."
+      ],
+      [
+        "What Material 3 candidate flags indicate",
+        "The Atlas includes identifiers such as disable_gm3_color_token_overrides and disable_gm3_energy_colors_in_legacy_themes. Their names suggest conditions around Material 3 colors and legacy resources, but do not establish a specific palette or whether the installed APK applies those overrides. Theme selection can also be affected by Android wallpaper-based colors and night mode. A color flag may affect only one resource path, so do not promise that toggling it will recolor the entire keyboard."
+      ],
+      [
+        "Blur and transparency have additional requirements",
+        "The patch project documents a Frosted Glass feature using background blur on supported Android versions and devices. That effect is separate from choosing a translucent image or theme color. If you see transparency without blur, check Android's support for cross-window blur and the installed patch build before blaming a color-token setting. Evaluate the real keyboard over bright and dark apps to make sure labels remain readable and key boundaries remain visible. High contrast is more useful than a dramatic screenshot."
+      ],
+      [
+        "Make changes that survive an update",
+        "Keep the original theme ZIP and a copy of your patch settings, especially if a custom theme is not bundled with the app. Update the patch and underlying Gboard build together when compatibility requires it. After upgrading, compare the current theme and dark mode in the same app under the same wallpaper. If a color changes, isolate wallpaper/theme effects before force-setting internal flags. Reimporting a backed-up theme is generally easier to reason about than overriding unidentified drawing resources."
+      ]
+    ],
+    "flags": [
+      "pref_custom_theme_enabled",
+      "disable_gm3_color_token_overrides",
+      "disable_gm3_energy_colors_in_legacy_themes",
+      "enable_theme_overlay_wrapping"
+    ],
+    "questions": [
+      [
+        "Can a flag install an Rboard ZIP theme by itself?",
+        "No. Imported ZIP themes are supported by the patch's custom-theme feature. Flags describing rendering or stored preferences do not replace the import mechanism."
+      ],
+      [
+        "Does Frosted Glass work on every device?",
+        "No. It depends on the patch, Android version and device support for the relevant blur path, among other rendering conditions."
+      ]
+    ],
+    "sources": [
+      [
+        "Gboard Patches: custom themes and input features",
+        "https://github.com/jasonwu1994/Gboard-patches"
+      ],
+      [
+        "Google: Change keyboard theme, sound or vibration",
+        "https://support.google.com/gboard/answer/6102154?hl=en"
+      ],
+      [
+        "Gboard Patches: release notes for theme and blur changes",
+        "https://github.com/jasonwu1994/Gboard-patches/blob/main/CHANGELOG.md"
+      ]
+    ]
+  },
+  {
+    "slug": "gboard-number-row-symbols-layout",
+    "title": "Gboard Number Row and Symbols Layout: What to Customize",
+    "description": "Distinguish ordinary Gboard number-row settings, stored symbols preferences and patched custom symbols.",
+    "audience": "People typing numbers and punctuation frequently",
+    "takeaway": "The simplest way to get faster number entry is usually a supported keyboard layout setting, not an undocumented symbol preference.",
+    "sections": [
+      [
+        "Use the normal number-row control first",
+        "Many Gboard layouts let users display a dedicated row of digits above the letters. The Atlas includes enable_number_row, which is an interpreted identifier rather than proof of a universal experimental feature. If your current layout already has a Number row option, enable it through Gboard Preferences and check whether it fits your typing habits. A permanent digit row can make passwords and spreadsheet entry faster but reduces the vertical area available for other content."
+      ],
+      [
+        "Symbols are a separate surface",
+        "Numbers, punctuation popups, a dedicated symbols panel and emoji/sticker tabs are not the same UI component. Candidate keys such as pref_key_rich_symbol_last_category_opened and pref_symbol_footer_order refer to remembered symbol state or order; they may not be editable Boolean feature gates. Gboard Patches also includes a Custom Symbols extension, which is an added capability. Moving a footer item through a supported Patches control should not be confused with forcing an internal preference whose expected type is unknown."
+      ],
+      [
+        "Design a layout around actual tasks",
+        "Try three repeatable input tasks: enter a ten-digit number, type a sentence with parentheses and dash characters, and insert a symbol used in your work. Measure taps and error rate with and without the number row. Confirm that long-press punctuation options still appear where you expect. When several languages are installed, repeat in each language layout because symbols can move. Keep a note of the normal configuration before experimenting with remembered-category preferences or changing symbol-order values."
+      ],
+      [
+        "Why controls differ between users",
+        "Layout, locale, screen density and feature availability can all influence what is visible. A newly added patch may provide a symbol panel that another user's stock build lacks. The correct diagnostic is to compare package identity, Gboard version, patch list and selected keyboard layout, not simply search for one preference in the Flag Editor. If a symbol panel disappears after updating, verify the installed patch first and restore the normal layout before attempting to edit internal storage keys."
+      ]
+    ],
+    "flags": [
+      "enable_number_row",
+      "pref_key_rich_symbol_last_category_opened",
+      "pref_symbol_footer_order",
+      "pref_show_recent_emoji_in_symbol_keyboard"
+    ],
+    "questions": [
+      [
+        "Is enable_number_row guaranteed to add number keys?",
+        "No. It is an Atlas candidate identifier; use Gboard's normal Number row control when that option exists."
+      ],
+      [
+        "Will changing pref_symbol_footer_order install custom symbols?",
+        "No. It appears to concern stored ordering, while a custom symbols panel is a separate patch feature."
+      ]
+    ],
+    "sources": [
+      [
+        "Google: Use your keyboard",
+        "https://support.google.com/gboard/answer/2842292?hl=en"
+      ],
+      [
+        "Gboard Patches: custom themes and input features",
+        "https://github.com/jasonwu1994/Gboard-patches"
+      ],
+      [
+        "Google: Change keyboard theme, sound or vibration",
+        "https://support.google.com/gboard/answer/6102154?hl=en"
+      ]
+    ]
+  },
+  {
+    "slug": "gboard-handwriting-keyboard-recognition",
+    "title": "Gboard Handwriting: Language Support, Recognition and Hidden Flags",
+    "description": "Set up handwriting input, understand prediction and avoid confusing a handwriting cache with an unlock switch.",
+    "audience": "Stylus users and multilingual typists",
+    "takeaway": "Handwriting must first be supported for the chosen language and keyboard; training-cache identifiers do not create a missing recognizer.",
+    "sections": [
+      [
+        "Enable the right keyboard layout",
+        "Google's official Gboard handwriting help describes selecting a handwriting layout for a supported language. If the handwriting option is not listed, it may not be offered for that language or build. The control is different from Google's ordinary QWERTY layout and from a phone's system-wide stylus handwriting features. Before changing developer options, add the desired language, select its handwriting variant if available and test writing a short sentence in a compatible text field."
+      ],
+      [
+        "How the hidden identifiers relate",
+        "The Atlas identifies enable_handwriting_promo, enable_handwriting_training_cache, enable_hybrid_handwriting_training_cache and enable_voice_in_handwriting. These names suggest promotion, training-related caching and interaction with voice input, but the snapshot alone does not reveal what information is saved, when it is used, or whether a voice button can be made visible. Do not assume a training cache stores literal handwritten notes or that clearing it fixes bad recognition. Those questions require version-specific implementation evidence."
+      ],
+      [
+        "Diagnose recognition errors methodically",
+        "Start with simple printed letters, then compare joined letters, punctuation and numerals. Check the selected language because the same stroke can correspond to different characters in different scripts. Reproduce failures in one text field with a consistent stylus or fingertip, and record whether the recognition error occurs before or after you select a candidate. If changing a normal handwriting preference improves recognition, do not attribute that improvement to a nearby debug or cache-related flag."
+      ],
+      [
+        "Keep data and model claims modest",
+        "Handwriting recognition can involve local language resources, user input history or implementation paths that vary by version. An APK identifier isn't enough to conclude exactly where handwritten data is processed. Consult Google's settings and privacy explanations for the installed version, and use disposable sample words when testing. Preserve a keyboard that works for normal typing so a speculative experiment cannot strand you without a way to enter text. Voice and handwriting should be tested independently."
+      ]
+    ],
+    "flags": [
+      "enable_handwriting_promo",
+      "enable_handwriting_training_cache",
+      "enable_hybrid_handwriting_training_cache",
+      "enable_voice_in_handwriting"
+    ],
+    "questions": [
+      [
+        "Can I enable handwriting for an unsupported language using a flag?",
+        "Not reliably. Recognition requires a compatible keyboard layout and recognition resources; a promotional or cache flag does not supply them."
+      ],
+      [
+        "Does a training-cache flag mean Gboard saves all my handwriting?",
+        "The name alone cannot establish what is stored or retained. Examine the actual implementation and privacy settings before drawing that conclusion."
+      ]
+    ],
+    "sources": [
+      [
+        "Google: Handwriting input guide",
+        "https://support.google.com/gboard/answer/9108773?hl=en"
+      ],
+      [
+        "Google: Use your keyboard",
+        "https://support.google.com/gboard/answer/2842292?hl=en"
+      ],
+      [
+        "Gboard Patches: custom themes and input features",
+        "https://github.com/jasonwu1994/Gboard-patches"
+      ]
+    ]
+  },
+  {
+    "slug": "gboard-japanese-multilingual-language-picker",
+    "title": "Japanese and Multilingual Gboard: Switching Layouts Reliably",
+    "description": "Configure Japanese alongside English, check language persistence and avoid forcing the wrong locale from hidden flags.",
+    "audience": "Japanese-English bilingual users",
+    "takeaway": "Language layout selection, app-specific persistence and speech-language eligibility are different mechanisms.",
+    "sections": [
+      [
+        "Choose the actual Japanese input layout",
+        "Gboard's Languages settings let you add languages and supported keyboard arrangements. Japanese may provide different layouts and input methods depending on the installed build and region. Google distinguishes switching a keyboard's language from changing the Android system language. For English and Japanese use, add both keyboards first, verify the language-switch affordance and test typing Japanese text in an ordinary app before touching an internal language-picker flag."
+      ],
+      [
+        "What the language picker candidates suggest",
+        "The Atlas includes enable_gboard_language_picker_redesign, enable_language_order_menu and enable_persist_language_for_conversation_id. These sound like a revised picker, ordering UI and conversation-level persistence. Yet identifier names are not enough to determine the exact default or scope. The last name may hint at remembering language by conversation, but that does not prove it works in every messaging app. Check which package owns the keyboard and whether a custom patch changes the globe-key gesture or timing."
+      ],
+      [
+        "Test switching and persistence separately",
+        "Set up a harmless English-Japanese exchange in two text fields. Change language, move to the second field and return, recording which keyboard remains selected. Repeat after closing and reopening the app. If the language unexpectedly changes, note whether it is an input layout switch, a suggestion-language change or voice typing changing recognition language. These are different bugs. Compare identical settings on the same Gboard version rather than assuming the system language is to blame."
+      ],
+      [
+        "Be cautious with forced-language flags",
+        "A candidate named force_language is not a supported instruction to hard-code Japanese everywhere. Forcing unknown values can interfere with language models, dictionary selection or punctuation. Prefer normal keyboard arrangements and the patch's documented language-switch customization where offered. If experimenting with a new picker design, change one setting, check that both languages remain selectable, and keep a working fallback keyboard available before continuing. Actual Japanese model support remains a version-dependent capability."
+      ]
+    ],
+    "flags": [
+      "enable_gboard_language_picker_redesign",
+      "enable_language_order_menu",
+      "enable_persist_language_for_conversation_id",
+      "force_language"
+    ],
+    "questions": [
+      [
+        "Does switching Gboard languages change the phone's system language?",
+        "No. Google's language guide explicitly distinguishes Gboard's keyboard language from Android's overall language."
+      ],
+      [
+        "Can I force a separate keyboard for each chat?",
+        "Not with a guaranteed Atlas toggle. Conversation persistence is only suggested by an internal identifier; verify behavior within your particular app and build."
+      ]
+    ],
+    "sources": [
+      [
+        "Google: Type in a different language",
+        "https://support.google.com/gboard/answer/7068494?hl=en"
+      ],
+      [
+        "Google: Use your keyboard",
+        "https://support.google.com/gboard/answer/2842292?hl=en"
+      ],
+      [
+        "Gboard Patches: custom themes and input features",
+        "https://github.com/jasonwu1994/Gboard-patches"
+      ]
+    ]
+  },
+  {
+    "slug": "gboard-personal-dictionary-learned-words",
+    "title": "Gboard Learned Words and Personal Dictionary: Fix Bad Suggestions",
+    "description": "Learn what to do with persistent typos, personalized word lists and user-history flags without erasing good typing data.",
+    "audience": "Anyone correcting Gboard's vocabulary",
+    "takeaway": "A manually added dictionary entry and an automatically learned prediction are not interchangeable, and reset options can erase helpful personalization.",
+    "sections": [
+      [
+        "Distinguish your dictionary from learned history",
+        "Google documents adding words to a personal dictionary and removing unwanted learned suggestions. A personal dictionary is a user-controlled list; the prediction system may also incorporate history and model behavior that is not represented as the same list. The Atlas includes a preference for personalized dictionaries and a candidate for deleting user dictionary typos, but their names do not reveal exactly which stores Gboard reads. Use built-in dictionary tools for a word you know you want to retain."
+      ],
+      [
+        "Fix one repeated typo without a full reset",
+        "Write the problematic word in a disposable text field and note the incorrect suggestion that appears. Try rejecting an inappropriate automatic correction and adding the correct word to the user dictionary where supported. Repeat in the same language and input layout. If the suggestion persists, check whether you have a competing personal dictionary or a language mismatch. Only consider deleting learned words after confirming that you can afford to lose other useful typing history and personalization."
+      ],
+      [
+        "What multiword history flags imply",
+        "Identifiers such as enable_multiword_predictions_from_user_history and enable_multiword_suggestions_from_user_history suggest that stored history can inform predictions spanning more than one word. They do not prove that a raw history file contains every sentence you have typed or that either gate is active. A separate HMM user-history backup flag is implementation-oriented, not a convenient user export feature. Treat these as research leads about prediction sources, not directions to manipulate private data files manually."
+      ],
+      [
+        "Set up a reproducible comparison",
+        "Use a small set of invented names and uncommon words with no personal information. First record suggestions with ordinary personalization settings, then add one known dictionary word and repeat. Test different languages separately and be aware that Gboard updates can change ranking even with identical stored data. When documenting a problem, include Gboard version, locale and the exact typed prefix; vague reports that autocorrect got worse cannot distinguish a dictionary issue from a changed correction model."
+      ]
+    ],
+    "flags": [
+      "pref_key_use_personalized_dicts",
+      "enable_delete_user_dictionary_typos",
+      "enable_multiword_predictions_from_user_history",
+      "enable_hmm_user_history_backup"
+    ],
+    "questions": [
+      [
+        "Should I delete all learned words to fix one wrong suggestion?",
+        "Usually not. Try rejecting the suggestion or adding the intended word to the personal dictionary first; full deletion is disruptive."
+      ],
+      [
+        "Is the user dictionary the same as the prediction history?",
+        "No. They are related but distinct sources of typing information, and internal flag names do not establish their exact storage relationship."
+      ]
+    ],
+    "sources": [
+      [
+        "Google: Word suggestions and personal dictionary",
+        "https://support.google.com/gboard/answer/7068415?hl=en"
+      ],
+      [
+        "Google: Fix problems with Gboard and delete learned words",
+        "https://support.google.com/gboard/answer/9058584?hl=en"
+      ],
+      [
+        "Gboard Patches: custom themes and input features",
+        "https://github.com/jasonwu1994/Gboard-patches"
+      ]
+    ]
+  },
+  {
+    "slug": "gboard-punctuation-spacing-auto-capitalization",
+    "title": "Gboard Punctuation, Spacing and Capitalization: Why It Differs",
+    "description": "Investigate unexpected spaces, punctuation after dictation and language-specific correction without forcing guesswork flags.",
+    "audience": "Multilingual and voice-input users",
+    "takeaway": "Punctuation can be inserted by the keyboard, a language model, voice transcription or the target editor; those paths must be separated.",
+    "sections": [
+      [
+        "Find which input path created the punctuation",
+        "A period typed with a key, a period inserted after a voice command and punctuation supplied by an autocorrection model are not necessarily processed identically. Gboard's ordinary typing settings govern some behavior, while voice input offers its own punctuation options and may depend on language support. When a space appears in the wrong place, note exactly whether you tapped punctuation, accepted a suggestion, used the spacebar or dictated a sentence. That information is more diagnostic than simply saying punctuation is broken."
+      ],
+      [
+        "Interpret the candidate identifiers cautiously",
+        "Names such as enable_punctuation_spacing_normalization and enable_p13n_punctuation_case suggest distinct spacing and personalization decisions. enable_s3_auto_punctuation plausibly concerns a speech backend, but a string scan cannot identify the backend or confirm behavior in the installed build. allow_space_and_comma is broader still and may have a narrow internal purpose unrelated to everyday comma insertion. These are useful terms to look up, not documented Boolean switches to apply indiscriminately across all locales."
+      ],
+      [
+        "Run an app and language comparison",
+        "Use a neutral sentence containing a comma, a period and a proper name. Enter it by tapping keys, accepting suggestions and dictating, each in a fresh field. Test a second supported language only after you can reproduce the first result. Compare a messaging app with a plain notes editor to identify whether the receiving editor changes spacing. Record the exact text before and after Gboard processes it; do not infer model behavior from a screenshot that captures only the final sentence."
+      ],
+      [
+        "Prefer supported settings over unknown thresholds",
+        "If automatic punctuation is the problem in voice typing, start with the official voice-typing settings and feature documentation. If capitalization changes with keyboard language, verify language order and ordinary text-correction settings. Only experiment with a specific developer identifier after recording its type, original value and observed effect in a controlled before-and-after test. A fix that improves English but breaks Japanese punctuation should not be published as a universal Gboard tweak."
+      ]
+    ],
+    "flags": [
+      "enable_punctuation_spacing_normalization",
+      "enable_p13n_punctuation_case",
+      "enable_s3_auto_punctuation",
+      "allow_space_and_comma"
+    ],
+    "questions": [
+      [
+        "Does one flag control all automatic punctuation?",
+        "No reliable evidence supports that. Typed text, suggestions and voice transcription can involve different paths and settings."
+      ],
+      [
+        "Why does punctuation behave differently across apps?",
+        "The text editor and language configuration can influence insertion and correction behavior. Reproduce the same input method in a simple text field before changing flags."
+      ]
+    ],
+    "sources": [
+      [
+        "Google: Type with your voice",
+        "https://support.google.com/gboard/answer/2781851?hl=en"
+      ],
+      [
+        "Google: Use advanced voice typing features",
+        "https://support.google.com/gboard/answer/11197787?hl=en"
+      ],
+      [
+        "Google: Get suggestions and fix mistakes",
+        "https://support.google.com/gboard/answer/7068415?hl=en"
+      ]
+    ]
+  },
+  {
+    "slug": "gboard-bluetooth-microphone-dictation",
+    "title": "Gboard Bluetooth Microphone Dictation: Routing and Troubleshooting",
+    "description": "Understand Bluetooth mic selection, Gboard permissions and advanced voice typing without conflating audio routing with model support.",
+    "audience": "People dictating through headsets",
+    "takeaway": "A Bluetooth microphone option is only one part of the audio path; Android routing and voice-typing eligibility can still limit the result.",
+    "sections": [
+      [
+        "Check the hardware audio path first",
+        "A Bluetooth headset has separate call and media audio behavior on many Android devices. Before altering Gboard, verify that the microphone works in another app that records audio and that Android recognizes the intended headset. Then grant Gboard microphone permission and test normal voice typing in a quiet environment. If audio does not reach any app, the problem is unlikely to be fixed by a Gboard flag. If only dictation fails, check its mode and language rather than repeatedly reconnecting devices."
+      ],
+      [
+        "What the patch unlock actually does",
+        "Gboard Patches documents a Use Bluetooth Microphone option that exposes Gboard's related setting and rollout gate. The Atlas contains enable_use_bluetooth_setting and pref_use_bluetooth_microphone_override_enabled. Their names point toward option visibility and stored preference state, but do not prove that every Bluetooth stack and headset is supported. An exposed menu is not a guarantee that the voice recognition backend is using the selected microphone. Treat it as a setting to verify with a real recording test."
+      ],
+      [
+        "Keep speech modes separate",
+        "Standard voice typing and advanced voice typing can have different device, language and software requirements. A headset might work for ordinary dictation while an advanced feature is unavailable for unrelated reasons. Google documents separate advanced features and prerequisites. Likewise, a candidate about offline PCM caching does not imply a Bluetooth routing fix. Test a short phrase through the phone microphone and then the Bluetooth headset using the same dictation mode and language, and compare intelligibility rather than only the presence of an icon."
+      ],
+      [
+        "Diagnose delayed or garbled speech",
+        "Watch for Bluetooth profile changes, microphone permission prompts, network transitions and active calls that can affect audio capture. Restarting the headset connection may be more relevant than changing a keyboard feature gate. If the patched Bluetooth setting is present, switch it only after recording the original value, then retest the same phrase. Do not assume forcing advanced voice typing enables unsupported languages or offline processing. For detailed privacy expectations, read the documentation for the specific speech mode in use."
+      ]
+    ],
+    "flags": [
+      "enable_use_bluetooth_setting",
+      "pref_use_bluetooth_microphone_override_enabled",
+      "pref_advanced_voice_typing_enabled",
+      "enable_pcm_audio_caching_for_offline_fallback"
+    ],
+    "questions": [
+      [
+        "Why does the headset work in calls but not Gboard?",
+        "Bluetooth profiles, Android audio routing, app permission and recognition mode can differ. Check an independent recorder and Gboard permission first."
+      ],
+      [
+        "Can a flag enable advanced dictation on an unsupported phone?",
+        "Not reliably. Advanced features depend on Google-defined device, software and language support as well as visible settings."
+      ]
+    ],
+    "sources": [
+      [
+        "Google: Type with your voice",
+        "https://support.google.com/gboard/answer/2781851?hl=en"
+      ],
+      [
+        "Google: Use advanced voice typing features",
+        "https://support.google.com/gboard/answer/11197787?hl=en"
+      ],
+      [
+        "Gboard Patches: available patch features",
+        "https://github.com/jasonwu1994/Gboard-patches"
+      ]
+    ]
+  },
+  {
+    "slug": "gboard-rambler-voice-editing",
+    "title": "Gboard Rambler Voice Input: Editing, Toolbar and Privacy",
+    "description": "Understand Google's Rambler voice experience, its editing commands and the limits of internal toolbar and language flags.",
+    "audience": "Voice-first writers and Android experimenters",
+    "takeaway": "Rambler is a distinct, documented voice-input experience, and showing its toolbar is not proof that the service is available to every account.",
+    "sections": [
+      [
+        "What makes Rambler different from basic dictation",
+        "Google's Rambler voice-input documentation describes a speech experience that can remove filler words, format punctuation and support natural-language editing or rewriting commands. That differs from standard speech-to-text, where you primarily dictate the words you want entered. Eligibility, supported languages and behavior can change as Google rolls out the feature. Do not conflate a screenshot of a microphone interface with confirmation that a particular user has the same backend or command support."
+      ],
+      [
+        "Find the specific toolbar candidates",
+        "Our Atlas includes enable_rambler_al_toolbar, enable_rambler_al_toolbar_overflow_menu, enable_rambler_toolbar_at_cursor_position and show_rambler_dict_settings. These names point to UI and dictionary affordances near a Rambler feature family. The prefix itself is not enough to establish their current default, which users have them or what activating them will do. If the original Rambler UI is unavailable, enabling its toolbar flag does not necessarily supply models, cloud eligibility or permissions."
+      ],
+      [
+        "Test editing rather than microphone visibility",
+        "If Rambler is officially available on your build, begin with a harmless sentence spoken with a deliberate filler word and compare it with standard dictation. Then request one simple edit and confirm whether the exact intended text appears. Separate speech recognition accuracy from rewrite quality: a perfect transcription followed by an unwanted rewrite is a different issue from a misheard word. Repeat in the same app and locale, and record whether commands operate on highlighted text, surrounding text or the entire field."
+      ],
+      [
+        "Respect the feature's data handling",
+        "Google's help describes how Rambler may process text, audio and corrections. Read the current documentation and privacy controls before using it for sensitive drafts. Its behavior should not be inferred from the presence of prefixed names like rambler_al. When comparing an Atlas flag, specify the build, voice mode, language, app and whether network access was available. A toolbar that appears but never executes a command is an incomplete feature, not evidence that a hidden flag successfully unlocked Rambler."
+      ]
+    ],
+    "flags": [
+      "enable_rambler_al_toolbar",
+      "enable_rambler_al_toolbar_overflow_menu",
+      "enable_rambler_toolbar_at_cursor_position",
+      "show_rambler_dict_settings"
+    ],
+    "questions": [
+      [
+        "Is Rambler just another name for Gboard Advanced Voice Typing?",
+        "No. Google's Rambler documentation describes a distinct experience emphasizing conversational speech and editing. Available capabilities still depend on rollout and device conditions."
+      ],
+      [
+        "Can a Rambler toolbar flag activate the full service?",
+        "There is no evidence that UI visibility alone can bypass backend eligibility, model support or account rollout. Validate the actual commands."
+      ]
+    ],
+    "sources": [
+      [
+        "Google: Rambler voice input",
+        "https://support.google.com/gboard/answer/17468539?hl=en"
+      ],
+      [
+        "Google: Use advanced voice typing features",
+        "https://support.google.com/gboard/answer/11197787?hl=en"
+      ],
+      [
+        "Gboard Patches: available patch features",
+        "https://github.com/jasonwu1994/Gboard-patches"
+      ]
+    ]
+  },
+  {
+    "slug": "gboard-ocr-scan-text-quick-insert",
+    "title": "Gboard Scan Text and Quick Insert: OCR Without Misleading Flags",
+    "description": "Understand OCR engines, the Quick Insert panel and what is required before a camera-based text tool can work.",
+    "audience": "People copying printed text with their keyboard",
+    "takeaway": "A visible Scan Text or Quick Insert button is not the same as having camera permission, OCR resources and supported language recognition.",
+    "sections": [
+      [
+        "Separate the feature surface from recognition",
+        "Gboard Patches documents unlocking OCR / Scan Text and enabling a Quick Insert panel with a toolbar entry. These can be separate capabilities: one captures and recognizes printed text, while another provides an insertion surface or route to related actions. The Atlas contains pref_ocr_engine and pref_quick_insert_enabled, but those identifiers alone do not establish which recognition backend is selected or available. Check the patched build's documented UI and compatibility before expecting either flag to turn a camera scan into text."
+      ],
+      [
+        "Permissions and language are real dependencies",
+        "A camera-based OCR workflow needs camera access and a recognized text script. The patch project documents several OCR backends or supported script families, but actual results can vary with version, language and image quality. Test with a clean, well-lit printed paragraph in a script you know is supported; compare it with a blurred or angled photo to understand recognition sensitivity. Do not use bank details, private letters or account recovery codes as test content."
+      ],
+      [
+        "A reproducible Scan Text experiment",
+        "First verify the normal camera permission and whether Scan Text appears in the keyboard or patch interface. Insert text from a single printed line into a neutral notes field. Check punctuation, spaces and line breaks against the source, then repeat using a different language only if your current engine supports it. If the recognized text is wrong, diagnose the OCR stage before adjusting Gboard's autocorrection. Correction of recognized text and recognition from an image are not the same subsystem."
+      ],
+      [
+        "When a shortcut appears but does not work",
+        "Quick Insert may be enabled while the OCR action is absent, because toolbar access, feature gate and engine readiness are different parts of the flow. Check installed patch version, camera permission, app restrictions on the input field and relevant language support. Avoid changing pref_ocr_engine to an arbitrary integer or string without documenting accepted values. If the camera opens but insertion fails, try a basic text editor to determine whether the recognition worked and only the target app rejected the insertion."
+      ]
+    ],
+    "flags": [
+      "pref_ocr_engine",
+      "pref_quick_insert_enabled",
+      "enable_access_point_keyboard",
+      "enable_access_points_menu_redesign"
+    ],
+    "questions": [
+      [
+        "Does enabling Quick Insert automatically enable OCR?",
+        "Not necessarily. The panel and OCR engine have distinct components and may require separate settings, permissions and compatibility."
+      ],
+      [
+        "Can a hidden flag add support for any language's handwriting or printed text?",
+        "No reliable evidence supports that. Recognition requires an appropriate engine and language resources, beyond a visible UI option."
+      ]
+    ],
+    "sources": [
+      [
+        "Gboard Patches: available patch features",
+        "https://github.com/jasonwu1994/Gboard-patches"
+      ],
+      [
+        "Gboard Patches: supported OCR features and releases",
+        "https://github.com/jasonwu1994/Gboard-patches/blob/main/CHANGELOG.md"
+      ],
+      [
+        "Google: Use your keyboard",
+        "https://support.google.com/gboard/answer/2842292?hl=en"
+      ]
+    ]
+  },
+  {
+    "slug": "gboard-emoji-search-gemma-fallback",
+    "title": "Gboard Emoji Search Errors: Gemma, Embeddings and Server Fallbacks",
+    "description": "Troubleshoot empty Emoji Kitchen results and distinguish local ranking, server search and error-status experiments.",
+    "audience": "Emoji Kitchen and expression-search users",
+    "takeaway": "An empty emoji search can mean an index, model, network or UI problem; forcing every fallback flag on is not a diagnosis.",
+    "sections": [
+      [
+        "Emoji search has multiple possible paths",
+        "Gboard's expression interfaces can offer direct emoji lookup, Emoji Kitchen combinations, contextual suggestions and other content search. The Atlas contains candidate identifiers for embedding-based search, Gemma-related errors and server fallbacks. That suggests more than one internal search strategy may exist, but names alone do not establish which path your particular Gboard build currently uses. A search yielding no results does not by itself mean an AI model is missing or that a Google server is down."
+      ],
+      [
+        "Read the error and fallback flags literally",
+        "Identifiers such as enable_fallback_for_emoji_search_server_error and enable_fallback_from_server_for_emoji_search_gemma_engine_error describe potential error-handling paths. Notice that the direction implied by each name is different. Enabling a fallback without understanding its trigger may be useless or change how error states surface. show_error_status_for_emoji_search_server_error looks diagnostic rather than a guaranteed repair. These flags require runtime evidence before anyone can assign supported defaults or performance consequences."
+      ],
+      [
+        "Compare local conditions before toggling",
+        "Use a common emoji term that should return basic results, then try a contextual phrase separately. Repeat while online, and only then with network access unavailable, documenting what is cached and what is not. Check whether Emoji Kitchen browse works while search fails, whether ordinary emoji search still works, and whether a specific language causes failures. Those observations help distinguish UI discovery, recognition and remote-service issues. A blank screen in one feature should not be treated as evidence that all emoji services failed."
+      ],
+      [
+        "Escalate from observation to targeted research",
+        "Before changing a candidate identifier, check for app updates and known patch compatibility issues. When testing an error-status flag, record precisely when the indicator appears and whether it correlates with an actual search failure. Use a screen recording that contains only harmless searches, plus build and locale details, to report a reproducible bug. If a fallback change helps only once, repeat the test after restarting the keyboard and clearing the same test query; avoid claiming a universal optimization from one success."
+      ]
+    ],
+    "flags": [
+      "enable_fallback_for_emoji_search_server_error",
+      "enable_fallback_from_server_for_emoji_search_gemma_engine_error",
+      "enable_emoji_embedding_index",
+      "show_error_status_for_emoji_search_server_error"
+    ],
+    "questions": [
+      [
+        "Does a Gemma-related flag prove Gboard is running Gemma locally?",
+        "No. The string may label an experimental search path, diagnostic or fallback; it is not proof that a compatible model is installed and executing."
+      ],
+      [
+        "Should I enable every emoji fallback flag?",
+        "No. They may apply to different failure conditions or have unknown defaults. A controlled test and relevant implementation evidence are better than mass editing."
+      ]
+    ],
+    "sources": [
+      [
+        "Gboard Flag Atlas: candidate identifiers and evidence labels",
+        "https://github.com/stupidgiraffe/gboard-flag-atlas"
+      ],
+      [
+        "Google: Fix problems with Gboard",
+        "https://support.google.com/gboard/answer/9058584?hl=en"
+      ],
+      [
+        "Gboard Patches: available patch features",
+        "https://github.com/jasonwu1994/Gboard-patches"
+      ]
+    ]
+  }
+]
