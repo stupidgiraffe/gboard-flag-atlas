@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - feat/twenty-more-gboard-field-guides
     paths:
       - 'data/guides.json'
       - 'data/guides-extended.json'
@@ -43,11 +42,26 @@ jobs:
           test "$(find dist/guides -name index.html | wc -l)" -eq 41
           test -f dist/guides/gboard-rambler-voice-editing/index.html
           test -f dist/guides/gboardwu-vs-stock-gboard/index.html
+      - name: Package full site into small upload manifests
+        if: github.ref == 'refs/heads/main'
+        run: |
+          node --input-type=module <<'NODE'
+          import {readFileSync,readdirSync,mkdirSync,writeFileSync} from 'node:fs';
+          import {join,relative} from 'node:path';
+          const root='dist', dest='deploy-parts', chunks=[], paths=[];
+          function walk(dir){for(const ent of readdirSync(dir,{withFileTypes:true})){const p=join(dir,ent.name);if(ent.isDirectory())walk(p);else if(ent.isFile())paths.push(p);}}
+          walk(root);paths.sort();if(paths.length!==219)throw Error('Unexpected file count: '+paths.length);
+          mkdirSync(dest,{recursive:true});let current=[];let index=0;
+          function flush(){if(!current.length)return;const file='part-'+String(++index).padStart(3,'0')+'.json';writeFileSync(join(dest,file),JSON.stringify(current));chunks.push({file,count:current.length});current=[];}
+          for(const file of paths){const item={path:relative(root,file).replaceAll('\\','/'),content:readFileSync(file,'utf8')};if(current.length&&JSON.stringify([...current,item]).length>300000)flush();current.push(item);}
+          flush();writeFileSync(join(dest,'manifest.json'),JSON.stringify({files:paths.length,parts:chunks,sitemapUrls:211}));
+          console.log(JSON.stringify({files:paths.length,parts:chunks.length}));
+          NODE
       - name: Push generated bundle to dedicated staging branch
         if: github.ref == 'refs/heads/main'
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add -f dist/
+          git add -f dist/ deploy-parts/
           git commit -m 'build: stage 40-guide Gboard Atlas static release'
           git push --force origin HEAD:refs/heads/release/guides-40-site
