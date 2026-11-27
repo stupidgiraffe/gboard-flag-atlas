@@ -548,5 +548,280 @@
         "https://support.google.com/gboard/answer/6102154?hl=en"
       ]
     ]
+  },
+  {
+    "slug": "gboard-custom-themes-material-3-colors",
+    "title": "Gboard Custom Themes, Material 3 Colors and Frosted Glass",
+    "description": "Separate Gboard's built-in theme selection from patch-specific ZIP themes, transparency, blur and color experiments.",
+    "audience": "Keyboard theme enthusiasts",
+    "takeaway": "A custom theme, a Material color token and the patch's blur feature are three different layers; test them separately.",
+    "sections": [
+      [
+        "Stock themes and custom ZIPs are different inputs",
+        "Google's Gboard exposes ordinary theme choices and appearance settings. Gboard Patches extends the available choices with imported custom ZIP themes, including designs from the Rboard ecosystem, and additional appearance modifications. A patched keyboard may show a theme that is impossible to reproduce by changing a Google flag alone. Start by identifying whether the appearance you want is a standard Gboard theme, a patch-imported package or a runtime drawing effect such as frosted glass."
+      ],
+      [
+        "What Material 3 candidate flags indicate",
+        "The Atlas includes identifiers such as disable_gm3_color_token_overrides and disable_gm3_energy_colors_in_legacy_themes. Their names suggest conditions around Material 3 colors and legacy resources, but do not establish a specific palette or whether the installed APK applies those overrides. Theme selection can also be affected by Android wallpaper-based colors and night mode. A color flag may affect only one resource path, so do not promise that toggling it will recolor the entire keyboard."
+      ],
+      [
+        "Blur and transparency have additional requirements",
+        "The patch project documents a Frosted Glass feature using background blur on supported Android versions and devices. That effect is separate from choosing a translucent image or theme color. If you see transparency without blur, check Android's support for cross-window blur and the installed patch build before blaming a color-token setting. Evaluate the real keyboard over bright and dark apps to make sure labels remain readable and key boundaries remain visible. High contrast is more useful than a dramatic screenshot."
+      ],
+      [
+        "Make changes that survive an update",
+        "Keep the original theme ZIP and a copy of your patch settings, especially if a custom theme is not bundled with the app. Update the patch and underlying Gboard build together when compatibility requires it. After upgrading, compare the current theme and dark mode in the same app under the same wallpaper. If a color changes, isolate wallpaper/theme effects before force-setting internal flags. Reimporting a backed-up theme is generally easier to reason about than overriding unidentified drawing resources."
+      ]
+    ],
+    "flags": [
+      "pref_custom_theme_enabled",
+      "disable_gm3_color_token_overrides",
+      "disable_gm3_energy_colors_in_legacy_themes",
+      "enable_theme_overlay_wrapping"
+    ],
+    "questions": [
+      [
+        "Can a flag install an Rboard ZIP theme by itself?",
+        "No. Imported ZIP themes are supported by the patch's custom-theme feature. Flags describing rendering or stored preferences do not replace the import mechanism."
+      ],
+      [
+        "Does Frosted Glass work on every device?",
+        "No. It depends on the patch, Android version and device support for the relevant blur path, among other rendering conditions."
+      ]
+    ],
+    "sources": [
+      [
+        "Gboard Patches: custom themes and input features",
+        "https://github.com/jasonwu1994/Gboard-patches"
+      ],
+      [
+        "Google: Change keyboard theme, sound or vibration",
+        "https://support.google.com/gboard/answer/6102154?hl=en"
+      ],
+      [
+        "Gboard Patches: release notes for theme and blur changes",
+        "https://github.com/jasonwu1994/Gboard-patches/blob/main/CHANGELOG.md"
+      ]
+    ]
+  },
+  {
+    "slug": "gboard-number-row-symbols-layout",
+    "title": "Gboard Number Row and Symbols Layout: What to Customize",
+    "description": "Distinguish ordinary Gboard number-row settings, stored symbols preferences and patched custom symbols.",
+    "audience": "People typing numbers and punctuation frequently",
+    "takeaway": "The simplest way to get faster number entry is usually a supported keyboard layout setting, not an undocumented symbol preference.",
+    "sections": [
+      [
+        "Use the normal number-row control first",
+        "Many Gboard layouts let users display a dedicated row of digits above the letters. The Atlas includes enable_number_row, which is an interpreted identifier rather than proof of a universal experimental feature. If your current layout already has a Number row option, enable it through Gboard Preferences and check whether it fits your typing habits. A permanent digit row can make passwords and spreadsheet entry faster but reduces the vertical area available for other content."
+      ],
+      [
+        "Symbols are a separate surface",
+        "Numbers, punctuation popups, a dedicated symbols panel and emoji/sticker tabs are not the same UI component. Candidate keys such as pref_key_rich_symbol_last_category_opened and pref_symbol_footer_order refer to remembered symbol state or order; they may not be editable Boolean feature gates. Gboard Patches also includes a Custom Symbols extension, which is an added capability. Moving a footer item through a supported Patches control should not be confused with forcing an internal preference whose expected type is unknown."
+      ],
+      [
+        "Design a layout around actual tasks",
+        "Try three repeatable input tasks: enter a ten-digit number, type a sentence with parentheses and dash characters, and insert a symbol used in your work. Measure taps and error rate with and without the number row. Confirm that long-press punctuation options still appear where you expect. When several languages are installed, repeat in each language layout because symbols can move. Keep a note of the normal configuration before experimenting with remembered-category preferences or changing symbol-order values."
+      ],
+      [
+        "Why controls differ between users",
+        "Layout, locale, screen density and feature availability can all influence what is visible. A newly added patch may provide a symbol panel that another user's stock build lacks. The correct diagnostic is to compare package identity, Gboard version, patch list and selected keyboard layout, not simply search for one preference in the Flag Editor. If a symbol panel disappears after updating, verify the installed patch first and restore the normal layout before attempting to edit internal storage keys."
+      ]
+    ],
+    "flags": [
+      "enable_number_row",
+      "pref_key_rich_symbol_last_category_opened",
+      "pref_symbol_footer_order",
+      "pref_show_recent_emoji_in_symbol_keyboard"
+    ],
+    "questions": [
+      [
+        "Is enable_number_row guaranteed to add number keys?",
+        "No. It is an Atlas candidate identifier; use Gboard's normal Number row control when that option exists."
+      ],
+      [
+        "Will changing pref_symbol_footer_order install custom symbols?",
+        "No. It appears to concern stored ordering, while a custom symbols panel is a separate patch feature."
+      ]
+    ],
+    "sources": [
+      [
+        "Google: Use your keyboard",
+        "https://support.google.com/gboard/answer/2842292?hl=en"
+      ],
+      [
+        "Gboard Patches: custom themes and input features",
+        "https://github.com/jasonwu1994/Gboard-patches"
+      ],
+      [
+        "Google: Change keyboard theme, sound or vibration",
+        "https://support.google.com/gboard/answer/6102154?hl=en"
+      ]
+    ]
+  },
+  {
+    "slug": "gboard-handwriting-keyboard-recognition",
+    "title": "Gboard Handwriting: Language Support, Recognition and Hidden Flags",
+    "description": "Set up handwriting input, understand prediction and avoid confusing a handwriting cache with an unlock switch.",
+    "audience": "Stylus users and multilingual typists",
+    "takeaway": "Handwriting must first be supported for the chosen language and keyboard; training-cache identifiers do not create a missing recognizer.",
+    "sections": [
+      [
+        "Enable the right keyboard layout",
+        "Google's official Gboard handwriting help describes selecting a handwriting layout for a supported language. If the handwriting option is not listed, it may not be offered for that language or build. The control is different from Google's ordinary QWERTY layout and from a phone's system-wide stylus handwriting features. Before changing developer options, add the desired language, select its handwriting variant if available and test writing a short sentence in a compatible text field."
+      ],
+      [
+        "How the hidden identifiers relate",
+        "The Atlas identifies enable_handwriting_promo, enable_handwriting_training_cache, enable_hybrid_handwriting_training_cache and enable_voice_in_handwriting. These names suggest promotion, training-related caching and interaction with voice input, but the snapshot alone does not reveal what information is saved, when it is used, or whether a voice button can be made visible. Do not assume a training cache stores literal handwritten notes or that clearing it fixes bad recognition. Those questions require version-specific implementation evidence."
+      ],
+      [
+        "Diagnose recognition errors methodically",
+        "Start with simple printed letters, then compare joined letters, punctuation and numerals. Check the selected language because the same stroke can correspond to different characters in different scripts. Reproduce failures in one text field with a consistent stylus or fingertip, and record whether the recognition error occurs before or after you select a candidate. If changing a normal handwriting preference improves recognition, do not attribute that improvement to a nearby debug or cache-related flag."
+      ],
+      [
+        "Keep data and model claims modest",
+        "Handwriting recognition can involve local language resources, user input history or implementation paths that vary by version. An APK identifier isn't enough to conclude exactly where handwritten data is processed. Consult Google's settings and privacy explanations for the installed version, and use disposable sample words when testing. Preserve a keyboard that works for normal typing so a speculative experiment cannot strand you without a way to enter text. Voice and handwriting should be tested independently."
+      ]
+    ],
+    "flags": [
+      "enable_handwriting_promo",
+      "enable_handwriting_training_cache",
+      "enable_hybrid_handwriting_training_cache",
+      "enable_voice_in_handwriting"
+    ],
+    "questions": [
+      [
+        "Can I enable handwriting for an unsupported language using a flag?",
+        "Not reliably. Recognition requires a compatible keyboard layout and recognition resources; a promotional or cache flag does not supply them."
+      ],
+      [
+        "Does a training-cache flag mean Gboard saves all my handwriting?",
+        "The name alone cannot establish what is stored or retained. Examine the actual implementation and privacy settings before drawing that conclusion."
+      ]
+    ],
+    "sources": [
+      [
+        "Google: Handwriting input guide",
+        "https://support.google.com/gboard/answer/9108773?hl=en"
+      ],
+      [
+        "Google: Use your keyboard",
+        "https://support.google.com/gboard/answer/2842292?hl=en"
+      ],
+      [
+        "Gboard Patches: custom themes and input features",
+        "https://github.com/jasonwu1994/Gboard-patches"
+      ]
+    ]
+  },
+  {
+    "slug": "gboard-japanese-multilingual-language-picker",
+    "title": "Japanese and Multilingual Gboard: Switching Layouts Reliably",
+    "description": "Configure Japanese alongside English, check language persistence and avoid forcing the wrong locale from hidden flags.",
+    "audience": "Japanese-English bilingual users",
+    "takeaway": "Language layout selection, app-specific persistence and speech-language eligibility are different mechanisms.",
+    "sections": [
+      [
+        "Choose the actual Japanese input layout",
+        "Gboard's Languages settings let you add languages and supported keyboard arrangements. Japanese may provide different layouts and input methods depending on the installed build and region. Google distinguishes switching a keyboard's language from changing the Android system language. For English and Japanese use, add both keyboards first, verify the language-switch affordance and test typing Japanese text in an ordinary app before touching an internal language-picker flag."
+      ],
+      [
+        "What the language picker candidates suggest",
+        "The Atlas includes enable_gboard_language_picker_redesign, enable_language_order_menu and enable_persist_language_for_conversation_id. These sound like a revised picker, ordering UI and conversation-level persistence. Yet identifier names are not enough to determine the exact default or scope. The last name may hint at remembering language by conversation, but that does not prove it works in every messaging app. Check which package owns the keyboard and whether a custom patch changes the globe-key gesture or timing."
+      ],
+      [
+        "Test switching and persistence separately",
+        "Set up a harmless English-Japanese exchange in two text fields. Change language, move to the second field and return, recording which keyboard remains selected. Repeat after closing and reopening the app. If the language unexpectedly changes, note whether it is an input layout switch, a suggestion-language change or voice typing changing recognition language. These are different bugs. Compare identical settings on the same Gboard version rather than assuming the system language is to blame."
+      ],
+      [
+        "Be cautious with forced-language flags",
+        "A candidate named force_language is not a supported instruction to hard-code Japanese everywhere. Forcing unknown values can interfere with language models, dictionary selection or punctuation. Prefer normal keyboard arrangements and the patch's documented language-switch customization where offered. If experimenting with a new picker design, change one setting, check that both languages remain selectable, and keep a working fallback keyboard available before continuing. Actual Japanese model support remains a version-dependent capability."
+      ]
+    ],
+    "flags": [
+      "enable_gboard_language_picker_redesign",
+      "enable_language_order_menu",
+      "enable_persist_language_for_conversation_id",
+      "force_language"
+    ],
+    "questions": [
+      [
+        "Does switching Gboard languages change the phone's system language?",
+        "No. Google's language guide explicitly distinguishes Gboard's keyboard language from Android's overall language."
+      ],
+      [
+        "Can I force a separate keyboard for each chat?",
+        "Not with a guaranteed Atlas toggle. Conversation persistence is only suggested by an internal identifier; verify behavior within your particular app and build."
+      ]
+    ],
+    "sources": [
+      [
+        "Google: Type in a different language",
+        "https://support.google.com/gboard/answer/7068494?hl=en"
+      ],
+      [
+        "Google: Use your keyboard",
+        "https://support.google.com/gboard/answer/2842292?hl=en"
+      ],
+      [
+        "Gboard Patches: custom themes and input features",
+        "https://github.com/jasonwu1994/Gboard-patches"
+      ]
+    ]
+  },
+  {
+    "slug": "gboard-personal-dictionary-learned-words",
+    "title": "Gboard Learned Words and Personal Dictionary: Fix Bad Suggestions",
+    "description": "Learn what to do with persistent typos, personalized word lists and user-history flags without erasing good typing data.",
+    "audience": "Anyone correcting Gboard's vocabulary",
+    "takeaway": "A manually added dictionary entry and an automatically learned prediction are not interchangeable, and reset options can erase helpful personalization.",
+    "sections": [
+      [
+        "Distinguish your dictionary from learned history",
+        "Google documents adding words to a personal dictionary and removing unwanted learned suggestions. A personal dictionary is a user-controlled list; the prediction system may also incorporate history and model behavior that is not represented as the same list. The Atlas includes a preference for personalized dictionaries and a candidate for deleting user dictionary typos, but their names do not reveal exactly which stores Gboard reads. Use built-in dictionary tools for a word you know you want to retain."
+      ],
+      [
+        "Fix one repeated typo without a full reset",
+        "Write the problematic word in a disposable text field and note the incorrect suggestion that appears. Try rejecting an inappropriate automatic correction and adding the correct word to the user dictionary where supported. Repeat in the same language and input layout. If the suggestion persists, check whether you have a competing personal dictionary or a language mismatch. Only consider deleting learned words after confirming that you can afford to lose other useful typing history and personalization."
+      ],
+      [
+        "What multiword history flags imply",
+        "Identifiers such as enable_multiword_predictions_from_user_history and enable_multiword_suggestions_from_user_history suggest that stored history can inform predictions spanning more than one word. They do not prove that a raw history file contains every sentence you have typed or that either gate is active. A separate HMM user-history backup flag is implementation-oriented, not a convenient user export feature. Treat these as research leads about prediction sources, not directions to manipulate private data files manually."
+      ],
+      [
+        "Set up a reproducible comparison",
+        "Use a small set of invented names and uncommon words with no personal information. First record suggestions with ordinary personalization settings, then add one known dictionary word and repeat. Test different languages separately and be aware that Gboard updates can change ranking even with identical stored data. When documenting a problem, include Gboard version, locale and the exact typed prefix; vague reports that autocorrect got worse cannot distinguish a dictionary issue from a changed correction model."
+      ]
+    ],
+    "flags": [
+      "pref_key_use_personalized_dicts",
+      "enable_delete_user_dictionary_typos",
+      "enable_multiword_predictions_from_user_history",
+      "enable_hmm_user_history_backup"
+    ],
+    "questions": [
+      [
+        "Should I delete all learned words to fix one wrong suggestion?",
+        "Usually not. Try rejecting the suggestion or adding the intended word to the personal dictionary first; full deletion is disruptive."
+      ],
+      [
+        "Is the user dictionary the same as the prediction history?",
+        "No. They are related but distinct sources of typing information, and internal flag names do not establish their exact storage relationship."
+      ]
+    ],
+    "sources": [
+      [
+        "Google: Word suggestions and personal dictionary",
+        "https://support.google.com/gboard/answer/7068415?hl=en"
+      ],
+      [
+        "Google: Fix problems with Gboard and delete learned words",
+        "https://support.google.com/gboard/answer/9058584?hl=en"
+      ],
+      [
+        "Gboard Patches: custom themes and input features",
+        "https://github.com/jasonwu1994/Gboard-patches"
+      ]
+    ]
   }
 ]
