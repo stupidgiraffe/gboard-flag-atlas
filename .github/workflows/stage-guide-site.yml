@@ -1,0 +1,53 @@
+name: Validate and stage Atlas guide site
+
+on:
+  push:
+    branches:
+      - main
+      - feat/twenty-more-gboard-field-guides
+    paths:
+      - 'data/guides.json'
+      - 'data/guides-extended.json'
+      - 'scripts/build-guide-pages.mjs'
+      - 'scripts/build-site.mjs'
+      - 'tests/site-build.test.mjs'
+      - 'index.html'
+      - '.github/workflows/stage-guide-site.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: stage-atlas-guides-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+      - name: Regression tests
+        run: |
+          node tests/search.test.mjs
+          node tests/site-build.test.mjs
+      - name: Generate full site
+        run: node scripts/build-site.mjs
+      - name: Confirm 211 canonical URLs and 40 guides
+        run: |
+          test "$(grep -o '<loc>' dist/sitemap.xml | wc -l)" -eq 211
+          test "$(find dist/guides -name index.html | wc -l)" -eq 41
+          test -f dist/guides/gboard-rambler-voice-editing/index.html
+          test -f dist/guides/gboardwu-vs-stock-gboard/index.html
+      - name: Push generated bundle to dedicated staging branch
+        if: github.ref == 'refs/heads/main'
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -f dist/
+          git commit -m 'build: stage 40-guide Gboard Atlas static release'
+          git push --force origin HEAD:refs/heads/release/guides-40-site
