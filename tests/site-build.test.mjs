@@ -7,7 +7,7 @@ const root=process.cwd(),out='/tmp/gfa-site-build-test';
 execFileSync(process.execPath,[join(root,'scripts/build-site.mjs'),out],{stdio:'pipe'});
 const read=p=>readFileSync(join(out,p),'utf8');
 const flags=JSON.parse(read('data/flags.json')).entries;
-const guides=JSON.parse(readFileSync(join(root,'data/guides.json'),'utf8'));
+const guides=[...JSON.parse(readFileSync(join(root,'data/guides.json'),'utf8')),...JSON.parse(readFileSync(join(root,'data/guides-extended.json'),'utf8'))];
 const eligible=flags.filter(f=>['Code-referenced','Community-referenced','Library-referenced','Interpreted'].includes(f.confidence));
 assert.equal(flags.length,691,'all catalog records retained');
 assert.equal(new Set(flags.map(f=>f.name)).size,691,'unique identifiers');
