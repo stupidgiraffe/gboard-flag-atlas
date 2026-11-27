@@ -31,7 +31,7 @@ export function buildGuidePages({root,dest,BASE,all,href,esc,shell}) {
     +'<div class="hero"><div class="eyebrow">40 independent guides</div><h1>Gboard hidden features, explained with evidence</h1><p class="lead">Learn how Gboard flags relate to corrections, AI features, voice typing, model downloads, Emoji Kitchen and diagnostics. Follow exact identifiers, original analysis and source references.</p></div>'
     +'<main class="grid"><div>'+groups.map(([heading,items])=>'<section class="panel"><h2>'+esc(heading)+'</h2><div class="items">'+items.map(item).join("")+'</div></section>').join("")+'</div><aside><section class="panel"><h2>How this reference works</h2><p>The Atlas documents 691 candidate identifiers from GboardWu 18.5.4. A matching identifier is not proof that a feature can be enabled on every phone.</p><p>Guides explain mechanisms and testing methods. The search shows exact IDs, evidence labels and research notes.</p><a class="btn secondary" href="/#directory">Search all flags</a></section></aside></main>';
   const hubURL=BASE+"/guides/";
-  write("guides/index.html",shell({pageTitle:"20 Gboard Developer Flag Guides | Gboard Flag Atlas",desc:"40 original guides to GboardWu flags, keyboard corrections, voice typing, Emoji Kitchen, AI writing and safe flag testing.",url:hubURL,main:hub}));
+  write("guides/index.html",shell({pageTitle:"40 Gboard Developer Flag Guides | Gboard Flag Atlas",desc:"40 original guides to GboardWu flags, keyboard corrections, voice typing, Emoji Kitchen, AI writing and safe flag testing.",url:hubURL,main:hub}));
   urls.push(hubURL);
   for(let i=0;i<guides.length;i++) {
     const g=guides[i],canonical=BASE+url(g);

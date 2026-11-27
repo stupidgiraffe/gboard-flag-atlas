@@ -19,7 +19,7 @@ assert.equal(readdirSync(join(out,'flags')).length,159);
 assert.equal(readdirSync(join(out,'topics')).length,10);
 assert.equal(guides.length,40);
 assert.equal(new Set(guides.map(g=>g.slug)).size,40);
-assert.equal(readdirSync(join(out,'guides')).length,41,'20 guides + guide hub');
+assert.equal(readdirSync(join(out,'guides')).length,41,'40 guides + guide hub');
 const xml=read('sitemap.xml');
 assert.equal((xml.match(/<loc>/g)||[]).length,211);
 const urls=(xml.match(/<loc>(.*?)<\/loc>/g)||[]);
@@ -43,6 +43,7 @@ assert.ok(!klp.includes('Purpose unknown'));
 assert.ok(klp.includes('rel="canonical"'));
 assert.ok(klp.includes('/flags/disable_load_v2_klp/'));
 const hub=read('guides/index.html');
+assert.ok(hub.includes('<title>40 Gboard Developer Flag Guides'),'stale guide index metadata');
 for(const g of guides)assert.ok(hub.includes("href=\"/guides/"+g.slug+"/\""),"missing hub link "+g.slug);
 for(const g of guides){
  const file='guides/'+g.slug+'/index.html';
