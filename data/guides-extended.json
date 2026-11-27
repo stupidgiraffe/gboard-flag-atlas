@@ -1,0 +1,277 @@
+[
+  {
+    "slug": "gboardwu-vs-stock-gboard",
+    "title": "GboardWu vs Stock Gboard: What Changes and What Stays Google's?",
+    "description": "Understand GboardWu, Morphe patches, package renaming, stock flags and why the two keyboards can behave differently.",
+    "audience": "Users of patched Gboard",
+    "takeaway": "The patched APK starts with Google's Gboard code, but the patch layer and Android package identity can change what settings and data you see.",
+    "sections": [
+      [
+        "Three layers, not two unrelated keyboards",
+        "Stock Gboard supplies the keyboard engine, internal experiments, language support and normal user settings. Morphe is a patching framework; the Gboard Patches project builds optional changes for a chosen compatible APK. GboardWu is a common display name used for the resulting installed app. A patch can expose an existing Google option or add entirely new behavior. Our Atlas catalogs candidate identifiers from a patched build, so it should not be mistaken for a second official flag registry."
+      ],
+      [
+        "Package names determine where Android keeps data",
+        "Android separates app data by package identity. Gboard Patches documents an optional Package Rename feature, including the coexistence name dev.jason.com.google.android.inputmethod.latin. When stock Gboard and a renamed patched copy coexist, they can maintain independent preferences, learned words and stored flag overrides. An update installed under a different package name may look like a new keyboard rather than an upgrade. Record the installed package name, not only the app label, before comparing two devices or backups."
+      ],
+      [
+        "Separate a patch control from a Google flag",
+        "A control labeled Web Clipboard, custom theme or toolbar buttons may be implemented by the patch project rather than by a Google flag. In contrast, the exposed Flag Editor offers access to values Gboard itself may read. For a concrete test, compare the exact identifier and underlying Gboard version on stock and patched builds, then check whether a patch needs to be installed to expose the screen. A visible setting alone does not prove that its backend is enabled."
+      ],
+      [
+        "Avoid misleading side-by-side comparisons",
+        "Build number, architecture, installed patches, account eligibility and language must be matched before attributing any behavior to Morphe. If one keyboard shows a new feature while the other does not, check these differences before copying flags blindly. Export settings through the patch's backup facilities where available, keep the current keyboard working, and avoid mixing data files between distinct package identities without knowing their schemas. This is a compatibility question, not evidence that Google maintains two unrelated flag systems."
+      ]
+    ],
+    "flags": [
+      "pref_custom_theme_enabled",
+      "pref_manual_incognito_feature_enabled",
+      "pref_web_clipboard_enabled",
+      "pref_key_enable_inline_suggestion"
+    ],
+    "questions": [
+      [
+        "Does GboardWu get a different set of Google flags?",
+        "Not inherently. It starts from a particular Gboard build, then patches may expose, alter or add features. Two different builds can contain different identifiers, and patch-only preferences should be labeled separately."
+      ],
+      [
+        "Can stock Gboard and GboardWu be installed together?",
+        "Yes, when a supported Package Rename patch assigns a distinct package identity. They can then have independent app data and may need separate setup."
+      ]
+    ],
+    "sources": [
+      [
+        "Gboard Patches: current features and limitations",
+        "https://github.com/jasonwu1994/Gboard-patches"
+      ],
+      [
+        "Gboard Patches: version changes",
+        "https://github.com/jasonwu1994/Gboard-patches/blob/main/CHANGELOG.md"
+      ],
+      [
+        "Google: Fix problems with Gboard",
+        "https://support.google.com/gboard/answer/9058584?hl=en"
+      ]
+    ]
+  },
+  {
+    "slug": "gboard-flag-backup-restore-pb-xml",
+    "title": "Back Up Gboard Flags Safely: PB, XML and Patch Settings",
+    "description": "Distinguish Gboard's stored flag files from Morphe settings and personal data before exporting or restoring.",
+    "audience": "Advanced flag editor users",
+    "takeaway": "Backing up a flag store is not the same as backing up dictionaries, clipboard pins, themes or Morphe configuration.",
+    "sections": [
+      [
+        "Know which data you are exporting",
+        "Gboard Patches currently documents three different backup concerns: the patches' own configuration, Gboard's personal data, and Gboard's raw PB/XML flag-store files. A list of identifiers recovered from an APK is static evidence about code; a saved flag store is device state. Those are different artifacts. A manifest may contain hundreds of possible flag names even though the device stores only values that were fetched, set or overridden."
+      ],
+      [
+        "Why PB and XML both appear",
+        "Gboard Patches source recognizes a Jetpack DataStore protobuf file named flags_jetpack_data_store.pb plus legacy XML files flag_override.xml and flag_value.xml. These are storage formats, not a guarantee that every version reads all of them simultaneously. A raw backup should record the Gboard version and package identity, because defaults and serialization can change across releases. Never interpret a missing key in a backup as proof that an experiment has been removed from Gboard code."
+      ],
+      [
+        "A reproducible backup workflow",
+        "Before experimenting, export the patch settings and the available flag-store data. Keep the export alongside a plain-text note of the installed Gboard build, patch version, package name and changed identifiers. When comparing backups, compare keys and values rather than file byte size: protobuf order, migration and unrelated preference writes may produce noisy differences. Make one deliberate change, reopen the editor, then export again to see what actually persisted."
+      ],
+      [
+        "Restore with version and privacy awareness",
+        "A raw import can replace existing local flag overrides, while a personal-data backup may contain learned words, pinned clipboard content or other sensitive data. Keep these files private. The patched app documents version checks for personal data restoration; do not assume cross-version raw flag imports are safe. If a new keyboard build crashes or silently ignores old settings, first test ordinary Gboard settings with the old overrides removed rather than repeatedly restoring the same possibly incompatible file."
+      ]
+    ],
+    "flags": [
+      "pref_restart_restore_crash_recovery_clean_flag",
+      "enable_hmm_user_history_backup",
+      "enable_emoji_variant_preferences_backup",
+      "pref_key_use_personalized_dicts"
+    ],
+    "questions": [
+      [
+        "Will a backup reveal every available flag?",
+        "No. A backup captures stored state; the Atlas's APK string scan captures candidate identifiers. Neither proves that every identifier is a live Boolean option."
+      ],
+      [
+        "Can I restore old flags into a newer version?",
+        "It may work, but a changed schema or removed experiment can make some values irrelevant or harmful. Compare versions and preserve an untouched backup before importing."
+      ]
+    ],
+    "sources": [
+      [
+        "Gboard Patches: current features and limitations",
+        "https://github.com/jasonwu1994/Gboard-patches"
+      ],
+      [
+        "Gboard Patches: version changes",
+        "https://github.com/jasonwu1994/Gboard-patches/blob/main/CHANGELOG.md"
+      ],
+      [
+        "Gboard Patches: known PB/XML storage file paths",
+        "https://github.com/jasonwu1994/Gboard-patches/blob/main/extensions/extension/src/main/java/dev/jason/gboardpatches/extension/backuprestore/flagstore/GboardFlagStoreFiles.java"
+      ]
+    ]
+  },
+  {
+    "slug": "gboard-flags-across-app-updates",
+    "title": "What Happens to Gboard Flags After an App Update?",
+    "description": "Learn how to distinguish newly added flags, renamed experiments, changed defaults and old overrides that no longer work.",
+    "audience": "Gboard experiment trackers",
+    "takeaway": "A new APK version is a signal to compare code and behavior, not evidence that the flag list or defaults changed.",
+    "sections": [
+      [
+        "Version changes can have four outcomes",
+        "A newer Gboard release may add a new identifier, remove an obsolete one, change the code path controlled by an existing identifier or leave the identifier unchanged while its runtime default changes. Server-side eligibility can also change without an APK update. Comparing only a flag editor's visible list is insufficient: stored overrides can linger after the implementation that once read them has disappeared. Track both the APK version and the context of a specific experiment."
+      ],
+      [
+        "How the Atlas measures changes",
+        "The Atlas has automated public-version monitoring and a separate APK scanning workflow. The latter validates the downloaded Android package and version, extracts candidate identifier strings from DEX tables, and records a versioned snapshot without retaining the APK itself. Changes between comparable snapshots can reveal added or missing strings; they do not establish type, default value or functioning code paths. A patched build and stock APK may also differ, so we keep source provenance rather than treating every raw difference as a Google change."
+      ],
+      [
+        "A proper release comparison",
+        "Record the base version, architecture and source; compare identifiers as sorted sets; then manually inspect promising additions in code, flag stores and UI. For unchanged names, measure behavior using the same device, app, locale and repeatable test sentence before and after updating. If a flag is only a stored preference, classify it accordingly. If its meaning is uncertain, keep that uncertainty visible instead of extrapolating from a word like enable or disable."
+      ],
+      [
+        "What users should do when flags reset",
+        "First confirm that the update used the same package identity and really upgraded the existing installation. Search the Flag Editor for the exact old name, inspect its current type and default, then check the export of stored overrides. Some flags depend on network rollout data or availability that an app update cannot force. Preserve a backup, restore only compatible settings, and avoid copying hundreds of values into an untested build merely to replicate the old screen."
+      ]
+    ],
+    "flags": [
+      "disable_load_v2_klp",
+      "enable_user_feature_cache",
+      "enable_writing_tools_v2",
+      "pref_restart_restore_crash_recovery_clean_flag"
+    ],
+    "questions": [
+      [
+        "Does the Atlas update itself when Google publishes Gboard?",
+        "The upstream version watcher and APK candidate scans run on schedules. New explanatory articles still need research; automation does not invent definitions for unfamiliar flags."
+      ],
+      [
+        "If a flag disappears, was the feature removed?",
+        "Not necessarily. Identifiers can move, be renamed, become server-controlled or remain in another module; a string-diff is a research lead, not a final product conclusion."
+      ]
+    ],
+    "sources": [
+      [
+        "Gboard Patches: current features and limitations",
+        "https://github.com/jasonwu1994/Gboard-patches"
+      ],
+      [
+        "Gboard Flag Atlas: source snapshots and scanner",
+        "https://github.com/stupidgiraffe/gboard-flag-atlas/tree/main/data/version-snapshots"
+      ],
+      [
+        "Gboard Patches: version changes",
+        "https://github.com/jasonwu1994/Gboard-patches/blob/main/CHANGELOG.md"
+      ]
+    ]
+  },
+  {
+    "slug": "gboard-manual-incognito-mode",
+    "title": "Gboard Incognito Mode: What It Protects and What It Doesn't",
+    "description": "Separate Gboard incognito controls from Android privacy, clipboard retention and network-backed typing features.",
+    "audience": "Privacy-conscious Android users",
+    "takeaway": "Incognito is about limiting keyboard personalization; it is not a guarantee that apps, the network or the operating system cannot observe your text.",
+    "sections": [
+      [
+        "What incognito changes in practice",
+        "Incognito behavior is part of keyboard state, not a global Android private mode. Gboard Patches offers a manual Incognito Mode Toggle in its access points, with optional controls for clipboard and voice typing while incognito is active. That is a patch feature and should not be confused with an official Android privacy switch. The Atlas also contains preference-like identifiers associated with manual incognito, but their exact persisted values and effective policy depend on the installed patched build."
+      ],
+      [
+        "Understand the data boundaries",
+        "A messaging app can still retain everything you submit while Gboard is incognito. Screenshots, accessibility services, app analytics and system clipboard interactions remain separate concerns. Likewise, certain speech and AI services have their own processing rules; incognito does not automatically make a cloud-backed dictation or rewriting request local. Google's own help pages document distinct permissions and voice-typing behavior. Evaluate the full feature path rather than assuming the keyboard label controls every destination."
+      ],
+      [
+        "Test behavior instead of relying on the icon",
+        "In a throwaway text field, note whether the incognito indicator appears and whether suggestions from recent typing persist after leaving the field. Repeat with manual incognito off, using non-sensitive invented text. Check the patch's options for clipboard and voice typing separately. Avoid testing with private names, passwords or medical phrases: creating a privacy test that copies genuine secrets into a log defeats the purpose. Keep notes about build and patch version."
+      ],
+      [
+        "Choose the least confusing configuration",
+        "For routine private fields, prefer Android and app-level privacy protections first. Use manual incognito if the patch provides a behavior you actually need, not because its name sounds like comprehensive anonymity. Do not force preferences controlling logging or personal data without understanding the consequences. If changing an incognito-related flag disables normal keyboard functions, revert the exact value and verify a cold keyboard start before editing another setting."
+      ]
+    ],
+    "flags": [
+      "pref_manual_incognito_feature_enabled",
+      "pref_manual_incognito_requested",
+      "pref_incognito_allow_clipboard",
+      "pref_incognito_allow_voice_typing"
+    ],
+    "questions": [
+      [
+        "Does Gboard incognito prevent the app I'm typing into from seeing text?",
+        "No. The target app receives text you enter; incognito governs selected keyboard behaviors, not what your recipient app can read."
+      ],
+      [
+        "Is an Incognito toggle part of original Google Gboard?",
+        "The manual toolbar toggle described here is implemented by Gboard Patches. Built-in incognito behaviors may exist separately; don't conflate the two."
+      ]
+    ],
+    "sources": [
+      [
+        "Gboard Patches: current features and limitations",
+        "https://github.com/jasonwu1994/Gboard-patches"
+      ],
+      [
+        "Google: Gboard privacy and troubleshooting",
+        "https://support.google.com/gboard/answer/9058584?hl=en"
+      ],
+      [
+        "Google: Advanced voice typing privacy details",
+        "https://support.google.com/gboard/answer/11197787?hl=en"
+      ]
+    ]
+  },
+  {
+    "slug": "gboard-web-clipboard-sync-security",
+    "title": "Gboard Web Clipboard: LAN Sync, Pairing and Security",
+    "description": "How patched Gboard shares clipboard text with a browser, and how to evaluate local-network exposure and pairing.",
+    "audience": "GboardWu power users",
+    "takeaway": "Web Clipboard is a patch-added local service, not an ordinary Google feature flag; pairing and network reachability matter more than a toggle's name.",
+    "sections": [
+      [
+        "What the patch actually supplies",
+        "Gboard Patches includes Web Clipboard, which runs a phone-hosted portal accessible to a browser on the same local network. Recent release notes describe bidirectional clipboard text and image transfers, browser uploads and a Quick Settings entry. This is built by the patch project, not an official Google sync service or a feature switched on by a generic stock Gboard flag. The Atlas includes patch preference identifiers for the service, pairing and port configuration."
+      ],
+      [
+        "Understand the trust boundary",
+        "A local-network service can be reachable by other devices on the Wi-Fi if the phone and network permit it. Pairing codes and a requirement to pair reduce exposure, but their strength depends on implementation and local threat conditions. Do not expose a clipboard portal through a public port forward, reverse proxy or public tunnel by accident. Treat synced items like passwords or recovery codes as sensitive even if the connection never leaves your home LAN."
+      ],
+      [
+        "A safer first setup",
+        "Read the patch's current instructions and keep pairing enabled. Start the service only when needed, open the provided local address from a trusted browser, and verify that the phone prompts or validates access as documented. Try harmless test text first, then verify whether clipboard updates flow in both directions. Close the session and stop the service when finished. If a browser can reconnect without the intended pairing step, check the active setting before syncing actual personal content."
+      ],
+      [
+        "When sync fails",
+        "Distinguish Wi-Fi connectivity problems from Gboard clipboard state and patch compatibility. Confirm both devices are on the expected local network, check captive portals or guest-network client isolation, and verify the phone's reported service port. Recent patches changed image-handling behavior, so ensure the installed patch version supports the mode you are testing. Never treat the existence of pref_web_clipboard_enabled as proof that a server is running or accessible."
+      ]
+    ],
+    "flags": [
+      "pref_web_clipboard_enabled",
+      "pref_web_clipboard_pairing_required",
+      "pref_web_clipboard_pairing_code",
+      "pref_web_clipboard_port"
+    ],
+    "questions": [
+      [
+        "Is the Web Clipboard feature built into stock Gboard?",
+        "No. The referenced phone-hosted web portal comes from the independent Gboard Patches project."
+      ],
+      [
+        "Can I use it securely on public Wi-Fi?",
+        "Avoid exposing clipboard contents on untrusted networks. Pairing is useful but not a substitute for network isolation, careful session management and keeping the patch current."
+      ]
+    ],
+    "sources": [
+      [
+        "Gboard Patches: current features and limitations",
+        "https://github.com/jasonwu1994/Gboard-patches"
+      ],
+      [
+        "Gboard Patches: version changes",
+        "https://github.com/jasonwu1994/Gboard-patches/blob/main/CHANGELOG.md"
+      ],
+      [
+        "Google: Copy and paste with Gboard",
+        "https://support.google.com/gboard/answer/10742542?hl=en"
+      ]
+    ]
+  }
+]
