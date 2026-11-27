@@ -823,5 +823,280 @@
         "https://github.com/jasonwu1994/Gboard-patches"
       ]
     ]
+  },
+  {
+    "slug": "gboard-punctuation-spacing-auto-capitalization",
+    "title": "Gboard Punctuation, Spacing and Capitalization: Why It Differs",
+    "description": "Investigate unexpected spaces, punctuation after dictation and language-specific correction without forcing guesswork flags.",
+    "audience": "Multilingual and voice-input users",
+    "takeaway": "Punctuation can be inserted by the keyboard, a language model, voice transcription or the target editor; those paths must be separated.",
+    "sections": [
+      [
+        "Find which input path created the punctuation",
+        "A period typed with a key, a period inserted after a voice command and punctuation supplied by an autocorrection model are not necessarily processed identically. Gboard's ordinary typing settings govern some behavior, while voice input offers its own punctuation options and may depend on language support. When a space appears in the wrong place, note exactly whether you tapped punctuation, accepted a suggestion, used the spacebar or dictated a sentence. That information is more diagnostic than simply saying punctuation is broken."
+      ],
+      [
+        "Interpret the candidate identifiers cautiously",
+        "Names such as enable_punctuation_spacing_normalization and enable_p13n_punctuation_case suggest distinct spacing and personalization decisions. enable_s3_auto_punctuation plausibly concerns a speech backend, but a string scan cannot identify the backend or confirm behavior in the installed build. allow_space_and_comma is broader still and may have a narrow internal purpose unrelated to everyday comma insertion. These are useful terms to look up, not documented Boolean switches to apply indiscriminately across all locales."
+      ],
+      [
+        "Run an app and language comparison",
+        "Use a neutral sentence containing a comma, a period and a proper name. Enter it by tapping keys, accepting suggestions and dictating, each in a fresh field. Test a second supported language only after you can reproduce the first result. Compare a messaging app with a plain notes editor to identify whether the receiving editor changes spacing. Record the exact text before and after Gboard processes it; do not infer model behavior from a screenshot that captures only the final sentence."
+      ],
+      [
+        "Prefer supported settings over unknown thresholds",
+        "If automatic punctuation is the problem in voice typing, start with the official voice-typing settings and feature documentation. If capitalization changes with keyboard language, verify language order and ordinary text-correction settings. Only experiment with a specific developer identifier after recording its type, original value and observed effect in a controlled before-and-after test. A fix that improves English but breaks Japanese punctuation should not be published as a universal Gboard tweak."
+      ]
+    ],
+    "flags": [
+      "enable_punctuation_spacing_normalization",
+      "enable_p13n_punctuation_case",
+      "enable_s3_auto_punctuation",
+      "allow_space_and_comma"
+    ],
+    "questions": [
+      [
+        "Does one flag control all automatic punctuation?",
+        "No reliable evidence supports that. Typed text, suggestions and voice transcription can involve different paths and settings."
+      ],
+      [
+        "Why does punctuation behave differently across apps?",
+        "The text editor and language configuration can influence insertion and correction behavior. Reproduce the same input method in a simple text field before changing flags."
+      ]
+    ],
+    "sources": [
+      [
+        "Google: Type with your voice",
+        "https://support.google.com/gboard/answer/2781851?hl=en"
+      ],
+      [
+        "Google: Use advanced voice typing features",
+        "https://support.google.com/gboard/answer/11197787?hl=en"
+      ],
+      [
+        "Google: Get suggestions and fix mistakes",
+        "https://support.google.com/gboard/answer/7068415?hl=en"
+      ]
+    ]
+  },
+  {
+    "slug": "gboard-bluetooth-microphone-dictation",
+    "title": "Gboard Bluetooth Microphone Dictation: Routing and Troubleshooting",
+    "description": "Understand Bluetooth mic selection, Gboard permissions and advanced voice typing without conflating audio routing with model support.",
+    "audience": "People dictating through headsets",
+    "takeaway": "A Bluetooth microphone option is only one part of the audio path; Android routing and voice-typing eligibility can still limit the result.",
+    "sections": [
+      [
+        "Check the hardware audio path first",
+        "A Bluetooth headset has separate call and media audio behavior on many Android devices. Before altering Gboard, verify that the microphone works in another app that records audio and that Android recognizes the intended headset. Then grant Gboard microphone permission and test normal voice typing in a quiet environment. If audio does not reach any app, the problem is unlikely to be fixed by a Gboard flag. If only dictation fails, check its mode and language rather than repeatedly reconnecting devices."
+      ],
+      [
+        "What the patch unlock actually does",
+        "Gboard Patches documents a Use Bluetooth Microphone option that exposes Gboard's related setting and rollout gate. The Atlas contains enable_use_bluetooth_setting and pref_use_bluetooth_microphone_override_enabled. Their names point toward option visibility and stored preference state, but do not prove that every Bluetooth stack and headset is supported. An exposed menu is not a guarantee that the voice recognition backend is using the selected microphone. Treat it as a setting to verify with a real recording test."
+      ],
+      [
+        "Keep speech modes separate",
+        "Standard voice typing and advanced voice typing can have different device, language and software requirements. A headset might work for ordinary dictation while an advanced feature is unavailable for unrelated reasons. Google documents separate advanced features and prerequisites. Likewise, a candidate about offline PCM caching does not imply a Bluetooth routing fix. Test a short phrase through the phone microphone and then the Bluetooth headset using the same dictation mode and language, and compare intelligibility rather than only the presence of an icon."
+      ],
+      [
+        "Diagnose delayed or garbled speech",
+        "Watch for Bluetooth profile changes, microphone permission prompts, network transitions and active calls that can affect audio capture. Restarting the headset connection may be more relevant than changing a keyboard feature gate. If the patched Bluetooth setting is present, switch it only after recording the original value, then retest the same phrase. Do not assume forcing advanced voice typing enables unsupported languages or offline processing. For detailed privacy expectations, read the documentation for the specific speech mode in use."
+      ]
+    ],
+    "flags": [
+      "enable_use_bluetooth_setting",
+      "pref_use_bluetooth_microphone_override_enabled",
+      "pref_advanced_voice_typing_enabled",
+      "enable_pcm_audio_caching_for_offline_fallback"
+    ],
+    "questions": [
+      [
+        "Why does the headset work in calls but not Gboard?",
+        "Bluetooth profiles, Android audio routing, app permission and recognition mode can differ. Check an independent recorder and Gboard permission first."
+      ],
+      [
+        "Can a flag enable advanced dictation on an unsupported phone?",
+        "Not reliably. Advanced features depend on Google-defined device, software and language support as well as visible settings."
+      ]
+    ],
+    "sources": [
+      [
+        "Google: Type with your voice",
+        "https://support.google.com/gboard/answer/2781851?hl=en"
+      ],
+      [
+        "Google: Use advanced voice typing features",
+        "https://support.google.com/gboard/answer/11197787?hl=en"
+      ],
+      [
+        "Gboard Patches: available patch features",
+        "https://github.com/jasonwu1994/Gboard-patches"
+      ]
+    ]
+  },
+  {
+    "slug": "gboard-rambler-voice-editing",
+    "title": "Gboard Rambler Voice Input: Editing, Toolbar and Privacy",
+    "description": "Understand Google's Rambler voice experience, its editing commands and the limits of internal toolbar and language flags.",
+    "audience": "Voice-first writers and Android experimenters",
+    "takeaway": "Rambler is a distinct, documented voice-input experience, and showing its toolbar is not proof that the service is available to every account.",
+    "sections": [
+      [
+        "What makes Rambler different from basic dictation",
+        "Google's Rambler voice-input documentation describes a speech experience that can remove filler words, format punctuation and support natural-language editing or rewriting commands. That differs from standard speech-to-text, where you primarily dictate the words you want entered. Eligibility, supported languages and behavior can change as Google rolls out the feature. Do not conflate a screenshot of a microphone interface with confirmation that a particular user has the same backend or command support."
+      ],
+      [
+        "Find the specific toolbar candidates",
+        "Our Atlas includes enable_rambler_al_toolbar, enable_rambler_al_toolbar_overflow_menu, enable_rambler_toolbar_at_cursor_position and show_rambler_dict_settings. These names point to UI and dictionary affordances near a Rambler feature family. The prefix itself is not enough to establish their current default, which users have them or what activating them will do. If the original Rambler UI is unavailable, enabling its toolbar flag does not necessarily supply models, cloud eligibility or permissions."
+      ],
+      [
+        "Test editing rather than microphone visibility",
+        "If Rambler is officially available on your build, begin with a harmless sentence spoken with a deliberate filler word and compare it with standard dictation. Then request one simple edit and confirm whether the exact intended text appears. Separate speech recognition accuracy from rewrite quality: a perfect transcription followed by an unwanted rewrite is a different issue from a misheard word. Repeat in the same app and locale, and record whether commands operate on highlighted text, surrounding text or the entire field."
+      ],
+      [
+        "Respect the feature's data handling",
+        "Google's help describes how Rambler may process text, audio and corrections. Read the current documentation and privacy controls before using it for sensitive drafts. Its behavior should not be inferred from the presence of prefixed names like rambler_al. When comparing an Atlas flag, specify the build, voice mode, language, app and whether network access was available. A toolbar that appears but never executes a command is an incomplete feature, not evidence that a hidden flag successfully unlocked Rambler."
+      ]
+    ],
+    "flags": [
+      "enable_rambler_al_toolbar",
+      "enable_rambler_al_toolbar_overflow_menu",
+      "enable_rambler_toolbar_at_cursor_position",
+      "show_rambler_dict_settings"
+    ],
+    "questions": [
+      [
+        "Is Rambler just another name for Gboard Advanced Voice Typing?",
+        "No. Google's Rambler documentation describes a distinct experience emphasizing conversational speech and editing. Available capabilities still depend on rollout and device conditions."
+      ],
+      [
+        "Can a Rambler toolbar flag activate the full service?",
+        "There is no evidence that UI visibility alone can bypass backend eligibility, model support or account rollout. Validate the actual commands."
+      ]
+    ],
+    "sources": [
+      [
+        "Google: Rambler voice input",
+        "https://support.google.com/gboard/answer/17468539?hl=en"
+      ],
+      [
+        "Google: Use advanced voice typing features",
+        "https://support.google.com/gboard/answer/11197787?hl=en"
+      ],
+      [
+        "Gboard Patches: available patch features",
+        "https://github.com/jasonwu1994/Gboard-patches"
+      ]
+    ]
+  },
+  {
+    "slug": "gboard-ocr-scan-text-quick-insert",
+    "title": "Gboard Scan Text and Quick Insert: OCR Without Misleading Flags",
+    "description": "Understand OCR engines, the Quick Insert panel and what is required before a camera-based text tool can work.",
+    "audience": "People copying printed text with their keyboard",
+    "takeaway": "A visible Scan Text or Quick Insert button is not the same as having camera permission, OCR resources and supported language recognition.",
+    "sections": [
+      [
+        "Separate the feature surface from recognition",
+        "Gboard Patches documents unlocking OCR / Scan Text and enabling a Quick Insert panel with a toolbar entry. These can be separate capabilities: one captures and recognizes printed text, while another provides an insertion surface or route to related actions. The Atlas contains pref_ocr_engine and pref_quick_insert_enabled, but those identifiers alone do not establish which recognition backend is selected or available. Check the patched build's documented UI and compatibility before expecting either flag to turn a camera scan into text."
+      ],
+      [
+        "Permissions and language are real dependencies",
+        "A camera-based OCR workflow needs camera access and a recognized text script. The patch project documents several OCR backends or supported script families, but actual results can vary with version, language and image quality. Test with a clean, well-lit printed paragraph in a script you know is supported; compare it with a blurred or angled photo to understand recognition sensitivity. Do not use bank details, private letters or account recovery codes as test content."
+      ],
+      [
+        "A reproducible Scan Text experiment",
+        "First verify the normal camera permission and whether Scan Text appears in the keyboard or patch interface. Insert text from a single printed line into a neutral notes field. Check punctuation, spaces and line breaks against the source, then repeat using a different language only if your current engine supports it. If the recognized text is wrong, diagnose the OCR stage before adjusting Gboard's autocorrection. Correction of recognized text and recognition from an image are not the same subsystem."
+      ],
+      [
+        "When a shortcut appears but does not work",
+        "Quick Insert may be enabled while the OCR action is absent, because toolbar access, feature gate and engine readiness are different parts of the flow. Check installed patch version, camera permission, app restrictions on the input field and relevant language support. Avoid changing pref_ocr_engine to an arbitrary integer or string without documenting accepted values. If the camera opens but insertion fails, try a basic text editor to determine whether the recognition worked and only the target app rejected the insertion."
+      ]
+    ],
+    "flags": [
+      "pref_ocr_engine",
+      "pref_quick_insert_enabled",
+      "enable_access_point_keyboard",
+      "enable_access_points_menu_redesign"
+    ],
+    "questions": [
+      [
+        "Does enabling Quick Insert automatically enable OCR?",
+        "Not necessarily. The panel and OCR engine have distinct components and may require separate settings, permissions and compatibility."
+      ],
+      [
+        "Can a hidden flag add support for any language's handwriting or printed text?",
+        "No reliable evidence supports that. Recognition requires an appropriate engine and language resources, beyond a visible UI option."
+      ]
+    ],
+    "sources": [
+      [
+        "Gboard Patches: available patch features",
+        "https://github.com/jasonwu1994/Gboard-patches"
+      ],
+      [
+        "Gboard Patches: supported OCR features and releases",
+        "https://github.com/jasonwu1994/Gboard-patches/blob/main/CHANGELOG.md"
+      ],
+      [
+        "Google: Use your keyboard",
+        "https://support.google.com/gboard/answer/2842292?hl=en"
+      ]
+    ]
+  },
+  {
+    "slug": "gboard-emoji-search-gemma-fallback",
+    "title": "Gboard Emoji Search Errors: Gemma, Embeddings and Server Fallbacks",
+    "description": "Troubleshoot empty Emoji Kitchen results and distinguish local ranking, server search and error-status experiments.",
+    "audience": "Emoji Kitchen and expression-search users",
+    "takeaway": "An empty emoji search can mean an index, model, network or UI problem; forcing every fallback flag on is not a diagnosis.",
+    "sections": [
+      [
+        "Emoji search has multiple possible paths",
+        "Gboard's expression interfaces can offer direct emoji lookup, Emoji Kitchen combinations, contextual suggestions and other content search. The Atlas contains candidate identifiers for embedding-based search, Gemma-related errors and server fallbacks. That suggests more than one internal search strategy may exist, but names alone do not establish which path your particular Gboard build currently uses. A search yielding no results does not by itself mean an AI model is missing or that a Google server is down."
+      ],
+      [
+        "Read the error and fallback flags literally",
+        "Identifiers such as enable_fallback_for_emoji_search_server_error and enable_fallback_from_server_for_emoji_search_gemma_engine_error describe potential error-handling paths. Notice that the direction implied by each name is different. Enabling a fallback without understanding its trigger may be useless or change how error states surface. show_error_status_for_emoji_search_server_error looks diagnostic rather than a guaranteed repair. These flags require runtime evidence before anyone can assign supported defaults or performance consequences."
+      ],
+      [
+        "Compare local conditions before toggling",
+        "Use a common emoji term that should return basic results, then try a contextual phrase separately. Repeat while online, and only then with network access unavailable, documenting what is cached and what is not. Check whether Emoji Kitchen browse works while search fails, whether ordinary emoji search still works, and whether a specific language causes failures. Those observations help distinguish UI discovery, recognition and remote-service issues. A blank screen in one feature should not be treated as evidence that all emoji services failed."
+      ],
+      [
+        "Escalate from observation to targeted research",
+        "Before changing a candidate identifier, check for app updates and known patch compatibility issues. When testing an error-status flag, record precisely when the indicator appears and whether it correlates with an actual search failure. Use a screen recording that contains only harmless searches, plus build and locale details, to report a reproducible bug. If a fallback change helps only once, repeat the test after restarting the keyboard and clearing the same test query; avoid claiming a universal optimization from one success."
+      ]
+    ],
+    "flags": [
+      "enable_fallback_for_emoji_search_server_error",
+      "enable_fallback_from_server_for_emoji_search_gemma_engine_error",
+      "enable_emoji_embedding_index",
+      "show_error_status_for_emoji_search_server_error"
+    ],
+    "questions": [
+      [
+        "Does a Gemma-related flag prove Gboard is running Gemma locally?",
+        "No. The string may label an experimental search path, diagnostic or fallback; it is not proof that a compatible model is installed and executing."
+      ],
+      [
+        "Should I enable every emoji fallback flag?",
+        "No. They may apply to different failure conditions or have unknown defaults. A controlled test and relevant implementation evidence are better than mass editing."
+      ]
+    ],
+    "sources": [
+      [
+        "Gboard Flag Atlas: candidate identifiers and evidence labels",
+        "https://github.com/stupidgiraffe/gboard-flag-atlas"
+      ],
+      [
+        "Google: Fix problems with Gboard",
+        "https://support.google.com/gboard/answer/9058584?hl=en"
+      ],
+      [
+        "Gboard Patches: available patch features",
+        "https://github.com/jasonwu1994/Gboard-patches"
+      ]
+    ]
   }
 ]
